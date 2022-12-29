@@ -1,6 +1,6 @@
 forEach: Relation
 fileName: test.java
-path: {{boundedContext.name}}/{{{options.packagePath}}}/external
+path: /
 ---
 
-test
+dsadfsa
