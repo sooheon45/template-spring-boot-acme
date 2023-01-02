@@ -13,21 +13,24 @@ package {{options.package}}
 {{else}}
 @FeignClient(name = "{{target.boundedContext.name}}", url = "{{apiVariable target.boundedContext.name}}")
 {{/if}}
-public interface {{target.namePascalCase}}Service {
  
-    {{#ifContains "$.target._type" "View"}}
-    @RequestMapping(method= RequestMethod.GET, path="/{{target.namePlural}}/{{wrap commandValue.aggregate.keyFieldDescriptor.name}}")
-    public {{commandValue.aggregate.namePascalCase}} get{{commandValue.aggregate.namePascalCase}}(@PathVariable("{{commandValue.aggregate.keyFieldDescriptor.name}}") {{commandValue.aggregate.keyFieldDescriptor.className}} {{commandValue.aggregate.keyFieldDescriptor.name}});
-    {{/ifContains}}
+{{#ifContains "$.target._type" "View"}}
+{{#ifEquals target.dataProjection "query-for-aggregate"}}
+public interface {{target.aggregate.namePascalCase}}Service {
+    @RequestMapping(method= RequestMethod.GET, path="/{{target.aggregate.namePlural}}/{{url target.name}}")
+    public {{target.aggregate.namePascalCase}} {{camelCase target.name}}(@RequestBody {{pascalCase target.name}} query);
+{{/ifEquals}}
+{{/ifContains}}
 }
 
 
 
 <function>
+
 this.contexts.except = !((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && (this.target._type.endsWith("View") || this.target._type.endsWith("Aggregate")))
  
 if(!this.contexts.except){
-
+ 
 }
  
 </function>
