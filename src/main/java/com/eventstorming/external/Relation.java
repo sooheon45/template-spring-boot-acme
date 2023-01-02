@@ -17,8 +17,8 @@ package {{options.package}}
 {{#ifContains "$.target._type" "View"}}
 {{#ifEquals target.dataProjection "query-for-aggregate"}}
 public interface {{target.aggregate.namePascalCase}}Service {
-    @RequestMapping(method= RequestMethod.GET, path="/{{target.aggregate.namePlural}}/{{url target.name}}")
-    public {{target.aggregate.namePascalCase}} {{camelCase target.name}}(@RequestBody {{pascalCase target.name}} query);
+    @GetMapping(path="/{{target.aggregate.namePlural}}/{{url target.name}}")
+    public {{target.aggregate.namePascalCase}} {{camelCase target.name}}({{pascalCase target.name}} query);
 {{/ifEquals}}
 {{/ifContains}}
 }
