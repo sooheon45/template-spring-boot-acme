@@ -4,9 +4,9 @@ path: {{source.boundedContext.name}}/{{options.packagePath}}/external
 except: {{contexts.except}}
 ---
 
-package {{options.package}}
+package {{options.package}}.external;
 
-{{#if fallback}}
+{{#if value.fallback}}
 //<<< Resilency / Fallback
 @FeignClient(name = "{{target.boundedContext.name}}", url = "{{apiVariable target.boundedContext.name}}", fallback = {{target.namePascalCase}}ServiceImpl.class)
 //>>> Resilency / Fallback
@@ -26,7 +26,7 @@ public interface {{target.aggregate.namePascalCase}}Service {
 
 
 <function>
-
+ 
 this.contexts.except = !((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && (this.target._type.endsWith("View") || this.target._type.endsWith("Aggregate")))
  
 if(!this.contexts.except){

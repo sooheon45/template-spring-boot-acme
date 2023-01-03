@@ -1,7 +1,7 @@
-forEach: RelationCommandInfo
+forEach: Relation
 fileName: {{commandValue.aggregate.namePascalCase}}Service.java
-path: {{boundedContext.name}}/{{{options.packagePath}}}/external
-except: {{#ifEquals method "GET"}}true{{else}}false{{/ifEquals}}
+path: {{source.boundedContext.name}}/{{{options.packagePath}}}/external
+except: {{contexts.except}}
 ---
 package {{options.package}}.external;
 
@@ -13,19 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
 
-//<<< Resilency / Circuit Breaker
-{{#if boundedContext.fallback}}
-//<<< Resilency / Fallback
-@FeignClient(name = "{{commandValue.boundedContext.name}}", url = "{{apiVariable commandValue.boundedContext.name}}", fallback = {{commandValue.aggregate.namePascalCase}}ServiceImpl.class)
-//>>> Resilency / Fallback
-{{else}}
 @FeignClient(name = "{{commandValue.boundedContext.name}}", url = "{{apiVariable commandValue.boundedContext.name}}")
-{{/if}}
 public interface {{commandValue.aggregate.namePascalCase}}Service {
-{{#if commandValue.restRepositoryInfo.getMethod}}
-    @RequestMapping(method= RequestMethod.GET, path="/{{commandValue.aggregate.namePlural}}/{{wrap commandValue.aggregate.keyFieldDescriptor.name}}")
-    public {{commandValue.aggregate.namePascalCase}} get{{commandValue.aggregate.namePascalCase}}(@PathVariable("{{commandValue.aggregate.keyFieldDescriptor.name}}") {{commandValue.aggregate.keyFieldDescriptor.className}} {{commandValue.aggregate.keyFieldDescriptor.name}});
-{{else if commandValue.restRepositoryInfo.method}}
     {{#commandValue.isRestRepository}}
     @RequestMapping(method= RequestMethod.{{commandValue.restRepositoryInfo.method}}, path="/{{commandValue.aggregate.namePlural}}")
     public void {{commandValue.nameCamelCase}}(@RequestBody {{commandValue.aggregate.namePascalCase}} {{commandValue.aggregate.nameCamelCase}});
@@ -34,14 +23,13 @@ public interface {{commandValue.aggregate.namePascalCase}}Service {
     @RequestMapping(method= RequestMethod.{{commandValue.controllerInfo.method}}, path="/{{#setPath commandValue}}{{/setPath}}")
     public void {{commandValue.nameCamelCase}}(@PathVariable("id") {{commandValue.aggregate.keyFieldDescriptor.className}} {{commandValue.aggregate.keyFieldDescriptor.name}}{{#if (hasFields commandValue.fieldDescriptors)}}, @RequestBody {{commandValue.namePascalCase}}Command {{commandValue.nameCamelCase}}Command {{/if}});
     {{/commandValue.isRestRepository}}
-{{else}}
-    @RequestMapping(method= RequestMethod.GET, path="/{{commandValue.aggregate.namePlural}}/{{wrap commandValue.aggregate.keyFieldDescriptor.name}}")
-    public {{commandValue.aggregate.namePascalCase}} get{{commandValue.aggregate.namePascalCase}}(@PathVariable("{{commandValue.aggregate.keyFieldDescriptor.name}}") {{commandValue.aggregate.keyFieldDescriptor.className}} {{commandValue.aggregate.keyFieldDescriptor.name}});
-{{/if}}
 }
 //>>> Resilency / Circuit Breaker
 
 <function>
+ 
+  this.contexts.except = !((this.source._type.endsWith("Event") || this.source._type.endsWith("Policy")) && this.target._type.endsWith("Command"))
+
 
   window.$HandleBars.registerHelper('setPath', function (command) {
       if(command && command.controllerInfo && command.controllerInfo.apiPath){
