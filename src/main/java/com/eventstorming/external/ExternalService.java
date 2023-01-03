@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
 
-@FeignClient(name = "{{commandValue.boundedContext.name}}", url = "{{apiVariable commandValue.boundedContext.name}}")
-public interface {{commandValue.aggregate.namePascalCase}}Service {
-    {{#commandValue.isRestRepository}}
-    @RequestMapping(method= RequestMethod.{{commandValue.restRepositoryInfo.method}}, path="/{{commandValue.aggregate.namePlural}}")
-    public void {{commandValue.nameCamelCase}}(@RequestBody {{commandValue.aggregate.namePascalCase}} {{commandValue.aggregate.nameCamelCase}});
-    {{/commandValue.isRestRepository}}
-    {{^commandValue.isRestRepository}}
-    @RequestMapping(method= RequestMethod.{{commandValue.controllerInfo.method}}, path="/{{#setPath commandValue}}{{/setPath}}")
-    public void {{commandValue.nameCamelCase}}(@PathVariable("id") {{commandValue.aggregate.keyFieldDescriptor.className}} {{commandValue.aggregate.keyFieldDescriptor.name}}{{#if (hasFields commandValue.fieldDescriptors)}}, @RequestBody {{commandValue.namePascalCase}}Command {{commandValue.nameCamelCase}}Command {{/if}});
-    {{/commandValue.isRestRepository}}
+@FeignClient(name = "{{target.boundedContext.name}}", url = "{{apiVariable target.boundedContext.name}}")
+public interface {{target.aggregate.namePascalCase}}Service {
+    {{#target.isRestRepository}}
+    @RequestMapping(method= RequestMethod.{{target.restRepositoryInfo.method}}, path="/{{target.aggregate.namePlural}}")
+    public void {{target.nameCamelCase}}(@RequestBody {{target.aggregate.namePascalCase}} {{target.aggregate.nameCamelCase}});
+    {{/target.isRestRepository}}
+    {{^target.isRestRepository}}
+    @RequestMapping(method= RequestMethod.{{target.controllerInfo.method}}, path="/{{#setPath target}}{{/setPath}}")
+    public void {{target.nameCamelCase}}(@PathVariable("id") {{target.aggregate.keyFieldDescriptor.className}} {{target.aggregate.keyFieldDescriptor.name}}{{#if (hasFields target.fieldDescriptors)}}, @RequestBody {{target.namePascalCase}}Command {{target.nameCamelCase}}Command {{/if}});
+    {{/target.isRestRepository}}
 }
 //>>> Resilency / Circuit Breaker
 
