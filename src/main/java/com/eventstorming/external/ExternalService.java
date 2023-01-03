@@ -24,7 +24,6 @@ public interface {{target.aggregate.namePascalCase}}Service {
     public void {{target.nameCamelCase}}(@PathVariable("id") {{target.aggregate.keyFieldDescriptor.className}} {{target.aggregate.keyFieldDescriptor.name}}{{#if (hasFields target.fieldDescriptors)}}, @RequestBody {{target.namePascalCase}}Command {{target.nameCamelCase}}Command {{/if}});
     {{/target.isRestRepository}}
 }
-//>>> Resilency / Circuit Breaker
 
 <function>
  

@@ -1,36 +1,36 @@
-forEach: RelationCommandInfo
-fileName: {{commandValue.aggregate.namePascalCase}}Service.java
-path: {{boundedContext.name}}/{{{options.packagePath}}}/external
-except: {{#ifEquals method "GET"}}false{{else}}true{{/ifEquals}}
+forEach: Relation
+fileName: {{target.namePascalCase}}Service_.java
+path: {{source.boundedContext.name}}/{{options.packagePath}}/external
+except: {{contexts.except}}
 ---
+
 package {{options.package}}.external;
 
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.Date;
-
-//<<< Resilency / Circuit Breaker
-{{#if boundedContext.fallback}}
+{{#if value.fallback}}
 //<<< Resilency / Fallback
-@FeignClient(name = "{{targetBoundedContext.name}}", url = "{{apiVariable targetBoundedContext.name}}", fallback = {{targetAggregate.namePascalCase}}ServiceImpl.class)
+@FeignClient(name = "{{target.boundedContext.name}}", url = "{{apiVariable target.boundedContext.name}}", fallback = {{target.namePascalCase}}ServiceImpl.class)
 //>>> Resilency / Fallback
 {{else}}
-@FeignClient(name = "{{targetBoundedContext.name}}", url = "{{apiVariable targetBoundedContext.name}}")
+@FeignClient(name = "{{target.boundedContext.name}}", url = "{{apiVariable target.boundedContext.name}}")
 {{/if}}
-public interface {{targetAggregate.namePascalCase}}Service {
-    @RequestMapping(method= RequestMethod.GET, path="/{{targetAggregate.namePlural}}/{{wrap targetAggregate.keyFieldDescriptor.name}}")
-    public {{targetAggregate.namePascalCase}} get{{targetAggregate.namePascalCase}}(@PathVariable("{{targetAggregate.keyFieldDescriptor.name}}") {{commandValue.aggregate.keyFieldDescriptor.className}} {{targetAggregate.keyFieldDescriptor.name}});
+ 
+{{#ifContains "$.target._type" "View"}}
+{{#ifEquals target.dataProjection "query-for-aggregate"}}
+public interface {{target.aggregate.namePascalCase}}Service {
+    @GetMapping(path="/{{target.aggregate.namePlural}}/{{url target.name}}")
+    public {{target.aggregate.namePascalCase}} {{camelCase target.name}}({{pascalCase target.name}} query);
+{{/ifEquals}}
+{{/ifContains}}
 }
-//>>> Resilency / Circuit Breaker
+
+
 
 <function>
-
-  window.$HandleBars.registerHelper('apiVariable', function (bc) {
-    return '${api.url.'+bc+'}';
-  })
-
+ 
+this.contexts.except = !((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && (this.target._type.endsWith("View") || this.target._type.endsWith("Aggregate")))
+ 
+if(!this.contexts.except){
+ 
+}
+ 
 </function>
