@@ -1,7 +1,7 @@
-forEach: RelationCommandInfo
-fileName: {{commandValue.namePascalCase}}Command.java
-path: {{boundedContext.name}}/{{{options.packagePath}}}/external
-except: {{#except commandValue}}{{/except}}
+forEach: Relation
+fileName: {{target.aggregate.namePascalCase}}Service.java
+path: {{source.boundedContext.name}}/{{{options.packagePath}}}/external
+except: {{contexts.except}}
 ---
 package {{options.package}}.external;
 
@@ -11,21 +11,16 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class {{commandValue.namePascalCase}}Command {
+public class {{target.namePascalCase}}Command {
 
-{{#commandValue.fieldDescriptors}}
+{{#target.fieldDescriptors}}
     {{#isKey}}
     @Id
     {{/isKey}}
     private {{{className}}} {{nameCamelCase}};
-{{/commandValue.fieldDescriptors}}
+{{/target.fieldDescriptors}}
 }
 
 <function>
-window.$HandleBars.registerHelper('except', function (command) {
-    if(command._type.endsWith('Command')) {
-        return (command.fieldDescriptors && command.fieldDescriptors.length == 0);
-    }
-    return true;
-});
+  this.contexts.except = !((this.source._type.endsWith("Event") || this.source._type.endsWith("Policy")) && this.target._type.endsWith("Command"))
 </function>
