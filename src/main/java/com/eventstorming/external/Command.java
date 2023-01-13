@@ -1,5 +1,5 @@
 forEach: Relation
-fileName: {{target.aggregate.namePascalCase}}Service.java
+fileName: {{target.namePascalCase}}Command.java
 path: {{source.boundedContext.name}}/{{{options.packagePath}}}/external
 except: {{contexts.except}}
 ---
