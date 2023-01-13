@@ -1,5 +1,5 @@
 forEach: Relation
-fileName: {{target.aggregate.namePascalCase}}Service_.java
+fileName: {{target.aggregate.namePascalCase}}Service.java
 path: {{source.boundedContext.name}}/{{options.packagePath}}/external
 except: {{contexts.except}}
 ifDuplicated: merge
@@ -19,7 +19,7 @@ package {{options.package}}.external;
 {{#ifEquals target.dataProjection "query-for-aggregate"}}
 public interface {{target.aggregate.namePascalCase}}Service {
     @GetMapping(path="/{{target.aggregate.namePlural}}/{{url target.name}}")
-    public {{target.aggregate.namePascalCase}} {{camelCase target.name}}({{pascalCase target.name}} query);
+    public {{target.aggregate.namePascalCase}} {{camelCase target.name}}({{pascalCase target.name}}Query query);
 {{/ifEquals}}
 {{/ifContains}}
 }
