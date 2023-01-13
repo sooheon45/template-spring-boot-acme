@@ -2,16 +2,14 @@ forEach: Relation
 fileName: {{pascalCase target.name}}Query.java
 path: {{source.boundedContext.name}}/{{options.packagePath}}/external
 except: {{contexts.except}}
-ifDuplicated: merge
 ---
 
 package {{options.package}}.external;
 
-
-
 import lombok.Data;
 import java.util.Date;
 @Data
+
 public class {{target.namePascalCase}}Query {
 {{#target}}   
     {{#queryParameters}}
