@@ -35,7 +35,12 @@ public interface {{target.aggregate.namePascalCase}}Service {
 
 <function>
  
-this.contexts.except = !((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && (this.target._type.endsWith("View") || this.target._type.endsWith("Aggregate")))
+
+    let isGetInvocation = ((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && (this.target._type.endsWith("View") || this.target._type.endsWith("Aggregate")))
+    let isPostInvcation = ((this.source._type.endsWith("Event") || this.source._type.endsWith("Policy")) && this.target._type.endsWith("Command"))
+    let isExternalInvocation = (this.source.boundedContext.name != this.target.boundedContext.name)
+
+    this.contexts.except = !(isExternalInvocation && isGetInvocation)
  
 if(!this.contexts.except){
  

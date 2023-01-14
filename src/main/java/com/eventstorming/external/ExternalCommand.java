@@ -22,5 +22,8 @@ public class {{target.namePascalCase}}Command {
 }
 
 <function>
-  this.contexts.except = !((this.source._type.endsWith("Event") || this.source._type.endsWith("Policy")) && this.target._type.endsWith("Command"))
+    let isPostInvcation = ((this.source._type.endsWith("Event") || this.source._type.endsWith("Policy")) && this.target._type.endsWith("Command"))
+    let isExternalInvocation = (this.source.boundedContext.name != this.target.boundedContext.name)
+
+    this.contexts.except = !(isExternalInvocation && isPostInvocation)
 </function>
