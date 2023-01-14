@@ -47,13 +47,13 @@ public class PolicyHandler{
     }
 
     {{#policies}}
-    {{#outgoing "ReadModel"}}
+    {{#outgoing "ReadModel" .}}
     @Autowired
     {{../../options.package}}.external.{{aggregate.namePascalCase}}Service {{aggregate.nameCamelCase}}Service;
 
     {{/outgoing}}
 
-    {{#incoming "Event"}}
+    {{#incoming "Event" .}}
     @StreamListener(value=KafkaProcessor.INPUT, condition="headers['type']=='{{namePascalCase}}'")
     public void whenever{{namePascalCase}}_{{../namePascalCase}}(@Payload {{namePascalCase}} {{nameCamelCase}}, 
                                 @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment,
@@ -69,7 +69,7 @@ public class PolicyHandler{
         {{#outgoing "Command" ..}}
         {{namePascalCase}}Command {{namePascalCase}}Command = new {{namePascalCase}}Command();
 
-        {{aggregate.namePascalCase}}Repository.findById(event.id).ifPresent(aggregate->{
+        {{aggregate.nameCamelCase}}Repository.findById(event.id).ifPresent(aggregate->{
              aggregate.{{nameCamelCase}}({{namePascalCase}}Command); 
         });
         {{/outgoing}}
