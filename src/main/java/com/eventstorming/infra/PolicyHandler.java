@@ -69,7 +69,7 @@ public class PolicyHandler{
         {{#outgoing "Command" ..}}
         {{namePascalCase}}Command {{namePascalCase}}Command = new {{namePascalCase}}Command();
 
-        {{aggregate.nameCamelCase}}Repository.findById(event.id).ifPresent(aggregate->{
+        {{aggregate.nameCamelCase}}Repository.findById(event.{{keyFieldOf .. }}).ifPresent(aggregate->{
              aggregate.{{nameCamelCase}}({{namePascalCase}}Command); 
         });
         {{/outgoing}}
