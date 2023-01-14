@@ -1,7 +1,7 @@
 forEach: View
-fileName: {{namePascalCase}}Repository.java
+fileName: {{namePascalCase}}ReadModelRepository.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/infra
-mergeType: template
+except: {{ifEquals dataProjection "query-for-aggregate"}}false{{else}}true{{/ifEquals}}
 ---
 package {{options.package}}.infra;
 
@@ -11,7 +11,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.List;
 
 @RepositoryRestResource(collectionResourceRel="{{namePlural}}", path="{{namePlural}}")
-public interface {{namePascalCase}}Repository extends PagingAndSortingRepository<{{namePascalCase}}, Long> {
+public interface {{namePascalCase}}ReadModelRepository extends PagingAndSortingRepository<{{namePascalCase}}, Long> {
 
     {{#setFindBy updateRules namePascalCase}}{{/setFindBy}}
 
