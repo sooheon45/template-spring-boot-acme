@@ -44,7 +44,7 @@ public class {{ namePascalCase }}Controller {
     @RequestMapping(value = "{{../namePlural}}/{id}/{{controllerInfo.apiPath}}",
         method = RequestMethod.{{controllerInfo.method}},
         produces = "application/json;charset=UTF-8")
-    public {{../namePascalCase}} {{nameCamelCase}}(@PathVariable(value = "id") {{../keyFieldDescriptor.className}} id, {{#if (hasFields fieldDescriptors)}}@RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command, {{/if}}HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public {{../namePascalCase}} {{nameCamelCase}}(@PathVariable(value = "id") {{../keyFieldDescriptor.className}} id, @RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command, HttpServletRequest request, HttpServletResponse response) throws Exception {
             System.out.println("##### /{{../nameCamelCase}}/{{nameCamelCase}}  called #####");
             Optional<{{../namePascalCase}}> optional{{../namePascalCase}} = {{../nameCamelCase}}Repository.findById(id);
             
@@ -63,8 +63,8 @@ public class {{ namePascalCase }}Controller {
             method = RequestMethod.{{../controllerInfo.method}},
             produces = "application/json;charset=UTF-8")
     public {{../../namePascalCase}} {{../nameCamelCase}}{{sourceElement.namePascalCase}}(
-        @PathVariable(value = "id") {{../../keyFieldDescriptor.className}} id, {{#if (hasFields ../fieldDescriptors)}}@RequestBody {{../namePascalCase}}Command {{../nameCamelCase}}Command, {{/if}}HttpServletRequest request, HttpServletResponse response) throws Exception {
-            return {{../nameCamelCase}}(id, {{#if (hasFields ../fieldDescriptors)}}{{../nameCamelCase}}Command,{{/if}} request, response);
+        @PathVariable(value = "id") {{../../keyFieldDescriptor.className}} id, @RequestBody {{../namePascalCase}}Command {{../nameCamelCase}}Command, HttpServletRequest request, HttpServletResponse response) throws Exception {
+            return {{../nameCamelCase}}(id, {{../nameCamelCase}}Command, request, response);
     }
     {{/if}}
     {{/each}}
@@ -100,7 +100,7 @@ public class {{ namePascalCase }}Controller {
             
             optional{{../sourceElement.namePascalCase}}.orElseThrow(()-> new Exception("No Entity Found"));
             {{../sourceElement.namePascalCase}} {{../sourceElement.nameCamelCase}} = optional{{../sourceElement.namePascalCase}}.get();
-            {{../sourceElement.namePascalCase}}.{{name}}({{#if (hasFields fieldDescriptors)}}{{name}}Command{{/if}});
+            {{../sourceElement.namePascalCase}}.{{name}}({{name}}Command);
             
             {{../sourceElement.nameCamelCase}}Repository.save({{../sourceElement.nameCamelCase}});
             return {{../sourceElement.nameCamelCase}};
