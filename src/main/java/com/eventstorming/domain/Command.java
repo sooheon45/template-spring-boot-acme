@@ -1,10 +1,7 @@
-
-
 forEach: Command
 representativeFor: Command
 fileName: {{namePascalCase}}Command.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/domain
-except: {{#except fieldDescriptors}}{{/except}}
 ---
 package {{options.package}}.domain;
 
