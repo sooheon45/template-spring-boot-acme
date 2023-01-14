@@ -65,11 +65,16 @@ public class PolicyHandler{
         {{/../aggregateList}}
 
         {{#outgoing "Command" ..}}
-        {{namePascalCase}}Command {{namePascalCase}}Command = new {{namePascalCase}}Command();
+        {{#isExtendedVerb}}
+        {{namePascalCase}}Command {{nameCamelCase}}Command = new {{namePascalCase}}Command();
 
-        {{aggregate.nameCamelCase}}Repository.findById(event.get{{keyFieldOf .. }}()).ifPresent(aggregate->{
-             aggregate.{{nameCamelCase}}({{namePascalCase}}Command); 
+        {{aggregate.nameCamelCase}}Repository.findById(event.get{{keyFieldOf .. }}()).ifPresent({{aggregate.nameCamelCase}}->{
+             {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Command); 
         });
+        {{else}}
+        {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{aggregate.namePascalCase}}();
+        {{aggregate.nameCamelCase}}Repository.save({{aggregate.nameCamelCase}});
+        {{/isExtendedVerb}}
         {{/outgoing}}
 
 
