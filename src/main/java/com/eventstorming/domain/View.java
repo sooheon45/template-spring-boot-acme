@@ -2,7 +2,7 @@ forEach: View
 representativeFor: View
 fileName: {{namePascalCase}}.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/domain
-except: {{ifEquals dataProjection "query-for-aggregate"}}true{{else}}false{{/ifEquals}}
+except: {{#ifEquals dataProjection "query-for-aggregate"}}true{{else}}false{{/ifEquals}}
 ---
 package {{options.package}}.domain;
 
