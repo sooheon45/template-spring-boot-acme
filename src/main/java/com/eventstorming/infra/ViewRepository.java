@@ -1,4 +1,5 @@
 
+
 forEach: View
 fileName: {{namePascalCase}}ReadModelRepository.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/infra

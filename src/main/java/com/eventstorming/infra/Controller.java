@@ -50,7 +50,7 @@ public class {{ namePascalCase }}Controller {
             
             optional{{../namePascalCase}}.orElseThrow(()-> new Exception("No Entity Found"));
             {{../namePascalCase}} {{../nameCamelCase}} = optional{{../namePascalCase}}.get();
-            {{../nameCamelCase}}.{{nameCamelCase}}({{#if (hasFields fieldDescriptors)}}{{nameCamelCase}}Command{{/if}});
+            {{../nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Command);
             
             {{../nameCamelCase}}Repository.{{#methodConvert controllerInfo.method}}{{/methodConvert}}({{../nameCamelCase}});
             return {{../nameCamelCase}};
