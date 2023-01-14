@@ -47,11 +47,11 @@ public class PolicyHandler{
     }
 
     {{#policies}}
-    {{#jp "$.outgoingRelations[@target.type=='ReadModel']"}}
+    {{#outgoing "ReadModel"}}
     @Autowired
     {{../../options.package}}.external.{{target.aggregate.namePascalCase}}Service {{target.aggregate.nameCamelCase}}Service;
 
-    {{/jp}}
+    {{/outgoing}}
 
         {{#relationEventInfo}}
     @StreamListener(value=KafkaProcessor.INPUT, condition="headers['type']=='{{eventValue.namePascalCase}}'")
