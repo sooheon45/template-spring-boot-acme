@@ -2,7 +2,7 @@ forEach: View
 representativeFor: View
 fileName: {{namePascalCase}}ViewHandler.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/infra
-mergeType: template
+except: {{ifEquals dataProjection "query-for-aggregate"}}false{{else}}true{{/ifEquals}}
 ---
 package {{options.package}}.infra;
 
