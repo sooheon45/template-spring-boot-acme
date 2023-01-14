@@ -47,11 +47,12 @@ public class PolicyHandler{
     }
 
     {{#policies}}
-    {{#relationAggregateInfo}}
+    {{#jp "outgoingRelations[type=='ReadModel']"}}
     @Autowired
-    {{../../options.package}}.external.{{aggregateValue.namePascalCase}}Service {{aggregateValue.nameCamelCase}}Service;
+    {{../../options.package}}.external.{{target.aggregate.namePascalCase}}Service {{target.aggregate.nameCamelCase}}Service;
 
-    {{/relationAggregateInfo}}
+    {{/jp}}
+
         {{#relationEventInfo}}
     @StreamListener(value=KafkaProcessor.INPUT, condition="headers['type']=='{{eventValue.namePascalCase}}'")
     public void whenever{{eventValue.namePascalCase}}_{{../namePascalCase}}(@Payload {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}}, 
