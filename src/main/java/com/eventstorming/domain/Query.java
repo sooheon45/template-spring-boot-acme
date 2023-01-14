@@ -1,8 +1,8 @@
 forEach: View
 representativeFor: View
-fileName: {{namePascalCase}}.java
+fileName: {{namePascalCase}}Query.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/domain
-except: {{ifEquals dataProjection "query-for-aggregate"}}true{{else}}false{{/ifEquals}}
+except: {{ifEquals dataProjection "query-for-aggregate"}}false{{else}}true{{/ifEquals}}
 ---
 package {{options.package}}.domain;
 
@@ -12,19 +12,12 @@ import java.util.Date;
 import lombok.Data;
 {{#checkBigDecimal fieldDescriptors}}{{/checkBigDecimal}}
 
-//<<< EDA / CQRS
-@Entity
-@Table(name="{{namePascalCase}}_table")
 @Data
-public class {{namePascalCase}} {
+public class {{namePascalCase}}Query {
 
-{{#fieldDescriptors}}
-    {{#isKey}}
-        @Id
-        //@GeneratedValue(strategy=GenerationType.AUTO)
-    {{/isKey}}
-        private {{className}} {{nameCamelCase}};
-{{/fieldDescriptors}}
+{{#queryParameters}}
+    {{className}} {{nameCamelCase}};
+{{/queryParameters}}
 
 
 }
@@ -38,4 +31,3 @@ window.$HandleBars.registerHelper('checkBigDecimal', function (fieldDescriptors)
     }
 });
 </function>
-//>>> EDA / CQRS
