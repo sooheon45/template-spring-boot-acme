@@ -55,12 +55,16 @@ public class PolicyHandler{
 
     {{#incoming "Event"}}
     @StreamListener(value=KafkaProcessor.INPUT, condition="headers['type']=='{{namePascalCase}}'")
-    public void whenever{{eventValue.namePascalCase}}_{{../namePascalCase}}(@Payload {{namePascalCase}} {{nameCamelCase}}, 
+    public void whenever{{namePascalCase}}_{{../namePascalCase}}(@Payload {{namePascalCase}} {{nameCamelCase}}, 
                                 @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment,
                                 @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) byte[] messageKey){
 
         {{namePascalCase}} event = {{nameCamelCase}};
         System.out.println("\n\n##### listener {{../namePascalCase}} : " + {{nameCamelCase}} + "\n\n");
+
+        {{#../aggregateList}}
+        {{namePascalCase}}.{{../../nameCamelCase}}(event);        
+        {{/../aggregateList}}
 
 
         {{#todo ../description}}{{/todo}}
