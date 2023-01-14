@@ -8,8 +8,6 @@ mergeType: template
 package {{options.package}}.infra;
 
 import javax.naming.NameParser;
-
-import javax.naming.NameParser;
 import org.springframework.transaction.annotation.Transactional;
 import {{options.package}}.config.kafka.KafkaProcessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
