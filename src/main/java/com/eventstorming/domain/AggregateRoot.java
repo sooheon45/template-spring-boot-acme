@@ -106,7 +106,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
     {{#commands}}
     {{^isRestRepository}}
 //<<< Clean Arch / Port Method
-    public void {{nameCamelCase}}({{#if (has fieldDescriptors)}}{{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}){
+    public void {{nameCamelCase}}({{namePascalCase}}Command {{nameCamelCase}}Command){
         {{#triggerByCommand}}
         {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}(this);
         {{eventValue.nameCamelCase}}.publishAfterCommit();
