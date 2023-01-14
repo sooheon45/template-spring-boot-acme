@@ -66,6 +66,14 @@ public class PolicyHandler{
         {{namePascalCase}}.{{../../nameCamelCase}}(event);        
         {{/../aggregateList}}
 
+        {{#outgoing "Command" ..}}
+        {{namePascalCase}}Command {{namePascalCase}}Command = new {{namePascalCase}}Command();
+
+        {{aggregate.namePascalCase}}Repository.findById(event.id).ifPresent(aggregate->{
+             aggregate.{{nameCamelCase}}({{namePascalCase}}Command); 
+        });
+        {{/outgoing}}
+
 
         {{#todo ../description}}{{/todo}}
 
