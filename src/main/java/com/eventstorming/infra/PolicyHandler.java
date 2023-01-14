@@ -49,39 +49,27 @@ public class PolicyHandler{
     {{#policies}}
     {{#outgoing "ReadModel"}}
     @Autowired
-    {{../../options.package}}.external.{{target.aggregate.namePascalCase}}Service {{target.aggregate.nameCamelCase}}Service;
+    {{../../options.package}}.external.{{aggregate.namePascalCase}}Service {{aggregate.nameCamelCase}}Service;
 
     {{/outgoing}}
 
-        {{#relationEventInfo}}
-    @StreamListener(value=KafkaProcessor.INPUT, condition="headers['type']=='{{eventValue.namePascalCase}}'")
-    public void whenever{{eventValue.namePascalCase}}_{{../namePascalCase}}(@Payload {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}}, 
+    {{#incoming "Event"}}
+    @StreamListener(value=KafkaProcessor.INPUT, condition="headers['type']=='{{namePascalCase}}'")
+    public void whenever{{eventValue.namePascalCase}}_{{../namePascalCase}}(@Payload {{namePascalCase}} {{nameCamelCase}}, 
                                 @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment,
                                 @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) byte[] messageKey){
 
-        {{eventValue.namePascalCase}} event = {{eventValue.nameCamelCase}};
-        System.out.println("\n\n##### listener {{../namePascalCase}} : " + {{eventValue.nameCamelCase}} + "\n\n");
+        {{namePascalCase}} event = {{nameCamelCase}};
+        System.out.println("\n\n##### listener {{../namePascalCase}} : " + {{nameCamelCase}} + "\n\n");
 
-        {{#../relationAggregateInfo}}
-        // REST Request Sample
-        
-        // {{aggregateValue.nameCamelCase}}Service.get{{aggregateValue.namePascalCase}}(/** mapping value needed */);
-
-        {{/../relationAggregateInfo}}
 
         {{#todo ../description}}{{/todo}}
-
-        // Sample Logic //
-        {{#../aggregateList}}
-        {{namePascalCase}}.{{../../nameCamelCase}}(event);
-        
-        {{/../aggregateList}}
 
         // Manual Offset Commit //
         acknowledgment.acknowledge();
 
     }
-        {{/relationEventInfo}}
+    {{/incoming}}
 
     {{/policies}}
 }
