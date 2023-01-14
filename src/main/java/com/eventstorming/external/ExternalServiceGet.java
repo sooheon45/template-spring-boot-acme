@@ -11,6 +11,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Date;
+import java.util.List;
 
 
 {{#if value.fallback}}
@@ -25,7 +26,7 @@ import java.util.Date;
 {{#ifEquals target.dataProjection "query-for-aggregate"}}
 public interface {{target.aggregate.namePascalCase}}Service {
     @GetMapping(path="/{{target.aggregate.namePlural}}/{{url target.name}}")
-    public {{target.aggregate.namePascalCase}} {{camelCase target.name}}({{pascalCase target.name}}Query query);
+    public List<{{target.aggregate.namePascalCase}}> {{camelCase target.name}}({{pascalCase target.name}}Query query);
 {{/ifEquals}}
 {{/ifContains}}
 }
