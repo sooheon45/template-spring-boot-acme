@@ -47,7 +47,7 @@ public class PolicyHandler{
     }
 
     {{#policies}}
-    {{#jp "outgoingRelations[type=='ReadModel']"}}
+    {{#jp "$.outgoingRelations[@target.type=='ReadModel']"}}
     @Autowired
     {{../../options.package}}.external.{{target.aggregate.namePascalCase}}Service {{target.aggregate.nameCamelCase}}Service;
 
