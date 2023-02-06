@@ -15,9 +15,7 @@ import java.util.List;
 
 
 {{#if value.fallback}}
-//<<< Resilency / Fallback
 @FeignClient(name = "{{target.boundedContext.name}}", url = "{{apiVariable target.boundedContext.name}}", fallback = {{target.aggregate.namePascalCase}}ServiceImpl.class)
-//>>> Resilency / Fallback
 {{else}}
 @FeignClient(name = "{{target.boundedContext.name}}", url = "{{apiVariable target.boundedContext.name}}")
 {{/if}}
