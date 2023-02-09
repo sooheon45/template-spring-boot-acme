@@ -37,56 +37,45 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
     private {{{className}}} {{nameCamelCase}};
     {{/aggregateRoot.fieldDescriptors}}
 
-{{#lifeCycles}}
-    {{annotation}}
-    public void on{{trigger}}(){
+{{#contexts.eventsPerLifecycle}}
+    @{{annotation}}
+    public void on{{annotation}}(){
     {{#events}}
-
-        {{#relationCommandInfo}}
-            {{#commandValue}}
-        //Following code causes dependency to external APIs
-        // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
-
-        {{^isRestRepository}}
-        {{#if (has fieldDescriptors)}}
-        {{../../../../options.package}}.external.{{namePascalCase}}Command {{nameCamelCase}}Command = new {{../../../../options.package}}.external.{{namePascalCase}}Command();
-        // mappings goes here
-        {{../boundedContext.namePascalCase}}Application.applicationContext.getBean({{../../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-            .{{nameCamelCase}}(/* get???(), */ {{nameCamelCase}}Command);
-        {{/if}}
-        {{/isRestRepository}}
-
-        {{#isRestRepository}}
-        {{../../../../options.package}}.external.{{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{../../../../options.package}}.external.{{aggregate.namePascalCase}}();
-        // mappings goes here
-        {{../boundedContext.namePascalCase}}Application.applicationContext.getBean({{../../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-            .{{nameCamelCase}}({{aggregate.nameCamelCase}});
-        {{/isRestRepository}}
-
-            {{/commandValue}}
-        {{/relationCommandInfo}}
+       
+    {{#incoming "Command" this }}
+        {{#outgoing "ReadModel" this}}
+        // Get request from {{aggregate.namePascalCase}}
+        {{@root.options.package}}.external.{{namePascalCase}}Query {{nameCamelCase}}Query = new {{@root.options.package}}.external.{{namePascalCase}}Query();
+        applicationContext().getBean({{@root.options.package}}.external.{{aggregate.namePascalCase}}Service.class)
+            .{{nameCamelCase}}({{nameCamelCase}}Query);
+        {{/outgoing}}
+    {{/incoming}}
 
         {{namePascalCase}} {{nameCamelCase}} = new {{namePascalCase}}(this);
         {{nameCamelCase}}.publishAfterCommit();
 
-    {{/events}}
-    {{#commands}}
-        {{#relationCommandInfo}}
-            {{#commandValue}}
-        // Get request from {{aggregate.namePascalCase}}
-        //{{../../../../options.package}}.external.{{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} =
-        //    {{../relationCommandInfo.boundedContext.namePascalCase}}Application.applicationContext.getBean({{../../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-        //    .get{{aggregate.namePascalCase}}(/** mapping value needed */);
 
-            {{/commandValue}}
-        {{/relationCommandInfo}}
-    {{/commands}}
+    {{#outgoing "Command" this}}
+        //REST API Call to {{aggregate.namePascalCase}}
+        {{@root.options.package}}.external.{{namePascalCase}}Command {{nameCamelCase}}Command = new {{@root.options.package}}.external.{{namePascalCase}}Command();
+        {{@root.options.package}}.external.{{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} =
+           .applicationContext().getBean({{@root.options.package}}.external.{{aggregate.namePascalCase}}Service.class)
+           .{{nameCamelCase}}({{nameCamelCase}}Command);
+    {{/outgoing}}
+    {{/events}}
+    
     }
-{{/lifeCycles}}
+{{/contexts.eventsPerLifecycle}}
+
+
 
     public static {{namePascalCase}}Repository repository(){
-        {{namePascalCase}}Repository {{nameCamelCase}}Repository = {{boundedContext.namePascalCase}}Application.applicationContext.getBean({{namePascalCase}}Repository.class);
+        {{namePascalCase}}Repository {{nameCamelCase}}Repository = applicationContext().getBean({{namePascalCase}}Repository.class);
         return {{nameCamelCase}}Repository;
+    }
+
+    public static ApplicationContext applicationContext(){        
+        return {{boundedContext.namePascalCase}}Application.applicationContext;
     }
 
 {{#aggregateRoot.operations}}
@@ -170,6 +159,25 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
 //>>> DDD / Aggregate Root
 
 <function>
+
+var eventsPerLifecycle = []
+
+this.events.forEach(event=>{
+    if(event.trigger){
+        var theLifecycle = eventsPerLifecycle.find(l => l.annotation === event.trigger)
+        if(!theLifecycle){
+            theLifecycle = {annotation: event.trigger.startsWith("@") ? event.trigger.split("@")[1]: event.trigger, events: []};
+            eventsPerLifecycle.push(theLifecycle)
+
+        }
+        
+        theLifecycle.events.push(event)
+    }
+})
+
+this.contexts.eventsPerLifecycle = eventsPerLifecycle
+
+
 window.$HandleBars.registerHelper('checkDateType', function (fieldDescriptors) {
     for(var i = 0; i < fieldDescriptors.length; i ++ ){
         if(fieldDescriptors[i] && fieldDescriptors[i].className == 'Date'){
@@ -404,3 +412,6 @@ window.$HandleBars.registerHelper('has', function (members) {
 
 
 </function>
+
+
+
