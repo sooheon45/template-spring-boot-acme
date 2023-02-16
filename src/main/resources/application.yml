@@ -139,11 +139,15 @@ spring:
           destination: {{options.package}}
           contentType: application/json
 
-{{#checkCommandRelation relationCommandInfo}}
+{{#aggregates}}
+{{#commands}}
+{{#outgoing "ReadModel" this}}
 api:
   url:
-{{#setApiUrl relationCommandInfo false}}{{/setApiUrl}}
-{{/checkCommandRelation}}
+    {{boundedContext.nameCamelCase}}: {{url boundedContext.nameCamelCase}}:8080
+{{/outgoing}}
+{{/commands}}
+{{/aggregates}}
 
 
 <function>
