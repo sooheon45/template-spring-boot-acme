@@ -77,11 +77,15 @@ logging:
     org.hibernate.type: trace
     org.springframework.cloud: debug
 
-{{#checkCommandRelation relationCommandInfo}}
+{{#aggregates}}
+{{#commands}}
+{{#outgoing "ReadModel" this}}
 api:
   url:
-{{#setApiUrl relationCommandInfo true}}{{/setApiUrl}}
-{{/checkCommandRelation}}
+    {{boundedContext.nameCamelCase}}: localhost:{{boundedContext.portGenerated}}
+{{/outgoing}}
+{{/commands}}
+{{/aggregates}}
 
 server:
   port: {{portGenerated}}
@@ -143,6 +147,9 @@ api:
 
 
 <function>
+
+
+
 window.$HandleBars.registerHelper('checkException', function (aggregates) {
   try {
     if(!aggregates) {
