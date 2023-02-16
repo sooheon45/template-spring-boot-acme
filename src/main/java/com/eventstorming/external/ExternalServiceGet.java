@@ -24,7 +24,7 @@ import java.util.List;
 {{#ifEquals target.dataProjection "query-for-aggregate"}}
 public interface {{target.aggregate.namePascalCase}}Service {
     @GetMapping(path="/{{target.aggregate.namePlural}}/{{url target.name}}")
-    public List<{{target.aggregate.namePascalCase}}> {{camelCase target.name}}({{pascalCase target.name}}Query query);
+    public List<{{target.aggregate.namePascalCase}}> {{target.nameCamelCase}}({{target.namePascalCase}}Query query);
 {{/ifEquals}}
 {{/ifContains}}
 }

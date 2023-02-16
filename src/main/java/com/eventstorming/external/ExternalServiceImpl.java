@@ -13,8 +13,12 @@ import org.springframework.stereotype.Service;
 {{#ifEquals target.dataProjection "query-for-aggregate"}}
 @Service
 public class {{target.aggregate.namePascalCase}}ServiceImpl implements {{target.aggregate.namePascalCase}}Service {
-    public {{target.aggregate.namePascalCase}} {{camelCase target.name}}({{pascalCase target.name}}Query query){
+    public List<{{target.aggregate.namePascalCase}}> {{target.nameCamelCase}}({{target.namePascalCase}}Query query){
         {{target.aggregate.namePascalCase}} {{target.aggregate.nameCamelCase}} = new {{target.aggregate.namePascalCase}}();
+        
+        List<{{target.aggregate.namePascalCase}}> list = new ArrayList<List<{{target.aggregate.namePascalCase}}>();
+        list.add({{target.aggregate.nameCamelCase}});
+
         return {{target.aggregate.nameCamelCase}};
     }
 {{/ifEquals}}

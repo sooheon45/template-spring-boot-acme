@@ -15,6 +15,8 @@ import javax.persistence.*;
 import java.util.List;
 import lombok.Data;
 import java.util.Date;
+import org.springframework.context.ApplicationContext;
+
 {{#checkBigDecimal aggregateRoot.fieldDescriptors}}{{/checkBigDecimal}}
 
 @Entity
