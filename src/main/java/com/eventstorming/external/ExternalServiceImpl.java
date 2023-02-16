@@ -8,6 +8,9 @@ ifDuplicated: merge
 package {{options.package}}.external;
 
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
+
 
 {{#ifContains "$.target._type" "View"}}
 {{#ifEquals target.dataProjection "query-for-aggregate"}}
@@ -16,10 +19,10 @@ public class {{target.aggregate.namePascalCase}}ServiceImpl implements {{target.
     public List<{{target.aggregate.namePascalCase}}> {{target.nameCamelCase}}({{target.namePascalCase}}Query query){
         {{target.aggregate.namePascalCase}} {{target.aggregate.nameCamelCase}} = new {{target.aggregate.namePascalCase}}();
         
-        List<{{target.aggregate.namePascalCase}}> list = new ArrayList<List<{{target.aggregate.namePascalCase}}>();
+        List<{{target.aggregate.namePascalCase}}> list = new ArrayList<{{target.aggregate.namePascalCase}}>();
         list.add({{target.aggregate.nameCamelCase}});
 
-        return {{target.aggregate.nameCamelCase}};
+        return list;
     }
 {{/ifEquals}}
 {{/ifContains}}
