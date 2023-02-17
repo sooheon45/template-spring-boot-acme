@@ -16,8 +16,7 @@ import java.util.List;
 import lombok.Data;
 import java.util.Date;
 import org.springframework.context.ApplicationContext;
-
-{{#checkBigDecimal aggregateRoot.fieldDescriptors}}{{/checkBigDecimal}}
+import {{@root.options.package}}.external.*;
 
 @Entity
 @Table(name="{{namePascalCase}}_table")
@@ -48,8 +47,10 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         {{#outgoing "ReadModel" this}}
         // Get request from {{aggregate.namePascalCase}}
         {{@root.options.package}}.external.{{namePascalCase}}Query {{nameCamelCase}}Query = new {{@root.options.package}}.external.{{namePascalCase}}Query();
-        applicationContext().getBean({{@root.options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-            .{{nameCamelCase}}({{nameCamelCase}}Query);
+
+        {{@root.options.package}}.external.{{aggregate.namePascalCase}}Service {{aggregate.nameCamelCase}}Service = applicationContext().getBean({{@root.options.package}}.external.{{aggregate.namePascalCase}}Service.class)
+        {{@root.options.package}}.external.{{aggregate.namePascalCase}} {{boundedContext.nameCamelCase}} = 
+            {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}({{nameCamelCase}}Query);
         {{/outgoing}}
     {{/incoming}}
 
@@ -109,6 +110,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
 
         {{../../../../options.package}}.external.{{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{../../../../options.package}}.external.{{aggregate.namePascalCase}}();
         // mappings goes here
+        
         {{../boundedContext.namePascalCase}}Application.applicationContext.getBean({{../../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
             .{{nameCamelCase}}({{aggregate.nameCamelCase}});
 
