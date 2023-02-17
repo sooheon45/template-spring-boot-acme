@@ -54,7 +54,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         {{else}}
 
         {{@root.options.package}}.external.{{aggregate.namePascalCase}} {{boundedContext.nameCamelCase}} = 
-            {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}( {TODO: please give id} );
+            {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}( {TODO: please put the id} );
         {{/queryOption.multipleResult}}
         {{/outgoing}}
 
@@ -66,11 +66,12 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
 
 
     {{#outgoing "Command" this}}
-        //REST API Call to {{aggregate.namePascalCase}}
+        /** TODO:  REST API Call to {{aggregate.namePascalCase}}
         {{@root.options.package}}.external.{{namePascalCase}}Command {{nameCamelCase}}Command = new {{@root.options.package}}.external.{{namePascalCase}}Command();
         {{@root.options.package}}.external.{{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} =
-           .applicationContext().getBean({{@root.options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-           .{{nameCamelCase}}({{nameCamelCase}}Command);
+           applicationContext().getBean({{@root.options.package}}.external.{{aggregate.namePascalCase}}Service.class)
+           .{{nameCamelCase}}({TODO: please put the id}, {{nameCamelCase}}Command);
+        */
     {{/outgoing}}
     {{/events}}
     
