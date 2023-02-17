@@ -5,6 +5,7 @@
 
 
 
+
 forEach: Relation
 fileName: {{target.aggregate.namePascalCase}}Service.java
 path: {{source.boundedContext.name}}/{{{options.packagePath}}}/external

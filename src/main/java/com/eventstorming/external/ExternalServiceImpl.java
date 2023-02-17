@@ -27,7 +27,7 @@ public class {{aggregate.namePascalCase}}ServiceImpl implements {{aggregate.name
         return list;
     }
     {{else}}
-    public {{aggregate.namePascalCase}} {{nameCamelCase}}(){
+    public {{aggregate.namePascalCase}} {{nameCamelCase}}({{aggregate.keyFieldDescriptor.className}} id){
         {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{aggregate.namePascalCase}}();
         
         return {{aggregate.nameCamelCase}};
