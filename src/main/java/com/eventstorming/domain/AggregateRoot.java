@@ -49,7 +49,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         {{@root.options.package}}.external.{{namePascalCase}}Query {{nameCamelCase}}Query = new {{@root.options.package}}.external.{{namePascalCase}}Query();
 
         {{@root.options.package}}.external.{{aggregate.namePascalCase}}Service {{aggregate.nameCamelCase}}Service = applicationContext().getBean({{@root.options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-        {{@root.options.package}}.external.{{aggregate.namePascalCase}} {{boundedContext.nameCamelCase}} = 
+        List<{{@root.options.package}}.external.{{aggregate.namePascalCase}}> {{boundedContext.nameCamelCase}}List = 
             {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}({{nameCamelCase}}Query);
         {{/outgoing}}
     {{/incoming}}
