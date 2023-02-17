@@ -16,7 +16,7 @@ import java.util.List;
 {{#target}}
 {{#ifEquals dataProjection "query-for-aggregate"}}
 @Service
-public class {{aggregate.namePascalCase}}ServiceImpl implements {{target.aggregate.namePascalCase}}Service {
+public class {{aggregate.namePascalCase}}ServiceImpl implements {{aggregate.namePascalCase}}Service {
     {{#queryOption.multipleResult}}
     public List<{{aggregate.namePascalCase}}> {{nameCamelCase}}({{namePascalCase}}Query query){
         {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{aggregate.namePascalCase}}();
