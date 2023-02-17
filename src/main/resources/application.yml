@@ -4,6 +4,8 @@ path: {{name}}/src/main/resources
 ---
 server:
   port: 8080
+  error:
+    include-message: always
 {{#circuitBreaker}}
 //<<< Resilency / Circuit Breaker
 feign:
