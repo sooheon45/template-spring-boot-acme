@@ -43,7 +43,7 @@ public class {{aggregate.namePascalCase}}ServiceImpl implements {{aggregate.name
 <function> 
  
 var commandToReadModelOrPolicy = ((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && (this.target._type.endsWith("View") || this.target._type.endsWith("Aggregate")))
- this.contexts.except = !(commandToReadModelOrPolicy && this.fallback)
+ this.contexts.except = !(commandToReadModelOrPolicy && this.value.fallback)
 
 
 if(!this.contexts.except){
