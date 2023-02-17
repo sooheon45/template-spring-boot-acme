@@ -30,13 +30,11 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
     {{^isVO}}{{#isKey}}
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    {{/isKey}}{{/isVO}}
-    {{#isLob}}@Lob{{/isLob}}
+    {{/isKey}}{{/isVO}}{{#isLob}}@Lob{{/isLob}}
     {{#if (isPrimitive className)}}{{#isList}}{{/isList}}{{/if}}
     {{#checkRelations ../aggregateRoot.entities.relations className isVO referenceClass}}{{/checkRelations}}
     {{#checkAttribute ../aggregateRoot.entities.relations ../name className isVO}}{{/checkAttribute}}
-    private {{{className}}} {{nameCamelCase}};
-    {{/aggregateRoot.fieldDescriptors}}
+    private {{{className}}} {{nameCamelCase}};{{/aggregateRoot.fieldDescriptors}}
 
 {{#contexts.eventsPerLifecycle}}
     @{{annotation}}
@@ -45,13 +43,22 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
        
     {{#incoming "Command" this }}
         {{#outgoing "ReadModel" this}}
-        // Get request from {{aggregate.namePascalCase}}
+        /** TODO: Get request to {{aggregate.namePascalCase}}
         {{@root.options.package}}.external.{{namePascalCase}}Query {{nameCamelCase}}Query = new {{@root.options.package}}.external.{{namePascalCase}}Query();
 
-        {{@root.options.package}}.external.{{aggregate.namePascalCase}}Service {{aggregate.nameCamelCase}}Service = applicationContext().getBean({{@root.options.package}}.external.{{aggregate.namePascalCase}}Service.class)
+        {{@root.options.package}}.external.{{aggregate.namePascalCase}}Service {{aggregate.nameCamelCase}}Service = applicationContext().getBean({{@root.options.package}}.external.{{aggregate.namePascalCase}}Service.class);
+
+        {{#queryOption.multipleResult}}
         List<{{@root.options.package}}.external.{{aggregate.namePascalCase}}> {{boundedContext.nameCamelCase}}List = 
             {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}({{nameCamelCase}}Query);
+        {{else}}
+
+        {{@root.options.package}}.external.{{aggregate.namePascalCase}} {{boundedContext.nameCamelCase}} = 
+            {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}( {TODO: please give id} );
+        {{/queryOption.multipleResult}}
         {{/outgoing}}
+
+        */
     {{/incoming}}
 
         {{namePascalCase}} {{nameCamelCase}} = new {{namePascalCase}}(this);
