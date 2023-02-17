@@ -13,18 +13,28 @@ import java.util.List;
 
 
 {{#ifContains "$.target._type" "View"}}
-{{#ifEquals target.dataProjection "query-for-aggregate"}}
+{{#target}}
+{{#ifEquals dataProjection "query-for-aggregate"}}
 @Service
-public class {{target.aggregate.namePascalCase}}ServiceImpl implements {{target.aggregate.namePascalCase}}Service {
-    public List<{{target.aggregate.namePascalCase}}> {{target.nameCamelCase}}({{target.namePascalCase}}Query query){
-        {{target.aggregate.namePascalCase}} {{target.aggregate.nameCamelCase}} = new {{target.aggregate.namePascalCase}}();
+public class {{aggregate.namePascalCase}}ServiceImpl implements {{target.aggregate.namePascalCase}}Service {
+    {{#queryOption.multipleResult}}
+    public List<{{aggregate.namePascalCase}}> {{nameCamelCase}}({{namePascalCase}}Query query){
+        {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{aggregate.namePascalCase}}();
         
-        List<{{target.aggregate.namePascalCase}}> list = new ArrayList<{{target.aggregate.namePascalCase}}>();
-        list.add({{target.aggregate.nameCamelCase}});
+        List<{{aggregate.namePascalCase}}> list = new ArrayList<{{aggregate.namePascalCase}}>();
+        list.add({{aggregate.nameCamelCase}});
 
         return list;
     }
+    {{else}}
+    public {{aggregate.namePascalCase}} {{nameCamelCase}}(){
+        {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{aggregate.namePascalCase}}();
+        
+        return {{aggregate.nameCamelCase}};
+    }
+    {{/queryOption.multipleResult}}
 {{/ifEquals}}
+{{/target}}
 {{/ifContains}}
 }
 
