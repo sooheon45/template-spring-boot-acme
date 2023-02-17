@@ -21,11 +21,18 @@ import java.util.List;
 {{/if}}
  
 {{#ifContains "$.target._type" "View"}}
-{{#ifEquals target.dataProjection "query-for-aggregate"}}
-public interface {{target.aggregate.namePascalCase}}Service {
-    @GetMapping(path="/{{target.aggregate.namePlural}}")
-    public List<{{target.aggregate.namePascalCase}}> {{target.nameCamelCase}}({{target.namePascalCase}}Query query);
+{{#target}}
+{{#ifEquals dataProjection "query-for-aggregate"}}
+public interface {{aggregate.namePascalCase}}Service {
+    {{#queryOption.multipleResult}}
+    @GetMapping(path="/{{aggregate.namePlural}}")
+    public List<{{aggregate.namePascalCase}}> {{nameCamelCase}}({{namePascalCase}}Query query);
+    {{else}}
+    @GetMapping(path="/{{aggregate.namePlural}}/{id}")
+    public {{aggregate.namePascalCase}} {{nameCamelCase}}(@PathVariable("id") {{aggregate.keyFieldDescriptor.className}} id);
+    {{/queryOption.multipleResult}}
 {{/ifEquals}}
+{{/target}}
 {{/ifContains}}
 }
 
