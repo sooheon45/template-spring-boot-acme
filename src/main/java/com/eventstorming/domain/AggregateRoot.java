@@ -65,6 +65,8 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         /** TODO:  REST API Call to {{aggregate.namePascalCase}}
         {{@root.options.package}}.external.{{namePascalCase}}Command {{nameCamelCase}}Command = new {{@root.options.package}}.external.{{namePascalCase}}Command();
         
+        // TODO: fill the command properties to invoke below
+        
         applicationContext().getBean({{@root.options.package}}.external.{{aggregate.namePascalCase}}Service.class)
            .{{nameCamelCase}}({TODO: please put the id}, {{nameCamelCase}}Command);
         */
