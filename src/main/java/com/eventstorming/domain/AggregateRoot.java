@@ -1,4 +1,3 @@
-
 forEach: Aggregate
 representativeFor: Aggregate
 fileName: {{namePascalCase}}.java
@@ -105,6 +104,8 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
     {{^isRestRepository}}
 //<<< Clean Arch / Port Method
     public void {{nameCamelCase}}({{namePascalCase}}Command {{nameCamelCase}}Command){
+        // implement the business logics here:
+
         {{#triggerByCommand}}
         {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}(this);
         {{eventValue.nameCamelCase}}.publishAfterCommit();
