@@ -12,6 +12,7 @@
 
 
 
+
 forEach: View
 representativeFor: View
 fileName: {{namePascalCase}}ViewHandler.java

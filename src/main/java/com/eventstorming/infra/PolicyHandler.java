@@ -67,6 +67,7 @@ public class PolicyHandler{
         {{#outgoing "Command" ..}}
         {{#isExtendedVerb}}
         {{namePascalCase}}Command {{nameCamelCase}}Command = new {{namePascalCase}}Command();
+        // implement:  TODO: map command properties from event
 
         {{aggregate.nameCamelCase}}Repository.findById(event.get{{keyFieldOf .. }}()).ifPresent({{aggregate.nameCamelCase}}->{
              {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Command); 
