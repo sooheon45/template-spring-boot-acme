@@ -65,12 +65,12 @@ spring:
         event-in:
           group: {{name}}
 //<<< EDA / Topic Name
-          destination: {{options.package}}
+          destination: {{options.rootPackage}}
 //>>> EDA / Topic Name
           contentType: application/json
         event-out:
 //<<< EDA / Topic Name
-          destination: {{options.package}}
+          destination: {{options.rootPackage}}
 //>>> EDA / Topic Name
           contentType: application/json
 
@@ -135,10 +135,10 @@ spring:
       bindings:
         event-in:
           group: {{name}}
-          destination: {{options.package}}
+          destination: {{options.rootPackage}}
           contentType: application/json
         event-out:
-          destination: {{options.package}}
+          destination: {{options.rootPackage}}
           contentType: application/json
 
 {{#aggregates}}
