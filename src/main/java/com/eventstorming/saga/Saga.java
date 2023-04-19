@@ -34,13 +34,13 @@ public class {{namePascalCase}}Saga {
                                 @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) byte[] messageKey){
 
         {{event.namePascalCase}} event = {{event.nameCamelCase}};
-        System.out.println("\n\n##### listener {{../namePascalCase}} : " + {{event.nameCamelCase}} + "\n\n");
+        System.out.println("\n\n##### listener {{../namePascalCase}} : " + {{nameCamelCase}} + "\n\n");
 
         {{#../aggregateList}}
         {{namePascalCase}}.{{../../nameCamelCase}}(event);        
         {{/../aggregateList}}
 
-        {{#isExtendedVerb}}
+        {{#command.isExtendedVerb}}
         {{command.namePascalCase}}Command {{command.nameCamelCase}}Command = new {{command.namePascalCase}}Command();
         // implement:  Map command properties from event
 
@@ -51,9 +51,18 @@ public class {{namePascalCase}}Saga {
              {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Command); 
         });
         {{else}}
+            {{#compensateCommand}}
+        try {
+            {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{command.aggregate.namePascalCase}}();
+      
+        } catch (Exception e) {
+            
+        }
+            {{else}}
         {{command.aggregate.namePascalCase}} {{command.aggregate.nameCamelCase}} = new {{command.aggregate.namePascalCase}}();
         {{command.aggregate.nameCamelCase}}Repository.save({{command.aggregate.nameCamelCase}});
-        {{/isExtendedVerb}}
+            {{/compensateCommand}}
+        {{/command.isExtendedVerb}}
 
         {{#todo ../description}}{{/todo}}
 
