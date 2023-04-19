@@ -28,90 +28,41 @@ public class {{namePascalCase}}Saga {
 
     
     {{#contexts.sagaEvents}}
-    {{event}}
-//     @StreamListener(value=KafkaProcessor.INPUT, condition="headers['type']=='{{event.namePascalCase}}'")
-//     public void whenever{{namePascalCase}}_{{../namePascalCase}}(@Payload {{namePascalCase}} {{nameCamelCase}}, 
-//                                 @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment,
-//                                 @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) byte[] messageKey){
+    @StreamListener(value=KafkaProcessor.INPUT, condition="headers['type']=='{{event.namePascalCase}}'")
+    public void whenever{{namePascalCase}}_{{../namePascalCase}}(@Payload {{event.namePascalCase}} {{event.nameCamelCase}}, 
+                                @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment,
+                                @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) byte[] messageKey){
 
-//         {{namePascalCase}} event = {{nameCamelCase}};
-//         System.out.println("\n\n##### listener {{../namePascalCase}} : " + {{nameCamelCase}} + "\n\n");
+        {{event.namePascalCase}} event = {{event.nameCamelCase}};
+        System.out.println("\n\n##### listener {{../namePascalCase}} : " + {{nameCamelCase}} + "\n\n");
 
-//         {{#../aggregateList}}
-//         {{namePascalCase}}.{{../../nameCamelCase}}(event);        
-//         {{/../aggregateList}}
+        {{#../aggregateList}}
+        {{namePascalCase}}.{{../../nameCamelCase}}(event);        
+        {{/../aggregateList}}
 
-//         {{#outgoing "Command" ..}}
-//         {{#isExtendedVerb}}
-//         {{namePascalCase}}Command {{nameCamelCase}}Command = new {{namePascalCase}}Command();
-//         // implement:  Map command properties from event
+        {{#isExtendedVerb}}
+        {{command.namePascalCase}}Command {{command.nameCamelCase}}Command = new {{command.namePascalCase}}Command();
+        // implement:  Map command properties from event
 
-//         {{aggregate.nameCamelCase}}Repository.findById(
-//                 // implement: Set the {{aggregate.namePascalCase}} Id from one of {{../namePascalCase}} event's corresponding property
+        {{command.aggregate.nameCamelCase}}Repository.findById(
+                // implement: Set the {{command.aggregate.namePascalCase}} Id from one of {{../namePascalCase}} event's corresponding property
                 
-//             ).ifPresent({{aggregate.nameCamelCase}}->{
-//              {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Command); 
-//         });
-//         {{else}}
-//         {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{aggregate.namePascalCase}}();
-//         {{aggregate.nameCamelCase}}Repository.save({{aggregate.nameCamelCase}});
-//         {{/isExtendedVerb}}
-//         {{/outgoing}}
+            ).ifPresent({{aggregate.nameCamelCase}}->{
+             {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Command); 
+        });
+        {{else}}
+        {{command.aggregate.namePascalCase}} {{command.aggregate.nameCamelCase}} = new {{command.aggregate.namePascalCase}}();
+        {{command.aggregate.nameCamelCase}}Repository.save({{command.aggregate.nameCamelCase}});
+        {{/isExtendedVerb}}
 
+        {{#todo ../description}}{{/todo}}
 
-//         {{#todo ../description}}{{/todo}}
-
-//         // Manual Offset Commit //
-//         acknowledgment.acknowledge();
-
-//     }
-    {{/contexts.sagaEvents}}
-    
-    
-    // 1. start
-    @StreamListener(
-        value = KafkaProcessor.INPUT,
-        condition = "headers['type']=='OrderPlaced'"
-    )
-    public void wheneverOrderPlaced_OrderSaga(
-        @Payload OrderPlaced orderPlaced,
-        @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment,
-        @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) byte[] messageKey
-    ) {
-        OrderPlaced event = orderPlaced;
-        System.out.println(
-            "\n\n##### listener OrderSaga : " + orderPlaced + "\n\n"
-        );
-        
-        try {
-            // 2
-            StartDeliveryCommand startDeliveryCommand = new StartDeliveryCommand();
-
-            /* Logic */
-            startDeliveryCommand.setId(event.getId());
-
-
-            deliveryService.startDelivery(startDeliveryCommand);
-        } catch (Exception e){
-            // 2'
-            OrderCancelCommand orderCancelCommand = new OrderCancelCommand();
-             /* Logic */
-            orderRepository
-            .findById(
-                // implement: Set the Delivery Id from one of OrderPlaced event's corresponding property
-                event.getId()
-            )
-            .ifPresent(order -> {
-                order.orderCancel(orderCancelCommand);
-            });
-
-        }
-        
         // Manual Offset Commit //
         acknowledgment.acknowledge();
     }
-    
 
+    {{/contexts.sagaEvents}}
+    
 }
 
 <function>
