@@ -59,7 +59,8 @@ public class {{namePascalCase}}Saga {
             
         }
             {{else}}
-        {{command.aggregate.namePascalCase}} {{command.aggregate.nameCamelCase}} = new {{command.aggregate.namePascalCase}}();
+        /* Logic */
+        {{namePascalCase}}Command {{nameCamelCase}}Command = new {{namePascalCase}}Command();
         {{command.aggregate.nameCamelCase}}Repository.save({{command.aggregate.nameCamelCase}});
             {{/compensateCommand}}
         {{/command.isExtendedVerb}}
