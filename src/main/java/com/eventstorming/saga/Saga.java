@@ -28,6 +28,7 @@ public class {{namePascalCase}}Saga {
 
     
     {{#contexts.sagaEvents}}
+
     @StreamListener(value=KafkaProcessor.INPUT, condition="headers['type']=='{{event.namePascalCase}}'")
     public void whenever{{event.namePascalCase}}_{{../namePascalCase}}(@Payload {{event.namePascalCase}} {{event.nameCamelCase}}, 
                                 @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment,
@@ -40,7 +41,7 @@ public class {{namePascalCase}}Saga {
         {{namePascalCase}}.{{../../nameCamelCase}}(event);        
         {{/../aggregateList}}
 
-        {{#command.isExtendedVerb}}
+{{#command.isExtendedVerb}}
         {{command.namePascalCase}}Command {{command.nameCamelCase}}Command = new {{command.namePascalCase}}Command();
         // implement:  Map command properties from event
 
@@ -50,31 +51,31 @@ public class {{namePascalCase}}Saga {
             ).ifPresent({{aggregate.nameCamelCase}}->{
              {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Command); 
         });
-        {{else}}
-            {{#compensateCommand}}
+{{else}}
+    {{#compensateCommand}}
         try {
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
             /* Logic 
                 ...
             */
+            {{#todo ../description}}{{/todo}}
             
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
         } catch (Exception e) {
             {{namePascalCase}}Command {{nameCamelCase}}Command = {{namePascalCase}}Command();
+            
         }
-            {{else}}
+    {{else}}
         /* Logic */
-        {{namePascalCase}}Command {{nameCamelCase}}Command = new {{namePascalCase}}Command();
-        {{command.aggregate.nameCamelCase}}Repository.save({{command.aggregate.nameCamelCase}});
-            {{/compensateCommand}}
-        {{/command.isExtendedVerb}}
-
         {{#todo ../description}}{{/todo}}
 
+        {{namePascalCase}}Command {{nameCamelCase}}Command = new {{namePascalCase}}Command();
+        {{command.aggregate.nameCamelCase}}Repository.save({{command.aggregate.nameCamelCase}});
+    {{/compensateCommand}}
+{{/command.isExtendedVerb}}
         // Manual Offset Commit //
         acknowledgment.acknowledge();
     }
-
     {{/contexts.sagaEvents}}
     
 }
@@ -111,7 +112,12 @@ if(this.isSaga){
     )
 
     eventByNames[maxSeq].isEndSaga = true;
+    //alert('x')
+    //alert(JSON.stringify(commandByNames))
+
     this.contexts.sagaEvents = eventByNames; 
+
+
 }
 
 window.$HandleBars.registerHelper('except', function (fieldDescriptors) {
