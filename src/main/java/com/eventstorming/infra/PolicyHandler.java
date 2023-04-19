@@ -1,6 +1,5 @@
 forEach: BoundedContext
 fileName: PolicyHandler.java
-
 representativeFor: Policy
 path: {{name}}/{{{options.packagePath}}}/infra
 mergeType: template
@@ -45,6 +44,7 @@ public class PolicyHandler{
     }
 
     {{#policies}}
+    {{^isSaga}}
     {{#outgoing "ReadModel" .}}
     @Autowired
     {{../../options.package}}.external.{{aggregate.namePascalCase}}Service {{aggregate.nameCamelCase}}Service;
@@ -89,7 +89,7 @@ public class PolicyHandler{
 
     }
     {{/incoming}}
-
+    {{/isSaga}}
     {{/policies}}
 }
 
