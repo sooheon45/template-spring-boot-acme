@@ -28,7 +28,6 @@ public class {{namePascalCase}}Saga {
 
     
     {{#contexts.sagaEvents}}
-
     @StreamListener(value=KafkaProcessor.INPUT, condition="headers['type']=='{{event.namePascalCase}}'")
     public void whenever{{event.namePascalCase}}_{{../namePascalCase}}(@Payload {{event.namePascalCase}} {{event.nameCamelCase}}, 
                                 @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment,
@@ -41,17 +40,6 @@ public class {{namePascalCase}}Saga {
         {{namePascalCase}}.{{../../nameCamelCase}}(event);        
         {{/../aggregateList}}
 
-{{#command.isExtendedVerb}}
-        {{command.namePascalCase}}Command {{command.nameCamelCase}}Command = new {{command.namePascalCase}}Command();
-        // implement:  Map command properties from event
-
-        {{command.aggregate.nameCamelCase}}Repository.findById(
-                // implement: Set the {{command.aggregate.namePascalCase}} Id from one of {{../namePascalCase}} event's corresponding property
-                
-            ).ifPresent({{aggregate.nameCamelCase}}->{
-             {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Command); 
-        });
-{{else}}
     {{#compensateCommand}}
         try {
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
@@ -59,20 +47,17 @@ public class {{namePascalCase}}Saga {
                 ...
             */
             {{#todo ../description}}{{/todo}}
-            
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
         } catch (Exception e) {
             {{namePascalCase}}Command {{nameCamelCase}}Command = {{namePascalCase}}Command();
-            
         }
     {{else}}
         /* Logic */
         {{#todo ../description}}{{/todo}}
-
         {{namePascalCase}}Command {{nameCamelCase}}Command = new {{namePascalCase}}Command();
         {{command.aggregate.nameCamelCase}}Repository.save({{command.aggregate.nameCamelCase}});
     {{/compensateCommand}}
-{{/command.isExtendedVerb}}
+
         // Manual Offset Commit //
         acknowledgment.acknowledge();
     }
