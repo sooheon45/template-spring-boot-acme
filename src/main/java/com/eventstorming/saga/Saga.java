@@ -53,10 +53,14 @@ public class {{namePascalCase}}Saga {
         {{else}}
             {{#compensateCommand}}
         try {
-            {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{command.aggregate.namePascalCase}}();
-      
-        } catch (Exception e) {
+            {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
+            /* Logic 
+                ...
+            */
             
+            {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
+        } catch (Exception e) {
+            {{namePascalCase}}Command {{nameCamelCase}}Command = {{namePascalCase}}Command();
         }
             {{else}}
         /* Logic */
@@ -107,12 +111,7 @@ if(this.isSaga){
     )
 
     eventByNames[maxSeq].isEndSaga = true;
-    //alert('x')
-    //alert(JSON.stringify(commandByNames))
-
     this.contexts.sagaEvents = eventByNames; 
-
-
 }
 
 window.$HandleBars.registerHelper('except', function (fieldDescriptors) {
