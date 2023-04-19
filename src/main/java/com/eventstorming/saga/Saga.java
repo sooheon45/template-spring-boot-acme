@@ -34,7 +34,7 @@ public class {{namePascalCase}}Saga {
                                 @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) byte[] messageKey){
 
         {{event.namePascalCase}} event = {{event.nameCamelCase}};
-        System.out.println("\n\n##### listener {{../namePascalCase}} : " + {{nameCamelCase}} + "\n\n");
+        System.out.println("\n\n##### listener {{../namePascalCase}} : " + {{event.nameCamelCase}} + "\n\n");
 
         {{#../aggregateList}}
         {{namePascalCase}}.{{../../nameCamelCase}}(event);        
