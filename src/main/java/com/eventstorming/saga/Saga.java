@@ -43,9 +43,8 @@ public class {{namePascalCase}}Saga {
     {{#compensateCommand}}
         try {
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
-            /* Logic 
-                ...
-            */
+           /* Logic */
+           
             {{#todo ../description}}{{/todo}}
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
         } catch (Exception e) {
@@ -57,9 +56,10 @@ public class {{namePascalCase}}Saga {
         /* Logic */
         {{#todo ../description}}{{/todo}}
         {{command.namePascalCase}}Command {{command.nameCamelCase}}Command = new {{command.namePascalCase}}Command();
-             
-        {{#ifEquals event.aggregate.elementView.id command.aggregate.elementView.id}}
-        {{event.aggregate.nameCamelCase}}Repository
+
+        {{#command.outgoingRelations}}
+            {{#ifEquals source.aggregate.elementView.id target.aggregate.elementView.id}}
+            {{event.aggregate.nameCamelCase}}Repository
             .findById(
                 // implement: Set the Delivery Id from one of OrderPlaced event's corresponding property
                 event.getId()
@@ -68,12 +68,11 @@ public class {{namePascalCase}}Saga {
                
                 {{event.aggregate.nameCamelCase}}.{{command.nameCamelCase}}({{command.nameCamelCase}}Command);
             });
-        {{else}}
-        {{command.nameCamelCase}}Command.setId(event.getId());
-        {{event.aggregate.nameCamelCase}}.{{command.nameCamelCase}}(updateStatusCommand);
-        {{/ifEquals}}
-        {{namePascalCase}}Command {{nameCamelCase}}Command = new {{namePascalCase}}Command();
-        {{../command.aggregate.nameCamelCase}}Repository.save({{../command.aggregate.nameCamelCase}});
+            {{else}}
+            {{command.nameCamelCase}}Command.setId(event.getId());
+            {{event.aggregate.nameCamelCase}}.{{command.nameCamelCase}}(updateStatusCommand);
+            {{/ifEquals}}
+        {{/command.outgoingRelations}}
     {{/compensateCommand}}
 
         // Manual Offset Commit //
