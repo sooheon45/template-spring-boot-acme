@@ -23,14 +23,7 @@ public class {{namePascalCase}}Saga {
     {{#boundedContext.aggregates}}
         {{namePascalCase}}Repository {{nameCamelCase}}Repository;
     {{/boundedContext.aggregates}}
-    
     {{#externalService boundedContext.aggregates contexts.sagaEvents}}{{/externalService}}
-   
-    {{#contexts.sagaEvents}}
-      {{#if command.aggregate}}
-     {{command.aggregate.namePascalCase}}Service {{command.aggregate.nameCamelCase}}Service; 
-      {{/if}}
-    {{/contexts.sagaEvents}}
 
     
     {{#contexts.sagaEvents}}
@@ -137,17 +130,20 @@ if(this.isSaga){
 
 window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, aggregates) {
    var lists = [];
+   var str = ''
    aggregatesForBc.forEach(function(selfAggregate){
     aggregates.forEach(function(agg){
        if(agg && agg.command){
            if(agg.command.aggregate.name != selfAggregate.name){
-           lists.push(agg.command.aggregate);
-           
+             lists.push(agg.command.aggregate);
            }
        }
       });
     });
-    return lists;
+    lists.forEach(function(agg){
+        str = str +`${agg.namePascalCase}Service ${agg.nameCamelCase}Service;`
+    })
+    return str;
 });
 
 window.$HandleBars.registerHelper('except', function (fieldDescriptors) {
