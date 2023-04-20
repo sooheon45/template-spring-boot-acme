@@ -23,8 +23,8 @@ public class {{namePascalCase}}Saga {
     {{#boundedContext.aggregates}}
         {{namePascalCase}}Repository {{nameCamelCase}}Repository;
     {{/boundedContext.aggregates}}
-    {{#externalService boundedContext.aggregates, command.aggregat}}
-    {{/externalService}}
+    
+    {{#externalService boundedContext.aggregates contexts.sagaEvents}}{{/externalService}}
    
     {{#contexts.sagaEvents}}
       {{#if command.aggregate}}
