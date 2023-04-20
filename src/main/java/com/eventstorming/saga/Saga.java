@@ -7,6 +7,7 @@ package {{options.package}}.saga;
 
 import {{options.package}}.config.kafka.KafkaProcessor;
 import {{options.package}}.domain.*;
+import {{options.package}}.external.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
@@ -23,7 +24,9 @@ public class {{namePascalCase}}Saga {
         {{namePascalCase}}Repository {{nameCamelCase}}Repository;
     {{/boundedContext.aggregates}}
     {{#contexts.sagaEvents}}
-        {{command.aggregate.namePascalCase}}Service {{command.aggregate.nameCamelCase}}Service; 
+      {{#if command.aggregate}}
+     {{command.aggregate.namePascalCase}}Service {{command.aggregate.nameCamelCase}}Service; 
+      {{/if}}
     {{/contexts.sagaEvents}}
 
     
@@ -35,10 +38,6 @@ public class {{namePascalCase}}Saga {
 
         {{event.namePascalCase}} event = {{event.nameCamelCase}};
         System.out.println("\n\n##### listener {{../namePascalCase}} : " + {{event.nameCamelCase}} + "\n\n");
-
-        {{#../aggregateList}}
-        {{namePascalCase}}.{{../../nameCamelCase}}(event);        
-        {{/../aggregateList}}
 
     {{#compensateCommand}}
         try {
