@@ -50,12 +50,28 @@ public class {{namePascalCase}}Saga {
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
         } catch (Exception e) {
             {{namePascalCase}}Command {{nameCamelCase}}Command = {{namePascalCase}}Command();
+           {{#ifEquals 'test' 'test'}}test{{/ifEquals}}
+           
         }
     {{else}}
         /* Logic */
         {{#todo ../description}}{{/todo}}
+        {{#ifEquals event.aggregate.elementView.id command.aggregate.elementView.id}}
+        {{event.aggregate.nameCamelCase}}Repository
+            .findById(
+                // implement: Set the Delivery Id from one of OrderPlaced event's corresponding property
+                event.getId()
+            )
+            .ifPresent({{event.aggregate.nameCamelCase}} -> {
+                {{command.namePascalCase}}Command {{command.nameCamelCase}}Command = new {{command.namePascalCase}}Command();
+                
+                {{event.aggregate.nameCamelCase}}.{{command.nameCamelCase}}({{command.nameCamelCase}}Command);
+            });
+        {{else}}
+        
+        {{/#ifEquals}}
         {{namePascalCase}}Command {{nameCamelCase}}Command = new {{namePascalCase}}Command();
-        {{command.aggregate.nameCamelCase}}Repository.save({{command.aggregate.nameCamelCase}});
+        {{../command.aggregate.nameCamelCase}}Repository.save({{../command.aggregate.nameCamelCase}});
     {{/compensateCommand}}
 
         // Manual Offset Commit //
