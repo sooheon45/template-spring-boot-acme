@@ -61,7 +61,7 @@ public class {{namePascalCase}}Saga {
             {{else}}
 
             ... 
-            {{/if outgoingRelations}}
+            {{/if}}
 
         }
     {{else}}
