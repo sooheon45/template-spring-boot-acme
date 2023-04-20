@@ -44,24 +44,26 @@ public class {{namePascalCase}}Saga {
         try {
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
            /* Logic */
-           
             {{#todo ../description}}{{/todo}}
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
         } catch (Exception e) {
-{{#../../command.outgoingRelations}}
-  {{#ifEquals source.aggregate.elementView.id target.aggregate.elementView.id}}
-            {{../../command.aggregate.nameCamelCase}}Repository.findById(
+            {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
+
+            {{#if outgoingRelations}}
+            .... 
+            {{../command.aggregate.nameCamelCase}}Repository.findById(
                 // implement: Set the Delivery Id from one of OrderPlaced event's corresponding property
                 event.getId()
             )
             .ifPresent({{../command.aggregate.nameCamelCase}} -> {
-                {{../../command.namePascalCase}}Command {{../../command.nameCamelCase}}Command = new {{../../command.namePascalCase}}Command();
-                {{../../command.aggregate.nameCamelCase}}.{{../../command.nameCamelCase}}({{../../command.nameCamelCase}}Command);
+                {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../../command.namePascalCase}}Command();
+                {{../command.aggregate.nameCamelCase}}.{{../command.nameCamelCase}}({{../../command.nameCamelCase}}Command);
             });
-  {{else}}
-            {{namePascalCase}}Command {{nameCamelCase}}Command = {{namePascalCase}}Command();        
-  {{/ifEquals}}
-{{/../../command.outgoingRelations}} 
+            {{else}}
+
+            ... 
+            {{/if outgoingRelations}}
+
         }
     {{else}}
         /* Logic */
