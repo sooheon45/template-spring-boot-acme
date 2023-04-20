@@ -71,7 +71,7 @@ public class {{namePascalCase}}Saga {
         {{else}}
         {{command.nameCamelCase}}Command.setId(event.getId());
         {{event.aggregate.nameCamelCase}}.{{command.nameCamelCase}}(updateStatusCommand);
-        {{/#ifEquals}}
+        {{/ifEquals}}
         {{namePascalCase}}Command {{nameCamelCase}}Command = new {{namePascalCase}}Command();
         {{../command.aggregate.nameCamelCase}}Repository.save({{../command.aggregate.nameCamelCase}});
     {{/compensateCommand}}
