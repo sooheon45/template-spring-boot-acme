@@ -56,6 +56,8 @@ public class {{namePascalCase}}Saga {
     {{else}}
         /* Logic */
         {{#todo ../description}}{{/todo}}
+        {{command.namePascalCase}}Command {{command.nameCamelCase}}Command = new {{command.namePascalCase}}Command();
+             
         {{#ifEquals event.aggregate.elementView.id command.aggregate.elementView.id}}
         {{event.aggregate.nameCamelCase}}Repository
             .findById(
@@ -63,12 +65,12 @@ public class {{namePascalCase}}Saga {
                 event.getId()
             )
             .ifPresent({{event.aggregate.nameCamelCase}} -> {
-                {{command.namePascalCase}}Command {{command.nameCamelCase}}Command = new {{command.namePascalCase}}Command();
-                
+               
                 {{event.aggregate.nameCamelCase}}.{{command.nameCamelCase}}({{command.nameCamelCase}}Command);
             });
         {{else}}
-        
+        {{command.nameCamelCase}}Command.setId(event.getId());
+        {{event.aggregate.nameCamelCase}}.{{command.nameCamelCase}}(updateStatusCommand);
         {{/#ifEquals}}
         {{namePascalCase}}Command {{nameCamelCase}}Command = new {{namePascalCase}}Command();
         {{../command.aggregate.nameCamelCase}}Repository.save({{../command.aggregate.nameCamelCase}});
