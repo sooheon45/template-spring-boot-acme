@@ -46,17 +46,16 @@ public class {{namePascalCase}}Saga {
            /* Logic */
             {{#todo ../description}}{{/todo}}
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
-        } catch (Exception e) {
+        } catch (Exception e) {           
+            {{#if outgoingRelations}}
             {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
 
-            {{#if outgoingRelations}}
             {{aggregate.nameCamelCase}}Repository.findById(
                 // implement: Set the Delivery Id from one of OrderPlaced event's corresponding property
                 event.getId()
             )
             .ifPresent({{aggregate.nameCamelCase}} -> {
-                {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../../command.namePascalCase}}Command();
-                {{aggregate.nameCamelCase}}.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
+                {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Commad);
             });
             {{else}}
                 {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}(event.getId());
