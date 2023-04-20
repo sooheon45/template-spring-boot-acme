@@ -50,8 +50,7 @@ public class {{namePascalCase}}Saga {
             {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
 
             {{#if outgoingRelations}}
-            .... 
-            {{../command.aggregate.nameCamelCase}}Repository.findById(
+            {{command.aggregate.nameCamelCase}}Repository.findById(
                 // implement: Set the Delivery Id from one of OrderPlaced event's corresponding property
                 event.getId()
             )
