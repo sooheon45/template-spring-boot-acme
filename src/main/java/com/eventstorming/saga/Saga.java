@@ -46,7 +46,7 @@ public class {{namePascalCase}}Saga {
             {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
 
             {{aggregate.nameCamelCase}}Repository.findById(
-                // implement: Set the Delivery Id from one of OrderPlaced event's corresponding property
+                // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
                 event.getId()
             )
             .ifPresent({{aggregate.nameCamelCase}} -> {
@@ -64,7 +64,7 @@ public class {{namePascalCase}}Saga {
             {{#ifEquals source.aggregate.elementView.id target.aggregate.elementView.id}}
             {{../command.aggregate.nameCamelCase}}Repository
             .findById(
-                // implement: Set the Delivery Id from one of OrderPlaced event's corresponding property
+                // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
                 event.getId()
             )
             .ifPresent({{../command.aggregate.nameCamelCase}} -> {
