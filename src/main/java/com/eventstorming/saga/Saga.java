@@ -23,7 +23,7 @@ public class {{namePascalCase}}Saga {
     {{#boundedContext.aggregates}}
         {{namePascalCase}}Repository {{nameCamelCase}}Repository;
     {{/boundedContext.aggregates}}
-    {{#externalService boundedContext.aggregates contexts.sagaEvents}}{{/externalService}}
+    {{externalService boundedContext.aggregates contexts.sagaEvents}}
 
     
     {{#contexts.sagaEvents}}
@@ -55,7 +55,6 @@ public class {{namePascalCase}}Saga {
             {{else}}
                 {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}(event.getId());
             {{/if}}
-
         }
     {{else}}
         /* Logic */
@@ -79,7 +78,6 @@ public class {{namePascalCase}}Saga {
             {{/ifEquals}}
         {{/command.outgoingRelations}}
     {{/compensateCommand}}
-
         // Manual Offset Commit //
         acknowledgment.acknowledge();
     }
