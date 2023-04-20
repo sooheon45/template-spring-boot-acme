@@ -24,7 +24,7 @@ public class {{namePascalCase}}Saga {
         {{namePascalCase}}Repository {{nameCamelCase}}Repository;
     {{/boundedContext.aggregates}}
     {{#externalService boundedContext.aggregates, command.aggregat}}
-    {{/externalService}
+    {{/externalService}}
    
     {{#contexts.sagaEvents}}
       {{#if command.aggregate}}
