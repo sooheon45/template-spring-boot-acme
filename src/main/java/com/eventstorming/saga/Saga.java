@@ -136,8 +136,18 @@ if(this.isSaga){
 
 
 window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, aggregates) {
-    alert(aggregatesForBc);
-    return 'test';
+   var lists = [];
+   aggregatesForBc.forEach(function(selfAggregate){
+    aggregates.forEach(function(agg){
+       if(agg && agg.command){
+           if(agg.command.aggregate.name != selfAggregate.name){
+           lists.push(agg.command.aggregate);
+           
+           }
+       }
+      });
+    });
+    return lists;
 });
 
 window.$HandleBars.registerHelper('except', function (fieldDescriptors) {
