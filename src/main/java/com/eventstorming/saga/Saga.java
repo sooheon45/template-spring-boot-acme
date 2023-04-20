@@ -38,8 +38,8 @@ public class {{namePascalCase}}Saga {
     {{#compensateCommand}}
         try {
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
-           /* Logic */
-            {{#todo ../description}}{{/todo}}
+             /* Logic */
+            
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
         } catch (Exception e) {           
             {{#if outgoingRelations}}
@@ -59,7 +59,7 @@ public class {{namePascalCase}}Saga {
         }
     {{else}}
         /* Logic */
-        {{#todo ../description}}{{/todo}}
+        
         {{#command.outgoingRelations}}
             {{#ifEquals source.aggregate.elementView.id target.aggregate.elementView.id}}
             {{../command.aggregate.nameCamelCase}}Repository
