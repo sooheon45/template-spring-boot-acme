@@ -24,9 +24,9 @@ public class {{namePascalCase}}Saga {
         {{namePascalCase}}Repository {{nameCamelCase}}Repository;
     {{/boundedContext.aggregates}}
     {{externalService boundedContext.aggregates contexts.sagaEvents}}
-
     
     {{#contexts.sagaEvents}}
+    
     @StreamListener(value=KafkaProcessor.INPUT, condition="headers['type']=='{{event.namePascalCase}}'")
     public void whenever{{event.namePascalCase}}_{{../namePascalCase}}(@Payload {{event.namePascalCase}} {{event.nameCamelCase}}, 
                                 @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment,
@@ -82,7 +82,6 @@ public class {{namePascalCase}}Saga {
         acknowledgment.acknowledge();
     }
     {{/contexts.sagaEvents}}
-    
 }
 
 <function>
@@ -128,7 +127,7 @@ if(this.isSaga){
 
 window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, aggregates) {
    var lists = [];
-   var str = ''
+   var str = '';
    aggregatesForBc.forEach(function(selfAggregate){
     aggregates.forEach(function(agg){
        if(agg && agg.command){
