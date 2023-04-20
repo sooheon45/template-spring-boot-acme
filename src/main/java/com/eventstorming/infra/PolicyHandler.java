@@ -64,7 +64,7 @@ public class {{namePascalCase}}Saga {
             {{#ifEquals source.aggregate.elementView.id target.aggregate.elementView.id}}
             {{../command.aggregate.nameCamelCase}}Repository
             .findById(
-                // implement: Set the {{aggregate.namePascalCase}} Id from one of {{../event.namePascalCase}} event's corresponding property
+                // implement: Set the {{aggregate.namePascalCase}} Id from one of {{../namePascalCase}} event's corresponding property
                 event.getId()
             )
             .ifPresent({{../command.aggregate.nameCamelCase}} -> {
