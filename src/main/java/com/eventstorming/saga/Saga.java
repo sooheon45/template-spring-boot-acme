@@ -40,7 +40,7 @@ public class {{namePascalCase}}Saga {
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
              /* Logic */
             {{#correlationKey ../command.fieldDescriptors ../../event/fieldDescriptors}}
-                1
+                 {{this.source.name}}
             {{/correlationKey}}
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
         } catch (Exception e) {           
