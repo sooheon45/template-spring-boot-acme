@@ -125,15 +125,19 @@ if(this.isSaga){
 
 }
 
-window.$HandleBars.registerHelper('correlationKey', function (sourceKeys, targetKeys, options) {
+window.$HandleBars.registerHelper('correlationKey', function (sourceKeys, targetKeys) {
     let str = '';
     if(sourceKeys){
         let src = sourceKeys.find(x=> x.isCorrelationKey);
-        str = `${src.name}`
+        if(src){
+            str = `${src.name}`
+        }
     }
     if(targetKeys){
         let tar = targetKeys.find(x => x.isCorrelationKey);
-         str = `${str}${tar.name}\n`
+        if(tar){
+            str = `${str}${tar.name}\n`
+        }
     }
     return str
 });
