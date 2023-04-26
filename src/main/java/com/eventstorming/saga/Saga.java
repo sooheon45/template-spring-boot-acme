@@ -130,10 +130,16 @@ if(this.isSaga){
 window.$HandleBars.registerHelper('correlationKey', function (sourceKeys, targetKeys) {
     var lists = [];
     let obj = {
-       source: sourceKeys.find(x=> x.isCorrelationKey),
-       target: targetKeys.find(x => x.isCorrelationKey)
+        source: null,
+        target: null
+    };
+    if(sourceKeys){
+        obj.source = sourceKeys.find(x=> x.isCorrelationKey);
     }
-    list.push(obj);
+    if(targetKeys){
+        obj.target = targetKeys.find(x => x.isCorrelationKey);
+    }
+    lists.push(obj);
     return lists;
 });
 
