@@ -51,6 +51,11 @@ public class {{namePascalCase}}Saga {
             )
             .ifPresent({{aggregate.nameCamelCase}} -> {
                 {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Commad);
+                
+                /* Logic */
+                {{#correlationKey ../event this}}{{/correlationKey}}
+                
+                {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Commad);
             });
             {{else}}
                 {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}(event.getId());
@@ -117,12 +122,7 @@ if(this.isSaga){
     )
 
     eventByNames[maxSeq].isEndSaga = true;
-    //alert('x')
-    //alert(JSON.stringify(commandByNames))
-
     this.contexts.sagaEvents = eventByNames; 
-
-
 }
 
 window.$HandleBars.registerHelper('correlationKey', function (source, target) {
