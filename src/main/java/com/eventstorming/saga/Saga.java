@@ -127,7 +127,7 @@ if(this.isSaga){
 
 }
 
-window.$HandleBars.registerHelper('correlationKey', function (sourceKeys, targetKeys) {
+window.$HandleBars.registerHelper('correlationKey', function (sourceKeys, targetKeys, options) {
     var lists = [];
     let obj = {
         source: null,
@@ -140,7 +140,7 @@ window.$HandleBars.registerHelper('correlationKey', function (sourceKeys, target
         obj.target = targetKeys.find(x => x.isCorrelationKey);
     }
     lists.push(obj);
-    return lists;
+    return options.fn(lists);
 });
 
 
