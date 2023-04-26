@@ -42,14 +42,16 @@ public class {{namePascalCase}}Saga {
             {{#correlationKey ../event ../command}}{{/correlationKey}}
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
         } catch (Exception e) {           
+           
             {{#if outgoingRelations}}
-            {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
             {{#correlationKey . ../event}}{{/correlationKey}}
             {{aggregate.nameCamelCase}}Repository.findById(
                 // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
                 event.getId()
             )
             .ifPresent({{aggregate.nameCamelCase}} -> {
+                 {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
+                
                 /* Logic */
                 {{#correlationKey ../event this}}{{/correlationKey}}
                 
@@ -59,18 +61,20 @@ public class {{namePascalCase}}Saga {
                 {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}(event.getId());
             {{/if}}
         }
-    {{else}}
-        /* Logic */
-        
-        {{#command.outgoingRelations}}
+    {{else}}  
+       {{#command.outgoingRelations}}
             {{#ifEquals source.aggregate.elementView.id target.aggregate.elementView.id}}
-            {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
+ 
             {{../command.aggregate.nameCamelCase}}Repository
             .findById(
                 // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
                 event.getId()
             )
             .ifPresent({{../command.aggregate.nameCamelCase}} -> {
+                {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
+                /* Logic */
+                {{#correlationKey event command}}{{/correlationKey}}
+                
                 {{../command.aggregate.nameCamelCase}}.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             });
             {{else}}
