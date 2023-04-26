@@ -131,11 +131,10 @@ window.$HandleBars.registerHelper('correlationKey', function (source, target) {
     if(source && source.fieldDescriptors){
         let srcObj = source.fieldDescriptors.find(x=> x.isCorrelationKey);
         let tarObj = null;
-        
-        let tar = null;
+        let tar = '';
         
          if(target && target.fieldDescriptors){
-            tarObj = target.find(x => x.isCorrelationKey);
+            tarObj = target.fieldDescriptors.find(x => x.isCorrelationKey);
             tar = tarObj ? tarObj.namePascalCase : '';
         }
         
