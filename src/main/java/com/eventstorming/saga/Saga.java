@@ -128,17 +128,19 @@ if(this.isSaga){
 window.$HandleBars.registerHelper('correlationKey', function (source, target) {
     let str = '';
     
-    
-    if(source && source){
-        let src = source.find(x=> x.isCorrelationKey);
-        if(src){
-            str = `${src.name}`
+    if(source && source.fieldDescriptors){
+        let srcObj = source.fieldDescriptors.find(x=> x.isCorrelationKey);
+        let tarObj = null;
+        
+        let tar = null;
+        
+         if(target && target.fieldDescriptors){
+            tarObj = target.find(x => x.isCorrelationKey);
+            tar = tarObj ? tarObj.namePascalCase : '';
         }
-    }
-    if(target && target){
-        let tar = target.find(x => x.isCorrelationKey);
-        if(tar){
-            str = `${str}${tar.name}\n`
+        
+        if(srcObj){
+            str = `${target.nameCamelCase}Command.set${srcObj.namePascalCase}(${tar})\n`;
         }
     }
     return str
