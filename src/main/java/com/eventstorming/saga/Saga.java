@@ -39,11 +39,9 @@ public class {{namePascalCase}}Saga {
         try {
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
              /* Logic */
-            {{#../command.fieldDescriptors}}
-                {{#isKey}}
-                 {{../../command.nameCamelCase}}Command.set{{namePascalCase}}();
-                {{/isKey}}
-            {{/../command.fieldDescriptors}}
+            {{#correlationKey ../command.fieldDescriptors ../../event/fieldDescriptors}}
+                1
+            {{/correlationKey}}
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
         } catch (Exception e) {           
             {{#if outgoingRelations}}
@@ -128,6 +126,12 @@ if(this.isSaga){
 
 
 }
+
+window.$HandleBars.registerHelper('correlationKey', function (sourceKeys, targetKeys) {
+    var lists = [];
+   
+    return lists;
+});
 
 
 window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, aggregates) {
