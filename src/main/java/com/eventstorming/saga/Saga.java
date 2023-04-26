@@ -39,12 +39,12 @@ public class {{namePascalCase}}Saga {
         try {
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
              /* Logic */
-            {{#correlationKey ../command ../../event}}{{/correlationKey}}
+            {{#correlationKey ../command ../event}}{{/correlationKey}}
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
         } catch (Exception e) {           
             {{#if outgoingRelations}}
             {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
-
+            {{#correlationKey . ../event}}{{/correlationKey}}
             {{aggregate.nameCamelCase}}Repository.findById(
                 // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
                 event.getId()
