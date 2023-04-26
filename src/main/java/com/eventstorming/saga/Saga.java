@@ -39,9 +39,7 @@ public class {{namePascalCase}}Saga {
         try {
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
              /* Logic */
-            {{#correlationKey ../command.fieldDescriptors ../../event/fieldDescriptors}}
-                 {{this.source.name}}
-            {{/correlationKey}}
+            {{#correlationKey ../command.fieldDescriptors ../../event/fieldDescriptors}}{{/correlationKey}}
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
         } catch (Exception e) {           
             {{#if outgoingRelations}}
@@ -128,19 +126,16 @@ if(this.isSaga){
 }
 
 window.$HandleBars.registerHelper('correlationKey', function (sourceKeys, targetKeys, options) {
-    var lists = [];
-    let obj = {
-        source: null,
-        target: null
-    };
+    let str = '';
     if(sourceKeys){
-        obj.source = sourceKeys.find(x=> x.isCorrelationKey);
+        let src = sourceKeys.find(x=> x.isCorrelationKey);
+        str = `${src.name}`
     }
     if(targetKeys){
-        obj.target = targetKeys.find(x => x.isCorrelationKey);
+        let tar = targetKeys.find(x => x.isCorrelationKey);
+         str = `${str}${src.name}\n`
     }
-    lists.push(obj);
-    return options.fn(lists);
+    return str
 });
 
 
