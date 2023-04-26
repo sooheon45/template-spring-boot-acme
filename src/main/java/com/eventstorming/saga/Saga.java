@@ -50,8 +50,6 @@ public class {{namePascalCase}}Saga {
                 event.getId()
             )
             .ifPresent({{aggregate.nameCamelCase}} -> {
-                {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Commad);
-                
                 /* Logic */
                 {{#correlationKey ../event this}}{{/correlationKey}}
                 
@@ -66,20 +64,22 @@ public class {{namePascalCase}}Saga {
         
         {{#command.outgoingRelations}}
             {{#ifEquals source.aggregate.elementView.id target.aggregate.elementView.id}}
+            {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
             {{../command.aggregate.nameCamelCase}}Repository
             .findById(
                 // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
                 event.getId()
             )
             .ifPresent({{../command.aggregate.nameCamelCase}} -> {
-                {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
                 {{../command.aggregate.nameCamelCase}}.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             });
             {{else}}
             {{command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
-            
-            {{command.nameCamelCase}}Command.setId(event.getId());
-            {{event.aggregate.nameCamelCase}}.{{command.nameCamelCase}}(updateStatusCommand);
+         
+            /* Logic */
+            {{#correlationKey event command}}{{/correlationKey}}
+        
+            {{event.aggregate.nameCamelCase}}.{{command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             {{/ifEquals}}
         {{/command.outgoingRelations}}
     {{/compensateCommand}}
