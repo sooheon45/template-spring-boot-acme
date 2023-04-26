@@ -37,7 +37,10 @@ public class {{namePascalCase}}Saga {
 
     {{#compensateCommand}}
         try {
+            
             {{#if ../command.isRestRepository}}
+                {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new  {{../command.aggregate.namePascalCase}}();
+                {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
             {{else}}
                 {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
 
@@ -45,7 +48,6 @@ public class {{namePascalCase}}Saga {
                 {{#correlationGetSet ../event ../command}}{{/correlationGetSet}}
                 {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             {{/if}}
-           
         } catch (Exception e) {           
             {{#if outgoingRelations}}
             {{#correlationGetSet . ../event}}{{/correlationGetSet}}
