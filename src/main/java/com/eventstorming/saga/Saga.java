@@ -151,7 +151,7 @@ window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, 
       });
     });
     lists.forEach(function(agg){
-        str = str + `@Autowired\n`
+        str = str + `@Autowired\n`;
         str = str +`${agg.namePascalCase}Service ${agg.nameCamelCase}Service;\n`
     })
     return str;
