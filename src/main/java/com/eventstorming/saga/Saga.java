@@ -133,7 +133,7 @@ window.$HandleBars.registerHelper('correlationKey', function (sourceKeys, target
     }
     if(targetKeys){
         let tar = targetKeys.find(x => x.isCorrelationKey);
-         str = `${str}${src.name}\n`
+         str = `${str}${tar.name}\n`
     }
     return str
 });
