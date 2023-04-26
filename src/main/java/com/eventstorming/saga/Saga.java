@@ -129,7 +129,11 @@ if(this.isSaga){
 
 window.$HandleBars.registerHelper('correlationKey', function (sourceKeys, targetKeys) {
     var lists = [];
-   
+    let obj = {
+       source: sourceKeys.find(x=> x.isCorrelationKey),
+       target: targetKeys.find(x => x.isCorrelationKey)
+    }
+    list.push(obj);
     return lists;
 });
 
@@ -147,6 +151,7 @@ window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, 
       });
     });
     lists.forEach(function(agg){
+        str = str + `@Autowired\n`
         str = str +`${agg.namePascalCase}Service ${agg.nameCamelCase}Service;\n`
     })
     return str;
