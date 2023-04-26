@@ -39,11 +39,11 @@ public class {{namePascalCase}}Saga {
         try {
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
              /* Logic */
-            {{#correlationKey ../event ../command}}{{/correlationKey}}
+            {{#correlationGetSet ../event ../command}}{{/correlationGetSet}}
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
         } catch (Exception e) {           
             {{#if outgoingRelations}}
-            {{#correlationKey . ../event}}{{/correlationKey}}
+            {{#correlationGetSet . ../event}}{{/correlationGetSet}}
             {{aggregate.nameCamelCase}}Repository.findById(
                 // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
                 event.getId()
@@ -52,14 +52,14 @@ public class {{namePascalCase}}Saga {
                  {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
                 
                 /* Logic */
-                {{#correlationKey ../event this}}{{/correlationKey}}
+                {{#correlationGetSet ../event .}}{{/correlationGetSet}}
                 
                 {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Commad);
             });
             {{else}}
                 {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
                 /* Logic */
-                {{#correlationKey ../event this}}{{/correlationKey}}
+                {{#correlationGetSet ../event .}}{{/correlationGetSet}}
             
                 {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}({{nameCamelCase}}Commad);
             {{/if}}
@@ -76,7 +76,7 @@ public class {{namePascalCase}}Saga {
             .ifPresent({{../command.aggregate.nameCamelCase}} -> {
                 {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
                 /* Logic */
-                {{#correlationKey event command}}{{/correlationKey}}
+                {{#correlationGetSet event command}}{{/correlationGetSet}}
                 
                 {{../command.aggregate.nameCamelCase}}.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             });
@@ -84,7 +84,7 @@ public class {{namePascalCase}}Saga {
             {{command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
          
             /* Logic */
-            {{#correlationKey event command}}{{/correlationKey}}
+            {{#correlationGetSet event command}}{{/correlationGetSet}}
         
             {{event.aggregate.nameCamelCase}}.{{command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             {{/ifEquals}}
@@ -132,7 +132,17 @@ if(this.isSaga){
     this.contexts.sagaEvents = eventByNames; 
 }
 
-window.$HandleBars.registerHelper('correlationKey', function (source, target) {
+window.$HandleBars.registerHelper('correlationKey', function (source) {
+    let str = '';
+    
+    if(source && source.fieldDescriptors){
+        let srcObj = source.fieldDescriptors.find(x=> x.isCorrelationKey);
+        return srcObj;
+    }
+    return str
+});
+
+window.$HandleBars.registerHelper('correlationGetSet', function (source, target) {
     let str = '';
     
     if(source && source.fieldDescriptors){
