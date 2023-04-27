@@ -202,7 +202,7 @@ window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, 
 window.$HandleBars.registerHelper('isEqualsAggregateOfSaga', function (saga, aggregate) {
    let isEquals = false;
    let startSaga = saga.find(x=> x && x.isStartSaga);
-   if(startSaga && startSaga.event && startSaga.event.aggregate){
+   if(startSaga && startSaga.event && startSaga.event.aggregate && aggregate){
         isEquals =  startSaga.event.aggregate.elementView.id == aggregate.elementView.id
     }
     return isEquals;
