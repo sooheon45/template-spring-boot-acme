@@ -147,9 +147,9 @@ window.$HandleBars.registerHelper('correlationKey', function (source) {
     
     if(source && source.fieldDescriptors){
         let srcObj = source.fieldDescriptors.find(x=> x.isCorrelationKey);
-        return srcObj;
+        return options.fn(srcObj);
     }
-    return str
+    return return options.fn(str);
 });
 
 window.$HandleBars.registerHelper('correlationGetSet', function (source, target) {
