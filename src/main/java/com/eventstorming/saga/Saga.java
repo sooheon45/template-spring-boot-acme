@@ -199,11 +199,11 @@ window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, 
     return str;
 });
 
-window.$HandleBars.registerHelper('isEqualsAggregateOfSaga', function (saga, aggregate) {
+window.$HandleBars.registerHelper('isEqualsAggregateOfSaga', function (saga, aggregateId) {
    let isEquals = false;
    let startSaga = saga.find(x=> x && x.isStartSaga);
-   if(startSaga && startSaga.event && startSaga.event.aggregate && aggregate){
-        isEquals =  startSaga.event.aggregate.elementView.id == aggregate.elementView.id
+   if(startSaga && startSaga.event && startSaga.event.aggregate && aggregateId){
+        isEquals = startSaga.event.aggregate.elementView.id == aggregateId
     }
     return isEquals;
 });
