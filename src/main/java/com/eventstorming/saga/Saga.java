@@ -167,7 +167,7 @@ window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter)
         }
         
         if(srcObj){
-            str = `${target.nameCamelCase}Command.set${srcObj.namePascalCase}(${tar});\n`;
+            str = `${getter.nameCamelCase}Command.set${srcObj.namePascalCase}(${tar});\n`;
         }
     }
     return str
