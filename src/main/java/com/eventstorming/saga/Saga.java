@@ -50,14 +50,13 @@ public class {{namePascalCase}}Saga {
                 {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             {{/if}}
         } catch (Exception e) {      
-              {{#ifEquals ../event.aggregate.elementView.id command.aggregate.elementView.id}}
-                {{aggregate.nameCamelCase}}Repository.findById(
-                // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
-                {{#correlationKey ../event}}
-                    event.get{{namePascalCase}}()
-                {{/correlationKey}}
-            )
-            .ifPresent({{aggregate.nameCamelCase}} -> {
+             
+            {{aggregate.nameCamelCase}}Repository.findById(
+            // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
+            {{#correlationKey ../event}}
+                event.get{{namePascalCase}}()
+            {{/correlationKey}}
+            ).ifPresent({{aggregate.nameCamelCase}} -> {
                 {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
                 /* Logic */
                 {{#correlationGetSet ../event .}}
@@ -66,23 +65,24 @@ public class {{namePascalCase}}Saga {
                 
                 {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Commad);
                });
-              {{else}}
-                {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
-                /* Logic */
-                {{#correlationGetSet ../event .}}
-                   {{../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
-                {{/correlationGetSet}}
-            
-                {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}({{nameCamelCase}}Commad);
-              {{/ifEquals}}     
-           
+          -----
+            {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
+            /* Logic */
+            {{#correlationGetSet ../event .}}
+               {{../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+            {{/correlationGetSet}}
+
+            {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}({{nameCamelCase}}Commad);
+          ---- 
         }
     {{else}}  
        {{#command.outgoingRelations}}
-            {{#if ../command.isRestRepository}}
+            ---
             {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new  {{../command.aggregate.namePascalCase}}();
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
-            {{else}}
+           ---
+        
+        
             {{#ifEquals source.aggregate.elementView.id target.aggregate.elementView.id}}
  
             {{../command.aggregate.nameCamelCase}}Repository
@@ -113,7 +113,7 @@ public class {{namePascalCase}}Saga {
             {{event.aggregate.nameCamelCase}}.{{command.nameCamelCase}}({{../command.nameCamelCase}}Command);
              {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}({{nameCamelCase}}Commad);
             {{/ifEquals}}   
-            {{/if}}
+          
 
             
         {{/command.outgoingRelations}}
