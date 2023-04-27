@@ -153,16 +153,16 @@ window.$HandleBars.registerHelper('correlationKey', function (source, options) {
     return options.fn(str);
 });
 
-window.$HandleBars.registerHelper('correlationGetSet', function (source, target) {
+window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter) {
     let str = '';
     
-    if(source && source.fieldDescriptors){
-        let srcObj = source.fieldDescriptors.find(x=> x.isCorrelationKey);
+    if(setter && setter.fieldDescriptors){
+        let srcObj = setter.fieldDescriptors.find(x=> x.isCorrelationKey);
         let tarObj = null;
         let tar = '';
         
-         if(target && target.fieldDescriptors){
-            tarObj = target.fieldDescriptors.find(x => x.isCorrelationKey);
+         if(getter && getter.fieldDescriptors){
+            tarObj = getter.fieldDescriptors.find(x => x.isCorrelationKey);
             tar = tarObj ? `event.get${tarObj.namePascalCase}()` : '';
         }
         
@@ -172,7 +172,6 @@ window.$HandleBars.registerHelper('correlationGetSet', function (source, target)
     }
     return str
 });
-
 
 window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, aggregates) {
    var lists = [];
