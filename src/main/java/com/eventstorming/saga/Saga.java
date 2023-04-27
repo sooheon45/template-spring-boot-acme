@@ -87,7 +87,7 @@ public class {{namePascalCase}}Saga {
             .ifPresent({{../command.aggregate.nameCamelCase}} -> {
                 {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
                 /* Logic */
-                {{#correlationGetSet event command}}{{/correlationGetSet}}
+                {{#correlationGetSet ../event ../command}}{{/correlationGetSet}}
                 
                 {{../command.aggregate.nameCamelCase}}.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             });
