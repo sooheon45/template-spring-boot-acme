@@ -153,16 +153,22 @@ window.$HandleBars.registerHelper('correlationKey', function (source, options) {
     return options.fn(str);
 });
 
-window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter) {
+window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter,options) {
     let str = '';
+    let obj = {
+        source: null;
+        target: null;
+    };
     
     if(setter && setter.fieldDescriptors){
         let srcObj = setter.fieldDescriptors.find(x=> x.isCorrelationKey);
+        obj.source = srcObj
         let tarObj = null;
         let tar = '';
         
          if(getter && getter.fieldDescriptors){
             tarObj = getter.fieldDescriptors.find(x => x.isCorrelationKey);
+             obj.target = tarObj;
             tar = tarObj ? `${getter.nameCamelCase}.get${tarObj.namePascalCase}()` : '';
         }
         
@@ -170,7 +176,7 @@ window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter)
             str = `${setter.nameCamelCase}.set${srcObj.namePascalCase}(${tar});\n`;
         }
     }
-    return str
+    return options.fn(obj);
 });
 // window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter) {
 //     let str = '';
