@@ -108,7 +108,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
 
         {{#triggerByCommand}}
         {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}(this);
-        {{#correlationGetSet eventValue .. }} {{/correlationGetSet}}
+        {{#correlationGetSet .. eventValue}} {{/correlationGetSet}}
         {{eventValue.nameCamelCase}}.publishAfterCommit();
 
         {{#relationCommandInfo}}
