@@ -52,8 +52,8 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         {{@root.options.package}}.external.{{aggregate.namePascalCase}} {{boundedContext.nameCamelCase}} = 
             {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}( {TODO: please put the id} );
         {{/queryOption.multipleResult}}
-        {{/outgoing}}
-        */
+        **/
+       {{/outgoing}}
     {{/incoming}}
 
         {{namePascalCase}} {{nameCamelCase}} = new {{namePascalCase}}(this);
