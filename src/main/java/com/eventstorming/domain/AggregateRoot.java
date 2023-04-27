@@ -108,6 +108,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
 
         {{#triggerByCommand}}
         {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}(this);
+        {{#correlationGetSet eventValue .. }} {{/correlationGetSet}}
         {{eventValue.nameCamelCase}}.publishAfterCommit();
 
         {{#relationCommandInfo}}
@@ -409,6 +410,25 @@ window.$HandleBars.registerHelper('setOperations', function (commands, name, opt
     }
 });
 
+window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter) {
+    let str = '';
+    
+    if(setter && setter.fieldDescriptors){
+        let srcObj = setter.fieldDescriptors.find(x=> x.isCorrelationKey);
+        let tarObj = null;
+        let tar = '';
+        
+         if(getter && getter.fieldDescriptors){
+            tarObj = getter.fieldDescriptors.find(x => x.isCorrelationKey);
+            tar = tarObj ? `event.get${tarObj.namePascalCase}()` : '';
+        }
+        
+        if(srcObj){
+            str = `${getter.nameCamelCase}Command.set${srcObj.namePascalCase}(${tar});\n`;
+        }
+    }
+    return str
+});
 
 window.$HandleBars.registerHelper('has', function (members) {
     try {
