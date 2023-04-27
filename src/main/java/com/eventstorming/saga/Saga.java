@@ -37,7 +37,6 @@ public class {{namePascalCase}}Saga {
 
     {{#compensateCommand}}
         try {
-            
             {{#if ../command.isRestRepository}}
                 {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new  {{../command.aggregate.namePascalCase}}();
                 {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
@@ -45,7 +44,9 @@ public class {{namePascalCase}}Saga {
                 {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
 
                  /* Logic */
-                {{#correlationGetSet ../event ../command}}{{/correlationGetSet}}
+                {{#correlationGetSet ../event ../command}}
+                {{../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+                {{/correlationGetSet}}
                 {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             {{/if}}
         } catch (Exception e) {           
@@ -62,7 +63,7 @@ public class {{namePascalCase}}Saga {
                 
                 /* Logic */
                 {{#correlationGetSet ../event .}}
-                  {{source.name}}
+                  {{nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
                 {{/correlationGetSet}}
                 
                 {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Commad);
@@ -160,28 +161,18 @@ window.$HandleBars.registerHelper('correlationKey', function (source, options) {
 });
 
 window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter,options) {
-    let str = '';
     let obj = {
         source: null,
         target: null
     };
-    
+   
     if(setter && setter.fieldDescriptors){
-        let srcObj = setter.fieldDescriptors.find(x=> x.isCorrelationKey);
-        obj.source = srcObj;
-        let tarObj = null;
-        let tar = '';
-        
-         if(getter && getter.fieldDescriptors){
-            tarObj = getter.fieldDescriptors.find(x => x.isCorrelationKey);
-             obj.target = tarObj;
-            tar = tarObj ? `${getter.nameCamelCase}.get${tarObj.namePascalCase}()` : '';
-        }
-        
-        if(srcObj){
-            str = `${setter.nameCamelCase}.set${srcObj.namePascalCase}(${tar});\n`;
-        }
+        obj.source = setter.fieldDescriptors.find(x=> x.isCorrelationKey);
     }
+    if(getter && getter.fieldDescriptors){
+        obj.target = getter.fieldDescriptors.find(x => x.isCorrelationKey);
+    }
+    
     return options.fn(obj);
 });
 // window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter) {
