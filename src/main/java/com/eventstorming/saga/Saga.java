@@ -94,8 +94,8 @@ public class {{namePascalCase}}Saga {
             {{else}}
             {{command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
          
-            /* Logic */
-            {{#correlationGetSet event command}}{{/correlationGetSet}}
+            /* Logic */ 333
+            {{#correlationGetSet ../event ../command}}{{/correlationGetSet}}
         
             {{event.aggregate.nameCamelCase}}.{{command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             {{/ifEquals}}
