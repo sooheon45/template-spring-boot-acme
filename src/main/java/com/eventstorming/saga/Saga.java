@@ -44,9 +44,9 @@ public class {{namePascalCase}}Saga {
                 {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
                  /* Logic */
                 {{#correlationGetSet ../event ../command}}
-                {{../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+                {{../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
                 {{/correlationGetSet}}
-
+            
                 {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             {{/if}}
         } catch (Exception e) {           
@@ -59,8 +59,7 @@ public class {{namePascalCase}}Saga {
                 {{/correlationKey}}
             )
             .ifPresent({{aggregate.nameCamelCase}} -> {
-                 {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
-                
+                {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
                 /* Logic */
                 {{#correlationGetSet ../event .}}
                   {{../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
