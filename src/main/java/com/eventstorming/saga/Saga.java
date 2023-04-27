@@ -51,9 +51,9 @@ public class {{namePascalCase}}Saga {
             {{/if}}
         } catch (Exception e) {
             {{#isEqualsAggregateOfSaga ../../contexts.sagaEvents aggregate.elementView.id}}
-            {{aggregate.nameCamelCase}}Repository.findById(
+            {{../aggregate.nameCamelCase}}Repository.findById(
             // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
-            {{#correlationKey ../event}}
+            {{#correlationKey ../../event}}
                 event.get{{namePascalCase}}()
             {{/correlationKey}}
             ).ifPresent({{aggregate.nameCamelCase}} -> {
@@ -88,10 +88,10 @@ public class {{namePascalCase}}Saga {
                     event.get{{namePascalCase}}()
                 {{/correlationKey}}
             ).ifPresent({{../../command.aggregate.nameCamelCase}} -> {
-                {{../command.namePascalCase}}Command {{../../command.nameCamelCase}}Command = new {{../../command.namePascalCase}}Command();
+                {{../../command.namePascalCase}}Command {{../../command.nameCamelCase}}Command = new {{../../command.namePascalCase}}Command();
                 /* Logic */
-                {{#correlationGetSet ../command ../event}}
-                 {{../../command.nameCamelCase}}Command.set{{../source.namePascalCase}}(event.get{{../target.namePascalCase}}());
+                {{#correlationGetSet ../../command ../event}}
+                 {{../../../command.nameCamelCase}}Command.set{{../source.namePascalCase}}(event.get{{../target.namePascalCase}}());
                 {{/correlationGetSet}}
                 
                 {{../../command.aggregate.nameCamelCase}}.{{../../command.nameCamelCase}}({{../../command.nameCamelCase}}Command);
