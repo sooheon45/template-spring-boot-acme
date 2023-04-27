@@ -49,24 +49,7 @@ public class {{namePascalCase}}Saga {
             
                 {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             {{/if}}
-        } catch (Exception e) {      
-          
-            {{#ifEquals ../event.aggregate.elementView.id aggregate.elementView.id}}
-            {{aggregate.nameCamelCase}}Repository.findById(
-            // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
-            {{#correlationKey ../event}}
-                event.get{{namePascalCase}}()
-            {{/correlationKey}}
-            ).ifPresent({{aggregate.nameCamelCase}} -> {
-                {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
-                /* Logic */
-                {{#correlationGetSet ../event .}}
-                  {{../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
-                {{/correlationGetSet}}
-                
-                {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Commad);
-               });
-            {{else}}
+        } catch (Exception e) {
             {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
             /* Logic */
             {{#correlationGetSet ../event .}}
@@ -74,7 +57,6 @@ public class {{namePascalCase}}Saga {
             {{/correlationGetSet}}
 
             {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}({{nameCamelCase}}Commad);
-            {{/ifEquals}}
         }
     {{else}}  
        {{#command.outgoingRelations}}
