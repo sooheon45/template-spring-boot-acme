@@ -61,14 +61,18 @@ public class {{namePascalCase}}Saga {
                  {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
                 
                 /* Logic */
-                {{#correlationGetSet ../event .}}{{/correlationGetSet}}
+                {{#correlationGetSet ../event .}}
+                  {{source.name}}
+                {{/correlationGetSet}}
                 
                 {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Commad);
             });
             {{else}}
                 {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
                 /* Logic */
-                {{#correlationGetSet ../event .}}{{/correlationGetSet}}
+                {{#correlationGetSet ../event .}}
+                    {{source.name}}
+                {{/correlationGetSet}}
             
                 {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}({{nameCamelCase}}Commad);
             {{/if}}
@@ -95,7 +99,9 @@ public class {{namePascalCase}}Saga {
             {{command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
          
             /* Logic */ 333
-            {{#correlationGetSet ../event ../command}}{{/correlationGetSet}}
+            {{#correlationGetSet ../event ../command}}
+                {{source.name}}
+            {{/correlationGetSet}}
         
             {{event.aggregate.nameCamelCase}}.{{command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             {{/ifEquals}}
