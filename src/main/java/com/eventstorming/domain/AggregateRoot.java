@@ -420,11 +420,11 @@ window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter)
         
          if(getter && getter.fieldDescriptors){
             tarObj = getter.fieldDescriptors.find(x => x.isCorrelationKey);
-            tar = tarObj ? `event.get${tarObj.namePascalCase}()` : '';
+            tar = tarObj ? `${getter.nameCamelCase}Command.get${tarObj.namePascalCase}()` : '';
         }
         
         if(srcObj){
-            str = `${getter.nameCamelCase}Command.set${srcObj.namePascalCase}(${tar});\n`;
+            str = `${setter.nameCamelCase}.set${srcObj.namePascalCase}(${tar});\n`;
         }
     }
     return str
