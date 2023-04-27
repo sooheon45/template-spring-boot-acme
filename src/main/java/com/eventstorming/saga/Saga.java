@@ -201,8 +201,10 @@ window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, 
 
 window.$HandleBars.registerHelper('isEqualsAggregateOfSaga', function (saga, aggregate) {
    let isEquals = false;
-   console.log(saga);      
-  
+   let startSaga = saga.find(x=> x && x.isStartSaga);
+   if(startSaga && startSaga.event && startSaga.event.aggregate){
+        isEquals =  startSaga.event.aggregate.elementView.id == aggregate.elementView.id
+    }
     return isEquals;
 });
 
