@@ -1,16 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
 forEach: Relation
 fileName: {{target.aggregate.namePascalCase}}Service.java
 path: {{source.boundedContext.name}}/{{{options.packagePath}}}/external
@@ -48,11 +35,12 @@ public interface {{target.aggregate.namePascalCase}}Service {
     this.contexts.except = !(isExternalInvocation && isPostInvocation)
 
   window.$HandleBars.registerHelper('setPath', function (command) {
-      if(command && command.controllerInfo && command.controllerInfo.apiPath){
-          return command.aggregate.namePlural + '/{id}/' + command.controllerInfo.apiPath;
-      }
+      if( !this.contexts.except ){
+          if(command && command.controllerInfo && command.controllerInfo.apiPath){
+              return command.aggregate.namePlural + '/{id}/' + command.controllerInfo.apiPath;
+          }
           return command.aggregate.namePlural + '/{id}';
-
+      }
   })
   
   window.$HandleBars.registerHelper('hasFields', function (fieldDescriptors) {
