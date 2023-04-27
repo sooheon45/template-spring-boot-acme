@@ -77,7 +77,7 @@ public class {{namePascalCase}}Saga {
         }
     {{else}}  
        {{#command.outgoingRelations}}
-            --- #if
+         {{#ifEquals source.aggregate.elementView.id target.aggregate.elementView.id}}
             {{#if ../command.isRestRepository}}
             {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new  {{../command.aggregate.namePascalCase}}();
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
@@ -99,8 +99,7 @@ public class {{namePascalCase}}Saga {
                 {{../command.aggregate.nameCamelCase}}.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             }); 
             {{/if}}
-        
-           
+        {{else}}
             {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
            
             /* Logic */ 
@@ -110,13 +109,7 @@ public class {{namePascalCase}}Saga {
         
             {{event.aggregate.nameCamelCase}}.{{command.nameCamelCase}}({{../command.nameCamelCase}}Command);
              {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}({{nameCamelCase}}Commad);
-            ---- /if
-                
-                ????? 
-            ---/if
-          
-
-            
+        {{/ifEquals}}    
         {{/command.outgoingRelations}}
     {{/compensateCommand}}
         // Manual Offset Commit //
