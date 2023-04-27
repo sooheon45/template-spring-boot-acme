@@ -163,15 +163,34 @@ window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter)
         
          if(getter && getter.fieldDescriptors){
             tarObj = getter.fieldDescriptors.find(x => x.isCorrelationKey);
-            tar = tarObj ? `event.get${tarObj.namePascalCase}()` : '';
+            tar = tarObj ? `${getter.nameCamelCase}.get${tarObj.namePascalCase}()` : '';
         }
         
         if(srcObj){
-            str = `${getter.nameCamelCase}Command.set${srcObj.namePascalCase}(${tar});\n`;
+            str = `${setter.nameCamelCase}.set${srcObj.namePascalCase}(${tar});\n`;
         }
     }
     return str
 });
+// window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter) {
+//     let str = '';
+    
+//     if(setter && setter.fieldDescriptors){
+//         let srcObj = setter.fieldDescriptors.find(x=> x.isCorrelationKey);
+//         let tarObj = null;
+//         let tar = '';
+        
+//          if(getter && getter.fieldDescriptors){
+//             tarObj = getter.fieldDescriptors.find(x => x.isCorrelationKey);
+//             tar = tarObj ? `event.get${tarObj.namePascalCase}()` : '';
+//         }
+        
+//         if(srcObj){
+//             str = `${getter.nameCamelCase}Command.set${srcObj.namePascalCase}(${tar});\n`;
+//         }
+//     }
+//     return str
+// });
 
 window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, aggregates) {
    var lists = [];
