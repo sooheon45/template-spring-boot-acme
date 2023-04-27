@@ -199,13 +199,13 @@ window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, 
     return str;
 });
 
-window.$HandleBars.registerHelper('isEqualsAggregateOfSaga', function (saga, aggregateId) {
+window.$HandleBars.registerHelper('isEqualsAggregateOfSaga', function (saga, aggregateId,options) {
    let isEquals = false;
    let startSaga = saga.find(x=> x && x.isStartSaga);
    if(startSaga && startSaga.event && startSaga.event.aggregate && aggregateId){
         isEquals = startSaga.event.aggregate.elementView.id == aggregateId
     }
-    return isEquals;
+    return options.fn(isEquals);
 });
 
 window.$HandleBars.registerHelper('except', function (fieldDescriptors) {
