@@ -54,7 +54,7 @@ public class {{namePascalCase}}Saga {
             {{aggregate.nameCamelCase}}Repository.findById(
                 // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
                 event.getId()
-                {{#correlationKey event}}
+                {{#correlationKey ../event}}
                 
                 {{/correlationKey}}
             )
