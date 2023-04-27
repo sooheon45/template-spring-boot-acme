@@ -78,11 +78,10 @@ public class {{namePascalCase}}Saga {
     {{else}}  
        {{#command.outgoingRelations}}
             --- #if
+            {{#if ../command.isRestRepository}}
             {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new  {{../command.aggregate.namePascalCase}}();
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
-            --- else
-        
-            ---- #if
+            {{else}}
             {{../command.aggregate.nameCamelCase}}Repository
             .findById(
                 // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
@@ -98,8 +97,10 @@ public class {{namePascalCase}}Saga {
                 {{/correlationGetSet}}
                 
                 {{../command.aggregate.nameCamelCase}}.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
-            });
-            ---- else
+            }); 
+            {{/if}}
+        
+           
             {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
            
             /* Logic */ 
