@@ -42,11 +42,11 @@ public class {{namePascalCase}}Saga {
                 {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
             {{else}}
                 {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
-
                  /* Logic */
                 {{#correlationGetSet ../event ../command}}
                 {{../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
                 {{/correlationGetSet}}
+
                 {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             {{/if}}
         } catch (Exception e) {           
@@ -63,7 +63,7 @@ public class {{namePascalCase}}Saga {
                 
                 /* Logic */
                 {{#correlationGetSet ../event .}}
-                  {{nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+                  {{../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
                 {{/correlationGetSet}}
                 
                 {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Commad);
@@ -72,7 +72,7 @@ public class {{namePascalCase}}Saga {
                 {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
                 /* Logic */
                 {{#correlationGetSet ../event .}}
-                    {{source.name}}
+                   {{../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
                 {{/correlationGetSet}}
             
                 {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}({{nameCamelCase}}Commad);
@@ -92,7 +92,9 @@ public class {{namePascalCase}}Saga {
             .ifPresent({{../command.aggregate.nameCamelCase}} -> {
                 {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
                 /* Logic */
-                {{#correlationGetSet ../command ../event}}{{/correlationGetSet}}
+                {{#correlationGetSet ../command ../event}}
+                 {{../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+                {{/correlationGetSet}}
                 
                 {{../command.aggregate.nameCamelCase}}.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             });
