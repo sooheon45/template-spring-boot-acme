@@ -142,7 +142,7 @@ if(this.isSaga){
     this.contexts.sagaEvents = eventByNames; 
 }
 
-window.$HandleBars.registerHelper('correlationKey', function (source) {
+window.$HandleBars.registerHelper('correlationKey', function (source, options) {
     let str = '';
     
     if(source && source.fieldDescriptors){
