@@ -168,7 +168,7 @@ window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter,
     
     if(setter && setter.fieldDescriptors){
         let srcObj = setter.fieldDescriptors.find(x=> x.isCorrelationKey);
-        obj.source = srcObj
+        obj.source = srcObj;
         let tarObj = null;
         let tar = '';
         
