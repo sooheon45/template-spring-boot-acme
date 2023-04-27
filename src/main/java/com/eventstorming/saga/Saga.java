@@ -50,6 +50,7 @@ public class {{namePascalCase}}Saga {
                 {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             {{/if}}
         } catch (Exception e) {
+            {{../aggregate.elementView.id}}
             {{#isEqualsAggregateOfSaga ../../contexts.sagaEvents ../aggregate.elementView.id}}
             {{../aggregate.nameCamelCase}}Repository.findById(
             // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
@@ -77,6 +78,7 @@ public class {{namePascalCase}}Saga {
         }
     {{else}}  
        {{#command.outgoingRelations}}
+         {{target.aggregate.elementView.id}}
          {{#isEqualsAggregateOfSaga ../../contexts.sagaEvents target.aggregate.elementView.id}}
             {{#if ../../command.isRestRepository}}
           {{../../command.aggregate.namePascalCase}} {{../../command.aggregate.nameCamelCase}} = new  {{../../command.aggregate.namePascalCase}}();
