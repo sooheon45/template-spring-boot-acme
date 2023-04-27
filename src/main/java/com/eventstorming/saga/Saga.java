@@ -162,8 +162,8 @@ window.$HandleBars.registerHelper('correlationKey', function (source, options) {
 window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter,options) {
     let str = '';
     let obj = {
-        source: null;
-        target: null;
+        source: null,
+        target: null
     };
     
     if(setter && setter.fieldDescriptors){
