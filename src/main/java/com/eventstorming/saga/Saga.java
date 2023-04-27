@@ -77,7 +77,7 @@ public class {{namePascalCase}}Saga {
         }
     {{else}}  
        {{#command.outgoingRelations}}
-         {{#isEqualsAggregateOfSaga target.aggregate.elementView.id}}
+         {{#isEqualsAggregateOfSaga ../../contexts.sagaEvents target.aggregate.elementView.id}}
             {{#if ../command.isRestRepository}}
           {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new  {{../command.aggregate.namePascalCase}}();
           {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
@@ -199,10 +199,9 @@ window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, 
     return str;
 });
 
-window.$HandleBars.registerHelper('isEqualsAggregateOfSaga', function (aggregate) {
+window.$HandleBars.registerHelper('isEqualsAggregateOfSaga', function (saga, aggregate) {
    let isEquals = false;
-       this.contexts.sagaEvents
-           
+   console.log(saga);      
   
     return isEquals;
 });
