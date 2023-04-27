@@ -108,7 +108,9 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
 
         {{#triggerByCommand}}
         {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}(this);
-        {{#correlationGetSet .. eventValue}} {{/correlationGetSet}}
+        {{#correlationGetSet .. eventValue}} 
+        {{../eventValue.nameCamelCase}}.set{{target.namePascalCase}}({{../nameCamelCase}}Command.get{{source.namePascalCase}}());
+        {{/correlationGetSet}}
         {{eventValue.nameCamelCase}}.publishAfterCommit();
 
         {{#relationCommandInfo}}
@@ -410,24 +412,20 @@ window.$HandleBars.registerHelper('setOperations', function (commands, name, opt
     }
 });
 
-window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter) {
-    let str = '';
-    
+window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter,options) {
+    let obj = {
+        source: null,
+        target: null
+    };
+   
     if(setter && setter.fieldDescriptors){
-        let srcObj = setter.fieldDescriptors.find(x=> x.isCorrelationKey);
-        let tarObj = null;
-        let tar = '';
-        
-         if(getter && getter.fieldDescriptors){
-            tarObj = getter.fieldDescriptors.find(x => x.isCorrelationKey);
-            tar = tarObj ? `${getter.nameCamelCase}Command.get${tarObj.namePascalCase}()` : '';
-        }
-        
-        if(srcObj){
-            str = `${setter.nameCamelCase}.set${srcObj.namePascalCase}(${tar});\n`;
-        }
+        obj.source = setter.fieldDescriptors.find(x=> x.isCorrelationKey);
     }
-    return str
+    if(getter && getter.fieldDescriptors){
+        obj.target = getter.fieldDescriptors.find(x => x.isCorrelationKey);
+    }
+    
+    return options.fn(obj);
 });
 
 window.$HandleBars.registerHelper('has', function (members) {
