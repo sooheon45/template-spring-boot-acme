@@ -50,7 +50,7 @@ public class {{namePascalCase}}Saga {
                 {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             {{/if}}
         } catch (Exception e) {      
-             
+            ---- #if
             {{aggregate.nameCamelCase}}Repository.findById(
             // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
             {{#correlationKey ../event}}
@@ -65,7 +65,7 @@ public class {{namePascalCase}}Saga {
                 
                 {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Commad);
                });
-          -----
+          ---- else
             {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
             /* Logic */
             {{#correlationGetSet ../event .}}
@@ -73,18 +73,16 @@ public class {{namePascalCase}}Saga {
             {{/correlationGetSet}}
 
             {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}({{nameCamelCase}}Commad);
-          ---- 
+          ---- /if
         }
     {{else}}  
        {{#command.outgoingRelations}}
-            ---
+            --- #if
             {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new  {{../command.aggregate.namePascalCase}}();
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
-           ---
+            --- else
         
-        
-            {{#ifEquals source.aggregate.elementView.id target.aggregate.elementView.id}}
- 
+            ---- #if
             {{../command.aggregate.nameCamelCase}}Repository
             .findById(
                 // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
@@ -101,8 +99,7 @@ public class {{namePascalCase}}Saga {
                 
                 {{../command.aggregate.nameCamelCase}}.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             });
-            {{else}}
-
+            ---- else
             {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
            
             /* Logic */ 
@@ -112,7 +109,10 @@ public class {{namePascalCase}}Saga {
         
             {{event.aggregate.nameCamelCase}}.{{command.nameCamelCase}}({{../command.nameCamelCase}}Command);
              {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}({{nameCamelCase}}Commad);
-            {{/ifEquals}}   
+            ---- /if
+                
+                ????? 
+            ---/if
           
 
             
@@ -185,25 +185,7 @@ window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter,
     
     return options.fn(obj);
 });
-// window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter) {
-//     let str = '';
-    
-//     if(setter && setter.fieldDescriptors){
-//         let srcObj = setter.fieldDescriptors.find(x=> x.isCorrelationKey);
-//         let tarObj = null;
-//         let tar = '';
-        
-//          if(getter && getter.fieldDescriptors){
-//             tarObj = getter.fieldDescriptors.find(x => x.isCorrelationKey);
-//             tar = tarObj ? `event.get${tarObj.namePascalCase}()` : '';
-//         }
-        
-//         if(srcObj){
-//             str = `${getter.nameCamelCase}Command.set${srcObj.namePascalCase}(${tar});\n`;
-//         }
-//     }
-//     return str
-// });
+
 
 window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, aggregates) {
    var lists = [];
