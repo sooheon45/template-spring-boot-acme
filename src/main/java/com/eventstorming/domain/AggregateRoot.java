@@ -68,7 +68,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         
         applicationContext().getBean({{@root.options.package}}.external.{{aggregate.namePascalCase}}Service.class)
            .{{nameCamelCase}}({TODO: please put the id}, {{nameCamelCase}}Command);
-        */
+        **/
     {{/outgoing}}
     {{/events}}
     
@@ -141,7 +141,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}({{../../../nameCamelCase}});
         {{eventValue.nameCamelCase}}.publishAfterCommit();
         {{/../relationExampleEventInfo}}
-        */
+        **/
 
         /** Example 2:  finding and process
         
@@ -154,7 +154,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
             {{eventValue.nameCamelCase}}.publishAfterCommit();
             {{/../relationExampleEventInfo}}
          });
-        */
+        **/
 
         
     }
