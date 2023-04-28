@@ -28,9 +28,10 @@ public class {{namePascalCase}}Saga {
     
     {{#contexts.sagaEvents}}
     @StreamListener(value=KafkaProcessor.INPUT, condition="headers['type']=='{{event.namePascalCase}}'")
-    public void whenever{{event.namePascalCase}}_{{../namePascalCase}}(@Payload {{event.namePascalCase}} {{event.nameCamelCase}}, 
-                                @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment,
-                                @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) byte[] messageKey){
+    public void whenever{{event.namePascalCase}}_{{../namePascalCase}}
+        (@Payload {{event.namePascalCase}} {{event.nameCamelCase}}, 
+         @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment,
+         @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) byte[] messageKey){
 
         {{event.namePascalCase}} event = {{event.nameCamelCase}};
         System.out.println("\n\n##### listener {{../namePascalCase}} : " + {{event.nameCamelCase}} + "\n\n");
@@ -41,9 +42,9 @@ public class {{namePascalCase}}Saga {
                {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new  {{../command.aggregate.namePascalCase}}();
                {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
             {{else}}
-               {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
+               {{command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
                  /* Logic */
-               {{#correlationGetSet event command}}
+               {{#correlationGetSet ../event ../command}}
                {{../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
                {{/correlationGetSet}}
             
