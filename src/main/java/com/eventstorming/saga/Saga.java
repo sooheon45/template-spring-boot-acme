@@ -24,8 +24,8 @@ public class {{namePascalCase}}Saga {
         {{namePascalCase}}Repository {{nameCamelCase}}Repository;
     {{/boundedContext.aggregates}}
     {{#externalService boundedContext.aggregates contexts.sagaEvents}}
-        @Autowired
-        {{namePascalCase}}Service {{nameCamelCase}}Service;
+    @Autowired
+    {{namePascalCase}}Service {{nameCamelCase}}Service;
     {{/externalService}}
 
     
@@ -189,18 +189,17 @@ window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter,
 
 
 window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, aggregates, options) {
-   var lists = [];
-   var str = ''
+   var str = '';
    aggregatesForBc.forEach(function(selfAggregate){
     aggregates.forEach(function(agg){
        if(agg && agg.command){
            if(agg.command.aggregate.name != selfAggregate.name){
-             lists.push(agg.command.aggregate);
+               str = str + options.fn(agg.command.aggregate);
            }
        }
       });
     });
-    return options.fn(lists);
+    return str
 });
 
 window.$HandleBars.registerHelper('isEqualsAggregateOfSaga', function (saga, aggregateId, options) {
