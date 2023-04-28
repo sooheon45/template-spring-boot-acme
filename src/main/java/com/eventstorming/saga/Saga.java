@@ -39,6 +39,7 @@ public class {{namePascalCase}}Saga {
         try {
         {{#if ../command.isRestRepository}}
             {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new  {{../command.aggregate.namePascalCase}}();
+            {{../command.aggregate.name}} {{../../event.name}}
             {{#correlationGetSet ../command.aggregate ../../event}}
             {{../../command.aggregate.nameCamelCase}}.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
             {{/correlationGetSet}}
