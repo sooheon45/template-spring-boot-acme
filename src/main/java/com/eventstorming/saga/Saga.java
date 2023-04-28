@@ -205,7 +205,10 @@ window.$HandleBars.registerHelper('isEqualsAggregateOfSaga', function (saga, agg
    if(startSaga && startSaga.event && startSaga.event.aggregate && aggregateId){
         isEquals = startSaga.event.aggregate.elementView.id == aggregateId
     }
-    return options.fn(isEquals);
+    if(isEquals){
+        return options.fn(isEquals);
+    }
+    return options.inverse(isEquals);
 });
 
 window.$HandleBars.registerHelper('except', function (fieldDescriptors) {
