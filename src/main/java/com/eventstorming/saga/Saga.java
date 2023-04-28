@@ -23,7 +23,10 @@ public class {{namePascalCase}}Saga {
     {{#boundedContext.aggregates}}
         {{namePascalCase}}Repository {{nameCamelCase}}Repository;
     {{/boundedContext.aggregates}}
-    {{externalService boundedContext.aggregates contexts.sagaEvents}}
+    {{#externalService boundedContext.aggregates contexts.sagaEvents}}
+        @Autowired
+        {{namePascalCase}}Service {{nameCamelCase}}Service;
+    {{/externalService}}
 
     
     {{#contexts.sagaEvents}}
@@ -39,11 +42,9 @@ public class {{namePascalCase}}Saga {
     {{#compensateCommand}}
         try {
             {{#if ../command.isRestRepository}}
-            #1
             {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new  {{../command.aggregate.namePascalCase}}();
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
             {{else}}
-            #2
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
             /* Logic */
             {{#correlationGetSet ../event ../command}}
@@ -54,7 +55,6 @@ public class {{namePascalCase}}Saga {
             {{/if}}
         } catch (Exception e) {
             {{#isEqualsAggregateOfSaga ../../contexts.sagaEvents aggregate.elementView.id}}
-            #3-1
             {{../aggregate.nameCamelCase}}Repository.findById(
             // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
             {{#correlationKey ../../event}}
@@ -70,7 +70,6 @@ public class {{namePascalCase}}Saga {
                 {{../aggregate.nameCamelCase}}.{{../nameCamelCase}}({{../nameCamelCase}}Commad);
                });
             {{else}}
-            #3-2
             {{../namePascalCase}}Command {{../nameCamelCase}}Commad = new {{../namePascalCase}}Command();
             /* Logic */
             {{#correlationGetSet ../../event ..}}
@@ -84,11 +83,9 @@ public class {{namePascalCase}}Saga {
        {{#command.outgoingRelations}}
          {{#isEqualsAggregateOfSaga ../../contexts.sagaEvents source.aggregate.elementView.id}}
             {{#if ../../command.isRestRepository}}
-            #4-1
          {{../../command.aggregate.namePascalCase}} {{../../command.aggregate.nameCamelCase}} = new  {{../../command.aggregate.namePascalCase}}();
          {{../../command.aggregate.nameCamelCase}}Service.{{../../command.nameCamelCase}}({{../../command.aggregate.nameCamelCase}});
             {{else}}
-            #4-2
         {{../../command.aggregate.nameCamelCase}}Repository.findById(
             // implement: Set the {{../../command.aggregate.nameCamelCase}} Id from one of {{../event.nameCamelCase}} event's corresponding property
         {{#correlationKey ../../event}}
@@ -106,11 +103,9 @@ public class {{namePascalCase}}Saga {
             {{/if}}
         {{else}}
            {{#if ../../command.isRestRepository}}
-        #4-3
         {{../../command.aggregate.namePascalCase}} {{../../command.aggregate.nameCamelCase}} = new {{../../command.aggregate.namePascalCase}}();
         {{../../command.aggregate.nameCamelCase}}Service.{{../../command.nameCamelCase}}({{../../command.aggregate.nameCamelCase}});
            {{else}}
-        #4-4
         {{../../command.nameCamelCase}}Command {{../../command.nameCamelCase}}Commad = new {{../../command.nameCamelCase}}Command();
         /* Logic */ 
         {{#correlationGetSet ../../event ../../command}}
@@ -193,7 +188,7 @@ window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter,
 });
 
 
-window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, aggregates) {
+window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, aggregates, options) {
    var lists = [];
    var str = ''
    aggregatesForBc.forEach(function(selfAggregate){
@@ -205,14 +200,10 @@ window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, 
        }
       });
     });
-    lists.forEach(function(agg){
-        str = str + `@Autowired\n`;
-        str = str +`${agg.namePascalCase}Service ${agg.nameCamelCase}Service;\n`
-    })
-    return str;
+    return options.fn(lists);
 });
 
-window.$HandleBars.registerHelper('isEqualsAggregateOfSaga', function (saga, aggregateId,options) {
+window.$HandleBars.registerHelper('isEqualsAggregateOfSaga', function (saga, aggregateId, options) {
    let isEquals = false;
    let startSaga = saga.find(x=> x && x.isStartSaga);
    if(startSaga && startSaga.event && startSaga.event.aggregate && aggregateId){
