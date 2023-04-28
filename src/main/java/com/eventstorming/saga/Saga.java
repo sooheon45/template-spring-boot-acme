@@ -119,7 +119,7 @@ public class {{namePascalCase}}Saga {
             {{/isEqualsAggregateOfSaga}}    
       {{/command.outgoingRelations}}
             {{else}}
-            aa
+             /* Logic */
             {{/if}}
 {{/compensateCommand}} 
      
