@@ -45,10 +45,10 @@ public class {{namePascalCase}}Saga {
                {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
                  /* Logic */
                {{#correlationGetSet ../event ../command}}
-               {{../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+               {{../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
                {{/correlationGetSet}}
             
-               {{../command.aggregate.nameCamelCase}}Service.{{command.nameCamelCase}}({{command.nameCamelCase}}Command);
+               {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
             {{/if}}
         } catch (Exception e) {
             {{#isEqualsAggregateOfSaga ../../contexts.sagaEvents aggregate.elementView.id}}
@@ -60,8 +60,8 @@ public class {{namePascalCase}}Saga {
             ).ifPresent({{aggregate.nameCamelCase}} -> {
                 {{../namePascalCase}}Command {{../nameCamelCase}}Commad = new {{../namePascalCase}}Command();
                 /* Logic */
-                {{#correlationGetSet ../event ..}}
-                  {{../../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+                {{#correlationGetSet ../../event ../..}}
+                  {{../../../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
                 {{/correlationGetSet}}
 
                 {{../aggregate.nameCamelCase}}.{{../nameCamelCase}}({{../nameCamelCase}}Commad);
