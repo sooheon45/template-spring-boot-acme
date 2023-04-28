@@ -111,6 +111,8 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         {{#correlationGetSet .. eventValue}} 
         {{../eventValue.nameCamelCase}}.set{{target.namePascalCase}}({{../../nameCamelCase}}Command.get{{source.namePascalCase}}());
         {{/correlationGetSet}}
+        /** Logic **/
+        
         {{eventValue.nameCamelCase}}.publishAfterCommit();
 
         {{#relationCommandInfo}}
