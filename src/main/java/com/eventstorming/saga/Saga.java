@@ -19,10 +19,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 
 public class {{namePascalCase}}Saga {
 
-    @Autowired
-    {{#boundedContext.aggregates}}
-    {{namePascalCase}}Repository {{nameCamelCase}}Repository;
-    {{/boundedContext.aggregates}}
     {{#externalService boundedContext.aggregates contexts.sagaEvents}}
     @Autowired
     {{namePascalCase}}Service {{nameCamelCase}}Service;
@@ -220,9 +216,7 @@ window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, 
    aggregatesForBc.forEach(function(selfAggregate){
     aggregates.forEach(function(agg){
        if(agg && agg.command){
-           if(agg.command.aggregate.name != selfAggregate.name){
-               str = str + options.fn(agg.command.aggregate);
-           }
+           str = str + options.fn(agg.command.aggregate);
        }
       });
     });
