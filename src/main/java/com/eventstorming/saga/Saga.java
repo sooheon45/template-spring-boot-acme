@@ -39,8 +39,8 @@ public class {{namePascalCase}}Saga {
         try {
         {{#if ../command.isRestRepository}}
             {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new  {{../command.aggregate.namePascalCase}}();
-            {{../command.aggregate.name}} {{../../event.name}}
             {{#correlationGetSet ../command.aggregate ../../event}}
+             /* Logic */
             {{../../command.aggregate.nameCamelCase}}.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
             {{/correlationGetSet}}
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
