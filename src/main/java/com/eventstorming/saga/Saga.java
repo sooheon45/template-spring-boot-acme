@@ -141,9 +141,9 @@ public class {{namePascalCase}}Saga {
         {{/if}}   
             {{/isEqualsAggregateOfSaga}}    
       {{/command.outgoingRelations}}
-            {{else}}
-             /* Logic */
-            {{/if}}
+      {{else}}
+        /* Logic */
+      {{/if}}
 {{/compensateCommand}} 
      
         // Manual Offset Commit //
