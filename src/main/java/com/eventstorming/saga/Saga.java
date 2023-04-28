@@ -69,11 +69,11 @@ public class {{namePascalCase}}Saga {
             {{else}}
             {{../namePascalCase}}Command {{../nameCamelCase}}Commad = new {{../namePascalCase}}Command();
             /* Logic */
-            {{#correlationGetSet ../event .}}
+            {{#correlationGetSet ../../event ../..}}
                {{../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
             {{/correlationGetSet}}
 
-            {{aggregate.nameCamelCase}}Service.{{nameCamelCase}}({{nameCamelCase}}Commad);
+            {{../aggregate.nameCamelCase}}Service.{{../nameCamelCase}}({{../nameCamelCase}}Commad);
             {{/isEqualsAggregateOfSaga}}
         }
     {{else}}  
