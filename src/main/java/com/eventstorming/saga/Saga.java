@@ -57,7 +57,7 @@ public class {{namePascalCase}}Saga {
             #3-1
             {{../aggregate.nameCamelCase}}Repository.findById(
             // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
-            {{#correlationKey ../event}}
+            {{#correlationKey ../../event}}
                 event.get{{namePascalCase}}()
             {{/correlationKey}}
             ).ifPresent({{aggregate.nameCamelCase}} -> {
@@ -73,7 +73,7 @@ public class {{namePascalCase}}Saga {
             #3-2
             {{../namePascalCase}}Command {{../nameCamelCase}}Commad = new {{../namePascalCase}}Command();
             /* Logic */
-            {{#correlationGetSet ../../event ../..}}
+            {{#correlationGetSet ../../event ..}}
             {{../../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
             {{/correlationGetSet}}
 
