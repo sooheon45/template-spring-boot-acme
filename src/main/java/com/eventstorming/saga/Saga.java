@@ -82,38 +82,45 @@ public class {{namePascalCase}}Saga {
         }
     {{else}}  
        {{#command.outgoingRelations}}
-         {{#isEqualsAggregateOfSaga ../../contexts.sagaEvents target.aggregate.elementView.id}}
+         {{#isEqualsAggregateOfSaga ../../contexts.sagaEvents source.aggregate.elementView.id}}
             {{#if ../../command.isRestRepository}}
             #4-1
          {{../../command.aggregate.namePascalCase}} {{../../command.aggregate.nameCamelCase}} = new  {{../../command.aggregate.namePascalCase}}();
          {{../../command.aggregate.nameCamelCase}}Service.{{../../command.nameCamelCase}}({{../../command.aggregate.nameCamelCase}});
             {{else}}
             #4-2
-         {{../command.aggregate.nameCamelCase}}Repository.findById(
-                // implement: Set the {{../../command.aggregate.nameCamelCase}} Id from one of {{../event.nameCamelCase}} event's corresponding property
-                {{#correlationKey ../event}}
-                    event.get{{namePascalCase}}()
-                {{/correlationKey}}
-            ).ifPresent({{../command.aggregate.nameCamelCase}} -> {
-                {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
-                /* Logic */
-                {{#correlationGetSet ../command ../event}}
-                {{../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
-                {{/correlationGetSet}}
-                
-                {{../command.aggregate.nameCamelCase}}.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
-            }); 
-            {{/if}}
-        {{else}}
-           #4-3
-            {{../../command.nameCamelCase}}Command {{../../command.nameCamelCase}}Commad = new {{../../command.nameCamelCase}}Command();
-            /* Logic */ 
-            {{#correlationGetSet ../../event ../../command}}
+        {{../../command.aggregate.nameCamelCase}}Repository.findById(
+            // implement: Set the {{../../command.aggregate.nameCamelCase}} Id from one of {{../event.nameCamelCase}} event's corresponding property
+        {{#correlationKey ../../event}}
+            event.get{{namePascalCase}}()
+        {{/correlationKey}}
+        ).ifPresent({{../../command.aggregate.nameCamelCase}} -> {
+            {{../../command.namePascalCase}}Command {{../../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
+            /* Logic */
+            {{#correlationGetSet ../../command ../../event}}
             {{../../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
             {{/correlationGetSet}}
-        
-            {{../../event.aggregate.nameCamelCase}}.{{../../command.nameCamelCase}}({{../../command.nameCamelCase}}Command);
-            {{../../command.aggregate.nameCamelCase}}Service.{{../nameCamelCase}}({{../nameCamelCase}}Commad);
+            
+            {{../../command.aggregate.nameCamelCase}}.{{../../command.nameCamelCase}}({{../../command.nameCamelCase}}Command);
+        }); 
+            {{/if}}
+        {{else}}
+           {{#if ../../command.isRestRepository}}
+        #4-3
+        {{../../command.aggregate.namePascalCase}} {{../../command.aggregate.nameCamelCase}} = new {{../../command.aggregate.namePascalCase}}();
+        {{../../command.aggregate.nameCamelCase}}Service.{{../../command.nameCamelCase}}({{../../command.aggregate.nameCamelCase}});
+           {{else}}
+        #4-4
+        {{../../command.nameCamelCase}}Command {{../../command.nameCamelCase}}Commad = new {{../../command.nameCamelCase}}Command();
+        /* Logic */ 
+        {{#correlationGetSet ../../event ../../command}}
+        {{../../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+        {{/correlationGetSet}}
+    
+        {{../../event.aggregate.nameCamelCase}}.{{../../command.nameCamelCase}}({{../../command.nameCamelCase}}Command);
+        {{../../command.aggregate.nameCamelCase}}Service.{{../nameCamelCase}}({{../nameCamelCase}}Commad);
+           {{/if}}
+            
         {{/isEqualsAggregateOfSaga}}    
         {{/command.outgoingRelations}}
     {{/compensateCommand}}
