@@ -72,7 +72,7 @@ public class {{namePascalCase}}Saga {
                 {{../../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
                 {{else}}
                 // A correlation key is required.
-                //{{../../nameCamelCase}}Command.set{{source.namePascalCase}}(event.getId());
+                //{{../../nameCamelCase}}Command.set{{source.namePascalCase}}();
                 {{/if}}
                 {{/correlationGetSet}}
 
@@ -82,7 +82,12 @@ public class {{namePascalCase}}Saga {
             {{../namePascalCase}}Command {{../nameCamelCase}}Commad = new {{../namePascalCase}}Command();
             /* Logic */
             {{#correlationGetSet ../../event ..}}
+             {{#if target}}
             {{../../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+            {{else}}
+            // A correlation key is required.
+            //{{../../nameCamelCase}}Command.set{{source.namePascalCase}}();
+            {{/if}}
             {{/correlationGetSet}}
 
             {{#correlationKey ..}}
@@ -90,8 +95,6 @@ public class {{namePascalCase}}Saga {
             {{else}}
             {{../../aggregate.nameCamelCase}}Service.{{../../nameCamelCase}}(event.getId(),{{../../nameCamelCase}}Commad);
             {{/correlationKey}}
-            
-           
             {{/isEqualsAggregateOfSaga}}
         }
     {{else}}
@@ -111,7 +114,12 @@ public class {{namePascalCase}}Saga {
             {{../../command.namePascalCase}}Command {{../../command.nameCamelCase}}Command = new {{../../command.namePascalCase}}Command();
             /* Logic */
             {{#correlationGetSet ../../command ../../event}}
+            {{#if target}}
             {{../../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+                {{else}}
+            // A correlation key is required.
+            //{{../../nameCamelCase}}Command.set{{source.namePascalCase}}();
+                {{/if}}
             {{/correlationGetSet}}
             
             {{../../command.aggregate.nameCamelCase}}.{{../../command.nameCamelCase}}({{../../command.nameCamelCase}}Command);
