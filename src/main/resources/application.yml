@@ -149,15 +149,18 @@ api:
 
 
 <function>
-window.$HandleBars.registerHelper('sagaServiceUrl', function (value, options) {
-    let result = null;
-    console.log(value);
-    
-   
-
-    
-    return options.fn(result);
-
+window.$HandleBars.registerHelper('sagaServiceUrl', function (policies, options) {
+    let list = '';
+    let policy = policies.find(x=>x.isSaga);
+    if(policy){
+        policy.outgoingRelations.forEach(function(item) {
+            if(item && item.target && item.target.boundedContext){
+                list = list + options.fn(item.target.boundedContext);
+            }
+        });
+    }
+  
+    return options.fn(list);
 });
 
 window.$HandleBars.registerHelper('checkException', function (aggregates) {
