@@ -160,7 +160,7 @@ window.$HandleBars.registerHelper('sagaServiceUrl', function (policies, options)
         });
     }
   
-    return options.fn(list);
+    return list
 });
 
 window.$HandleBars.registerHelper('checkException', function (aggregates) {
