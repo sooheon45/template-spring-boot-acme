@@ -93,10 +93,10 @@ public class {{namePascalCase}}Saga {
             {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new {{../command.aggregate.namePascalCase}}();
             {{#correlationGetSet ../command.aggregate ../event}}
               {{#if target}}
-            {{../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+              {{../../command.aggregate.nameCamelCase}}.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
               {{else}}
              // A correlation key is required.
-             //{{../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(...);
+             //{{../../command.aggregate.nameCamelCase}}.set{{source.namePascalCase}}(...);
               {{/if}}
             {{/correlationGetSet}}
           
