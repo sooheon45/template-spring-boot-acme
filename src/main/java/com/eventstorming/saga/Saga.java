@@ -39,17 +39,26 @@ public class {{namePascalCase}}Saga {
         try {
     {{#if ../command.isRestRepository}}
             {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new {{../command.aggregate.namePascalCase}}();
-           //1- {{../command.aggregate.name}}, {{../../event.name}}, {{../event.name}} 1
+            /* Logic */
         {{#correlationGetSet ../command.aggregate ../event}}
-             /* Logic */
+            {{#if target}}
             {{../../command.aggregate.nameCamelCase}}.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+            {{else}}
+            // A correlation key is required.
+            //{{../../command.aggregate.nameCamelCase}}.set{{source.namePascalCase}}( ... );
+            {{/if}}
         {{/correlationGetSet}}
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
     {{else}}
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
             /* Logic */
         {{#correlationGetSet ../event ../command}}
+            {{#if target}}
             {{../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+            {{else}}
+            // A correlation key is required.
+            //{{../../command.nameCamelCase}}Command.set{{source.namePascalCase}}( ... );
+            {{/if}}         
         {{/correlationGetSet}}
 
         {{#correlationKey ../command}}
@@ -66,7 +75,7 @@ public class {{namePascalCase}}Saga {
            {{../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
     {{else}}
            // A correlation key is required.
-           //{{../nameCamelCase}}Command.set{{source.namePascalCase}}();
+           //{{../nameCamelCase}}Command.set{{source.namePascalCase}}( .. );
     {{/if}}
 {{/correlationGetSet}}
 
@@ -77,52 +86,30 @@ public class {{namePascalCase}}Saga {
 {{/correlationKey}}
         }
     {{else}}
-            {{#if command}}
-            {{#command.outgoingRelations}}
-        {{#isEqualsAggregateOfSaga ../../contexts.sagaEvents source.aggregate.elementView.id}}
-        {{#if ../../command.isRestRepository}}
-         {{../../command.aggregate.namePascalCase}} {{../../command.aggregate.nameCamelCase}} = new  {{../../command.aggregate.namePascalCase}}();
-         {{../../command.aggregate.nameCamelCase}}Service.{{../../command.nameCamelCase}}({{../../command.aggregate.nameCamelCase}});
+{{#if command}}
+    {{#command.outgoingRelations}}
+        {{#if ../command.isRestRepository}}
+            {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new {{../command.aggregate.namePascalCase}}();
+            {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
         {{else}}
-        {{../../command.aggregate.nameCamelCase}}Repository.findById(
-            // implement: Set the {{../../command.aggregate.nameCamelCase}} Id from one of {{../event.nameCamelCase}} event's corresponding property
-        {{#correlationKey ../../event}}
-            event.get{{namePascalCase}}()
-        {{/correlationKey}}
-        ).ifPresent({{../../command.aggregate.nameCamelCase}} -> {
-            {{../../command.namePascalCase}}Command {{../../command.nameCamelCase}}Command = new {{../../command.namePascalCase}}Command();
-            /* Logic */
-            {{#correlationGetSet ../../command ../../event}}
-            {{#if target}}
-            {{../../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
-                {{else}}
-            // A correlation key is required.
-            //{{../../nameCamelCase}}Command.set{{source.namePascalCase}}();
-                {{/if}}
+            {{../command.nameCamelCase}}Command {{../command.nameCamelCase}}Commad = new {{../command.nameCamelCase}}Command();
+            /* Logic */ 
+            {{#correlationGetSet ../event ../command}}
+              {{#if target}}
+                {{../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+              {{else}}
+                 // A correlation key is required.
+                 //{{../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(...);
+              {{/if}}
             {{/correlationGetSet}}
-            
-            {{../../command.aggregate.nameCamelCase}}.{{../../command.nameCamelCase}}({{../../command.nameCamelCase}}Command);
-        }); 
-        {{/if}}
-        {{else}}
-        {{#if ../../command.isRestRepository}}
-        {{../../command.aggregate.namePascalCase}} {{../../command.aggregate.nameCamelCase}} = new {{../../command.aggregate.namePascalCase}}();
-        {{../../command.aggregate.nameCamelCase}}Service.{{../../command.nameCamelCase}}({{../../command.aggregate.nameCamelCase}});
-        {{else}}
-        {{../../command.nameCamelCase}}Command {{../../command.nameCamelCase}}Commad = new {{../../command.nameCamelCase}}Command();
-        /* Logic */ 
-        {{#correlationGetSet ../../event ../../command}}
-        {{../../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
-        {{/correlationGetSet}}
-    
-        {{../../event.aggregate.nameCamelCase}}.{{../../command.nameCamelCase}}({{../../command.nameCamelCase}}Command);
-        {{../../command.aggregate.nameCamelCase}}Service.{{../nameCamelCase}}({{../nameCamelCase}}Commad);
+
+            {{../event.aggregate.nameCamelCase}}.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
+            {{../command.aggregate.nameCamelCase}}Service.{{../nameCamelCase}}({{../nameCamelCase}}Commad);
         {{/if}}   
-            {{/isEqualsAggregateOfSaga}}    
-      {{/command.outgoingRelations}}
-      {{else}}
+    {{/command.outgoingRelations}}
+{{else}}
         /* Logic */
-      {{/if}}
+{{/if}}
 {{/compensateCommand}} 
      
         // Manual Offset Commit //
