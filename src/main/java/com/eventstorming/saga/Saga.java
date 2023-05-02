@@ -39,8 +39,8 @@ public class {{namePascalCase}}Saga {
         try {
     {{#if ../command.isRestRepository}}
             {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new {{../command.aggregate.namePascalCase}}();
-           //1- {{../command.aggregate.name}} {{../../event.name}} {{../event.name}} 1
-        {{#correlationGetSet ../command.aggregate ../../event}}
+           //1- {{../command.aggregate.name}} {{../../event.name}}, {{../event.name}} 1
+        {{#correlationGetSet ../command.aggregate ../event}}
              /* Logic */
             {{../../command.aggregate.nameCamelCase}}.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
         {{/correlationGetSet}}
@@ -48,7 +48,7 @@ public class {{namePascalCase}}Saga {
     {{else}}
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
             /* Logic */
-        {{#correlationGetSet ../../event ../command}}
+        {{#correlationGetSet ../event ../command}}
             {{../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
         {{/correlationGetSet}}
 
