@@ -103,7 +103,7 @@ public class {{namePascalCase}}Saga {
               {{/if}}
             {{/correlationGetSet}}
         
-            {{../event.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
+            {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
         {{/if}}   
     {{/command.outgoingRelations}}
 {{else}}
