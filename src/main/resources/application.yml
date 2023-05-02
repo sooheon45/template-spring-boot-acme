@@ -159,8 +159,8 @@ window.$HandleBars.registerHelper('sagaServiceUrl', function (policies, options)
             }
         });
     }
-  
-    return list
+    
+    return list ? list : options.inverse(list);
 });
 
 window.$HandleBars.registerHelper('checkException', function (aggregates) {
