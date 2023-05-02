@@ -58,21 +58,21 @@ public class {{namePascalCase}}Saga {
             {{/correlationKey}}
         {{/if}}
         } catch (Exception e) {
-           {{../namePascalCase}}Command {{../nameCamelCase}}Commad = new {{../namePascalCase}}Command();
+           {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
             /* Logic */
-{{#correlationGetSet ../../event ..}}
+{{#correlationGetSet ../event .}}
     {{#if target}}
-            {{../../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+            {{../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
     {{else}}
             // A correlation key is required.
-            //{{../../nameCamelCase}}Command.set{{source.namePascalCase}}();
+            //{{../nameCamelCase}}Command.set{{source.namePascalCase}}();
     {{/if}}
 {{/correlationGetSet}}
 
-{{#correlationKey ..}}
-            {{../../aggregate.nameCamelCase}}Service.{{../../nameCamelCase}}(event.get{{namePascalCase}}(),{{../../nameCamelCase}}Commad);
+{{#correlationKey .}}
+            {{../aggregate.nameCamelCase}}Service.{{../nameCamelCase}}(event.get{{namePascalCase}}(),{{../nameCamelCase}}Commad);
     {{else}}
-            {{../../aggregate.nameCamelCase}}Service.{{../../nameCamelCase}}(event.getId(),{{../../nameCamelCase}}Commad);
+            {{../aggregate.nameCamelCase}}Service.{{../nameCamelCase}}(event.getId(),{{../nameCamelCase}}Commad);
 {{/correlationKey}}
         }
     {{else}}
