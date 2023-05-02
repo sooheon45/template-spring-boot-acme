@@ -182,12 +182,27 @@ window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter,
         source: null,
         target: null
     };
-   
-    if(setter && setter.fieldDescriptors){
-        obj.source = setter.fieldDescriptors.find(x=> x.isCorrelationKey);
+    let setField = null;
+    let getField = null;
+    
+    
+    if(setter && setter._type.endsWith('Aggregate')){
+        setField = setter.aggregateRoot.fieldDescriptors
+    } else {
+        setField = setter.fieldDescriptors
     }
-    if(getter && getter.fieldDescriptors){
-        obj.target = getter.fieldDescriptors.find(x => x.isCorrelationKey);
+    
+    if(getter && getter._type.endsWith('Aggregate')){
+        getField = getter.aggregateRoot.fieldDescriptors
+    } else {
+        getField = getter.fieldDescriptors
+    }
+    
+    if(setField){
+        obj.source = setField.find(x=> x.isCorrelationKey);
+    }
+    if(getField){
+        obj.target = getField.find(x=> x.isCorrelationKey);
     }
     
     return options.fn(obj);
