@@ -69,7 +69,7 @@ public class {{namePascalCase}}Saga {
         {{/correlationKey}}
     {{/if}}
         } catch (Exception e) {
-           {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
+           {{namePascalCase}}Command {{nameCamelCase}}Command = new {{namePascalCase}}Command();
             /* Logic */
 {{#correlationGetSet ../event .}}
     {{#if target}}
@@ -93,7 +93,7 @@ public class {{namePascalCase}}Saga {
             {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new {{../command.aggregate.namePascalCase}}();
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
         {{else}}
-            {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Commad = new {{../command.namePascalCase}}Command();
+            {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
             /* Logic */ 
             {{#correlationGetSet ../event ../command}}
               {{#if target}}
