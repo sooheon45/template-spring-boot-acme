@@ -80,13 +80,11 @@ logging:
     org.springframework.cloud: debug
 
 {{#policies}}
-{{#outgoingRelations}}
 {{#outgoing "Command" this}}
 api:
   url:
     {{boundedContext.nameCamelCase}}: {{url boundedContext.nameCamelCase}}:8080
 {{/outgoing}}
-{{/outgoingRelations}}
 {{/policies}}
 
 server:
