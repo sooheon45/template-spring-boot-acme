@@ -35,28 +35,28 @@ public class {{namePascalCase}}Saga {
         {{event.namePascalCase}} event = {{event.nameCamelCase}};
         System.out.println("\n\n##### listener {{../namePascalCase}} : " + {{event.nameCamelCase}} + "\n\n");
 
-    {{#compensateCommand}}
+{{#compensateCommand}}
         try {
-        {{#if ../command.isRestRepository}}
+    {{#if ../command.isRestRepository}}
             {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new  {{../command.aggregate.namePascalCase}}();
-            {{#correlationGetSet ../command.aggregate ../../event}}
+        {{#correlationGetSet ../command.aggregate ../event}}
              /* Logic */
-            {{../../command.aggregate.nameCamelCase}}.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
-            {{/correlationGetSet}}
+            {{../command.aggregate.nameCamelCase}}.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+        {{/correlationGetSet}}
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
-        {{else}}
+    {{else}}
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
             /* Logic */
-            {{#correlationGetSet ../event ../command}}
+        {{#correlationGetSet ../event ../command}}
             {{../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
-            {{/correlationGetSet}}
+        {{/correlationGetSet}}
 
-            {{#correlationKey ../command}}
+        {{#correlationKey ../command}}
             {{../../command.aggregate.nameCamelCase}}Service.{{../../command.nameCamelCase}}(event.get{{namePascalCase}}(), {{../../command.nameCamelCase}}Command);
-            {{else}}
+        {{else}}
             {{../../command.aggregate.nameCamelCase}}Service.{{../../command.nameCamelCase}}(event.getId(), {{../../command.nameCamelCase}}Command);
-            {{/correlationKey}}
-        {{/if}}
+        {{/correlationKey}}
+    {{/if}}
         } catch (Exception e) {
            {{namePascalCase}}Command {{nameCamelCase}}Commad = new {{namePascalCase}}Command();
             /* Logic */
