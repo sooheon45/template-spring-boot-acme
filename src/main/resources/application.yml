@@ -79,7 +79,7 @@ logging:
     org.hibernate.type: trace
     org.springframework.cloud: debug
 
-{{#aggregates}}
+
 {{#policies}}
 {{#outgoing "Command" this}}
 api:
@@ -87,7 +87,6 @@ api:
     {{boundedContext.nameCamelCase}}: {{url boundedContext.nameCamelCase}}:8080
 {{/outgoing}}
 {{/policies}}
-{{/aggregates}}
 
 server:
   port: {{portGenerated}}
