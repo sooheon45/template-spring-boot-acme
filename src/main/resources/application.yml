@@ -81,11 +81,7 @@ logging:
 
 
 {{#policies}}
-{{#outgoing "Command" this}}
-api:
-  url:
-    {{boundedContext.nameCamelCase}}: {{url boundedContext.nameCamelCase}}:8080
-{{/outgoing}}
+  {{name}}
 {{/policies}}
 
 server:
