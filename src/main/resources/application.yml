@@ -81,7 +81,7 @@ logging:
 
 {{#aggregates}}
 {{#commands}}
-{{#outgoing "ReadModel" this}}
+{{#outgoing "Event" this}}
 api:
   url:
     {{boundedContext.nameCamelCase}}: localhost:{{boundedContext.portGenerated}}
@@ -143,7 +143,7 @@ spring:
 
 {{#aggregates}}
 {{#commands}}
-{{#outgoing "Event" this}}
+{{#outgoing "ReadModel" this}}
 api:
   url:
     {{boundedContext.nameCamelCase}}: {{url boundedContext.nameCamelCase}}:8080
