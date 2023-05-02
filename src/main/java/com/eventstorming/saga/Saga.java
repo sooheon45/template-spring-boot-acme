@@ -41,7 +41,7 @@ public class {{namePascalCase}}Saga {
             {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new  {{../command.aggregate.namePascalCase}}();
         {{#correlationGetSet ../command.aggregate ../event}}
              /* Logic */
-            {{../command.aggregate.nameCamelCase}}.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+            {{../../command.aggregate.nameCamelCase}}.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
         {{/correlationGetSet}}
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
     {{else}}
@@ -62,17 +62,17 @@ public class {{namePascalCase}}Saga {
             /* Logic */
 {{#correlationGetSet ../event .}}
     {{#if target}}
-            {{../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+           {{../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
     {{else}}
-            // A correlation key is required.
-            //{{../nameCamelCase}}Command.set{{source.namePascalCase}}();
+           // A correlation key is required.
+           //{{../nameCamelCase}}Command.set{{source.namePascalCase}}();
     {{/if}}
 {{/correlationGetSet}}
 
 {{#correlationKey .}}
-            {{../aggregate.nameCamelCase}}Service.{{../nameCamelCase}}(event.get{{namePascalCase}}(),{{../nameCamelCase}}Commad);
+           {{../aggregate.nameCamelCase}}Service.{{../nameCamelCase}}(event.get{{namePascalCase}}(),{{../nameCamelCase}}Commad);
     {{else}}
-            {{../aggregate.nameCamelCase}}Service.{{../nameCamelCase}}(event.getId(),{{../nameCamelCase}}Commad);
+           {{../aggregate.nameCamelCase}}Service.{{../nameCamelCase}}(event.getId(),{{../nameCamelCase}}Commad);
 {{/correlationKey}}
         }
     {{else}}
