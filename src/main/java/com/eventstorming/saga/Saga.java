@@ -58,44 +58,22 @@ public class {{namePascalCase}}Saga {
             {{/correlationKey}}
         {{/if}}
         } catch (Exception e) {
-            {{#isEqualsAggregateOfSaga ../../contexts.sagaEvents aggregate.elementView.id}}
-            {{../aggregate.nameCamelCase}}Repository.findById(
-            // implement: Set the {{../command.aggregate.nameCamelCase}} Id from one of {{event.nameCamelCase}} event's corresponding property
-            {{#correlationKey ../../event}}
-                event.get{{namePascalCase}}()
-            {{/correlationKey}}
-            ).ifPresent({{aggregate.nameCamelCase}} -> {
-                {{../namePascalCase}}Command {{../nameCamelCase}}Commad = new {{../namePascalCase}}Command();
-                /* Logic */
-                {{#correlationGetSet ../../event ..}}
-                {{#if target}}
-                {{../../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
-                {{else}}
-                // A correlation key is required.
-                //{{../../nameCamelCase}}Command.set{{source.namePascalCase}}();
-                {{/if}}
-                {{/correlationGetSet}}
-
-                {{../aggregate.nameCamelCase}}.{{../nameCamelCase}}({{../nameCamelCase}}Commad);
-               });
-            {{else}}
-            {{../namePascalCase}}Command {{../nameCamelCase}}Commad = new {{../namePascalCase}}Command();
+           {{../namePascalCase}}Command {{../nameCamelCase}}Commad = new {{../namePascalCase}}Command();
             /* Logic */
-            {{#correlationGetSet ../../event ..}}
-             {{#if target}}
+{{#correlationGetSet ../../event ..}}
+    {{#if target}}
             {{../../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
-            {{else}}
+    {{else}}
             // A correlation key is required.
             //{{../../nameCamelCase}}Command.set{{source.namePascalCase}}();
-            {{/if}}
-            {{/correlationGetSet}}
+    {{/if}}
+{{/correlationGetSet}}
 
-            {{#correlationKey ..}}
+{{#correlationKey ..}}
             {{../../aggregate.nameCamelCase}}Service.{{../../nameCamelCase}}(event.get{{namePascalCase}}(),{{../../nameCamelCase}}Commad);
-            {{else}}
+    {{else}}
             {{../../aggregate.nameCamelCase}}Service.{{../../nameCamelCase}}(event.getId(),{{../../nameCamelCase}}Commad);
-            {{/correlationKey}}
-            {{/isEqualsAggregateOfSaga}}
+{{/correlationKey}}
         }
     {{else}}
             {{#if command}}
