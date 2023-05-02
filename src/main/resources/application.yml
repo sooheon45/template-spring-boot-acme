@@ -79,13 +79,11 @@ logging:
     org.hibernate.type: trace
     org.springframework.cloud: debug
 
-{{#policies}}
-{{#outgoing "Command" this}}
+{{#sagaServiceUrl policies}}
 api:
   url:
     {{boundedContext.nameCamelCase}}: {{url boundedContext.nameCamelCase}}:8080
-{{/outgoing}}
-{{/policies}}
+{{/sagaServiceUrl}}
 
 server:
   port: {{portGenerated}}
@@ -151,21 +149,14 @@ api:
 
 
 <function>
-window.$HandleBars.registerHelper('outgoing', function (type, value, options) {
-    if(value==null)
-        value = this;
+window.$HandleBars.registerHelper('sagaServiceUrl', function (value, options) {
+    let result = null;
+    console.log(value);
+    
+   
 
-    var evaluatedVal = window.jp.query(value, `$.outgoingRelations[?(@.target.type=='${type}')]`);
-    if(evaluatedVal && evaluatedVal.length){
-        let result = "";
-        evaluatedVal.forEach((item, index) => {
-            result += options.fn(item.target);
-        })
-
-        return result;
-    }else{
-        return options.inverse(value)
-    }
+    
+    return options.fn(result);
 
 });
 
