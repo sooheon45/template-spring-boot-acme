@@ -132,13 +132,15 @@ window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, 
    var lists = [];
    var str = ''
    aggregatesForBc.forEach(function(selfAggregate){
-    aggregates.forEach(function(agg){
-       if(agg && agg.command){
-           if(agg.command.aggregate.name != selfAggregate.name){
-             lists.push(agg.command.aggregate);
+       if(aggregates){
+        aggregates.forEach(function(agg){
+           if(agg && agg.command){
+               if(agg.command.aggregate.name != selfAggregate.name){
+                 lists.push(agg.command.aggregate);
+               }
            }
+          });
        }
-      });
     });
     lists.forEach(function(agg){
         str = str +`${agg.namePascalCase}Service ${agg.nameCamelCase}Service;`
