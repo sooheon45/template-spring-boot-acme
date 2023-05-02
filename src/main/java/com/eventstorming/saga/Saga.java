@@ -48,6 +48,7 @@ public class {{namePascalCase}}Saga {
             //{{../../command.aggregate.nameCamelCase}}.set{{source.namePascalCase}}( ... );
             {{/if}}
         {{/correlationGetSet}}
+            
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
     {{else}}
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
@@ -103,7 +104,11 @@ public class {{namePascalCase}}Saga {
               {{/if}}
             {{/correlationGetSet}}
         
-            {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.nameCamelCase}}Command);
+        {{#correlationKey ../command}}
+             {{../../command.aggregate.nameCamelCase}}Service.{{../../command.nameCamelCase}}(event.get{{namePascalCase}}(), {{../../command.nameCamelCase}}Command);
+        {{else}}
+            {{../../command.aggregate.nameCamelCase}}Service.{{../../command.nameCamelCase}}(event.getId(), {{../../command.nameCamelCase}}Command);
+        {{/correlationKey}}
         {{/if}}   
     {{/command.outgoingRelations}}
 {{else}}
