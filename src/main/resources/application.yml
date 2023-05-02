@@ -153,8 +153,23 @@ api:
 
 
 <function>
+window.$HandleBars.registerHelper('outgoing', function (type, value, options) {
+    if(value==null)
+        value = this;
 
+    var evaluatedVal = window.jp.query(value, `$.outgoingRelations[?(@.target.type=='${type}')]`);
+    if(evaluatedVal && evaluatedVal.length){
+        let result = "";
+        evaluatedVal.forEach((item, index) => {
+            result += options.fn(item.target);
+        })
 
+        return result;
+    }else{
+        return options.inverse(value)
+    }
+
+});
 
 window.$HandleBars.registerHelper('checkException', function (aggregates) {
   try {
