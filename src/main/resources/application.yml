@@ -82,7 +82,7 @@ logging:
 {{#sagaServiceUrl policies}}
 api:
   url:
-    {{nameCamelCase}}: {{url nameCamelCase}}:{{portGenerated}}
+    {{nameCamelCase}}: localhost:{{portGenerated}}
 {{/sagaServiceUrl}}
 
 server:
