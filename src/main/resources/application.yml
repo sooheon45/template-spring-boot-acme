@@ -81,11 +81,9 @@ logging:
 
 {{#aggregates}}
 {{#commands}}
-{{#outgoing "Event" this}}
 api:
   url:
     {{boundedContext.nameCamelCase}}: localhost:{{boundedContext.portGenerated}}
-{{/outgoing}}
 {{/commands}}
 {{/aggregates}}
 
