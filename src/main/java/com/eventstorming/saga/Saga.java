@@ -203,11 +203,13 @@ window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter,
 window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, aggregates, options) {
    var str = '';
    aggregatesForBc.forEach(function(selfAggregate){
-    aggregates.forEach(function(agg){
-       if(agg && agg.command){
-           str = str + options.fn(agg.command.aggregate);
+       if(aggregates) {
+          aggregates.forEach(function(agg){
+            if(agg && agg.command){
+                str = str + options.fn(agg.command.aggregate);
+            }
+          });    
        }
-      });
     });
     return str
 });
