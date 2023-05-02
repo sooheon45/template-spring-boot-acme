@@ -142,7 +142,7 @@ spring:
 {{#outgoing "ReadModel" this}}
 api:
   url:
-    {{boundedContext.nameCamelCase}}: {{url boundedContext.nameCamelCase}}:8080
+    {{nameCamelCase}}: {{url nameCamelCase}}:8080
 {{/outgoing}}
 {{/commands}}
 {{/aggregates}}
