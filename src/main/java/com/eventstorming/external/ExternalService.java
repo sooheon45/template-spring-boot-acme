@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
 
-@FeignClient(name = "{{target.boundedContext.name}}", url = "{{apiVariable target.boundedContext.name}}")
+@FeignClient(name = "{{target.boundedContext.name}}", url = "{{apiVariable target.boundedContext.namePascalCase}}")
 public interface {{target.aggregate.namePascalCase}}Service {
     {{#target.isRestRepository}}
     @RequestMapping(method= RequestMethod.{{target.restRepositoryInfo.method}}, path="/{{target.aggregate.namePlural}}")
