@@ -187,15 +187,15 @@ window.$HandleBars.registerHelper('correlationGetSet', function (setter, getter,
     
     
     if(setter && setter._type.endsWith('Aggregate')){
-        setField = setter.aggregateRoot.fieldDescriptors
+        setField = setter.aggregateRoot.fieldDescriptors;
     } else {
-        setField = setter.fieldDescriptors
+        setField = setter ? setter.fieldDescriptors : null
     }
     
     if(getter && getter._type.endsWith('Aggregate')){
         getField = getter.aggregateRoot.fieldDescriptors
     } else {
-        getField = getter.fieldDescriptors
+        getField = getter ? getter.fieldDescriptors : null
     }
     
     if(setField){
