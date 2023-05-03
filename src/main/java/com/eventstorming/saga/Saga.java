@@ -15,8 +15,9 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class {{namePascalCase}}Saga {
 
     {{#externalService boundedContext.aggregates contexts.sagaEvents}}
