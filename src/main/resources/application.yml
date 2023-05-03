@@ -155,7 +155,7 @@ window.$HandleBars.registerHelper('sagaServiceUrl', function (policies, options)
     let policy = policies.find(x=>x.isSaga);
     if(policy){
         policy.outgoingCommandInfo.forEach(function(item) {
-            if(item && item.commandValue && item.commandValue.boundedContext){
+            if(item && item.commandValue && item.commandValue.boundedContext && !lists.find(x=>x.name == item.commandValue.boundedContext.name)){
                 lists.push(item.commandValue.boundedContext);
             }
         });
