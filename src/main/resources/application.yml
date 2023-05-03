@@ -82,7 +82,7 @@ logging:
 {{#sagaServiceUrl policies}}
 api:
   url:
-    {{toLowerCase name}}: localhost:{{portGenerated}}
+    {{name}}: localhost:{{portGenerated}}
 {{/sagaServiceUrl}}
 
 server:
@@ -137,15 +137,12 @@ spring:
           destination: {{options.rootPackage}}
           contentType: application/json
 
-{{#aggregates}}
-{{#commands}}
-{{#outgoing "ReadModel" this}}
+
+{{#sagaServiceUrl policies}}
 api:
   url:
     {{nameCamelCase}}: {{url nameCamelCase}}:8080
-{{/outgoing}}
-{{/commands}}
-{{/aggregates}}
+{{/sagaServiceUrl}}
 
 
 <function>
