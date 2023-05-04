@@ -79,13 +79,11 @@ logging:
     org.hibernate.type: trace
     org.springframework.cloud: debug
 
-{{#sagaServiceUrl policies}}
 api:
   url:
   {{#sagaServiceUrl policies}}
     {{name}}: localhost:{{portGenerated}}
   {{/sagaServiceUrl}}
-{{/sagaServiceUrl}}
 
 server:
   port: {{portGenerated}}
@@ -140,11 +138,12 @@ spring:
           contentType: application/json
 
 
-{{#sagaServiceUrl policies}}
+
 api:
   url:
+    {{#sagaServiceUrl policies}}
     {{nameCamelCase}}: {{url nameCamelCase}}:8080
-{{/sagaServiceUrl}}
+    {{/sagaServiceUrl}}
 
 
 <function>
