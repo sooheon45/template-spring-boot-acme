@@ -82,9 +82,9 @@ public class {{namePascalCase}}Saga {
 {{/correlationGetSet}}
 
 {{#correlationKey .}}
-           {{../aggregate.nameCamelCase}}Service.{{../nameCamelCase}}(event.get{{namePascalCase}}(),{{../nameCamelCase}}Commad);
+           {{../aggregate.nameCamelCase}}Service.{{../nameCamelCase}}(event.get{{namePascalCase}}(),{{../nameCamelCase}}Command);
     {{else}}
-           {{../aggregate.nameCamelCase}}Service.{{../nameCamelCase}}(event.getId(),{{../nameCamelCase}}Commad);
+           {{../aggregate.nameCamelCase}}Service.{{../nameCamelCase}}(event.getId(),{{../nameCamelCase}}Command);
 {{/correlationKey}}
         }
     {{else}}
