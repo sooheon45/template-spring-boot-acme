@@ -56,10 +56,10 @@ public class {{namePascalCase}}Saga {
             /* Logic */
         {{#correlationGetSet ../event ../command}}
             {{#if target}}
-            {{../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+            {{../../command.nameCamelCase}}Command.set{{target.namePascalCase}}(event.get{{source.namePascalCase}}());
             {{else}}
             // A correlation key is required.
-            //{{../../command.nameCamelCase}}Command.set{{source.namePascalCase}}( ... );
+            //{{../../command.nameCamelCase}}Command.set{{target.namePascalCase}}( ... );
             {{/if}}         
         {{/correlationGetSet}}
 
@@ -74,10 +74,10 @@ public class {{namePascalCase}}Saga {
             /* Logic */
 {{#correlationGetSet ../event .}}
     {{#if target}}
-           {{../nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+           {{../nameCamelCase}}Command.set{{target.namePascalCase}}(event.get{{source.namePascalCase}}());
     {{else}}
            // A correlation key is required.
-           //{{../nameCamelCase}}Command.set{{source.namePascalCase}}( .. );
+           //{{../nameCamelCase}}Command.set{{target.namePascalCase}}( .. );
     {{/if}}
 {{/correlationGetSet}}
 
@@ -107,10 +107,10 @@ public class {{namePascalCase}}Saga {
             /* Logic */ 
             {{#correlationGetSet ../event ../command}}
               {{#if target}}
-            {{../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+            {{../../command.nameCamelCase}}Command.set{{target.namePascalCase}}(event.get{{source.namePascalCase}}());
               {{else}}
              // A correlation key is required.
-             //{{../../command.nameCamelCase}}Command.set{{source.namePascalCase}}(...);
+             //{{../../command.nameCamelCase}}Command.set{{target.namePascalCase}}(...);
               {{/if}}
             {{/correlationGetSet}}
         
