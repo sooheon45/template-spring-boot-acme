@@ -142,7 +142,7 @@ spring:
 api:
   url:
     {{#sagaServiceUrl policies}}
-    {{nameCamelCase}}: {{url nameCamelCase}}:8080
+    {{name}}: {{url name}}:8080
     {{/sagaServiceUrl}}
 
 
