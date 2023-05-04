@@ -1,5 +1,5 @@
 server:
-  port: 8088
+  port: 8080
 
 ---
 spring:
@@ -15,7 +15,7 @@ spring:
             - Path={{#printRoute aggregates}}{{/printRoute}}, {{#printRouteView viewes}}{{/printRouteView}}{{#each aggregates}}{{#each aggregateRoot.entities.relations}}{{#if (isGeneralization targetElement.namePascalCase ../namePascalCase relationType)}}, /{{#toURL sourceElement.nameCamelCase}}{{/toURL}}/**{{/if}}{{/each}}{{/each}}
         {{/boundedContexts}}
         - id: frontend
-          uri: http://localhost:8080
+          uri: http://localhost:8081
           predicates:
             - Path=/**
 //>>> API Gateway / Routes
