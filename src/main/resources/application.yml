@@ -82,7 +82,9 @@ logging:
 {{#sagaServiceUrl policies}}
 api:
   url:
+  {{#sagaServiceUrl policies}}
     {{name}}: localhost:{{portGenerated}}
+  {{/sagaServiceUrl}}
 {{/sagaServiceUrl}}
 
 server:
