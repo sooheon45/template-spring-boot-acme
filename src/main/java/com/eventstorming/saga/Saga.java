@@ -74,7 +74,7 @@ public class {{namePascalCase}}Saga {
             /* Logic */
 {{#correlationGetSet ../event .}}
     {{#if target}}
-           {{../nameCamelCase}}Command.set{{target.namePascalCase}}(event.get{{source.namePascalCase}}());
+           {{../nameCamelCase}}Command.set{{namePascalCase}}(event.get{{source.namePascalCase}}());
     {{else}}
            // A correlation key is required.
            //{{../nameCamelCase}}Command.set{{target.namePascalCase}}( .. );
