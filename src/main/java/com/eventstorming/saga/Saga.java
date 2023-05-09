@@ -63,7 +63,7 @@ public class {{namePascalCase}}Saga {
             {{/if}}         
         {{/correlationGetSet}}
 
-        {{#correlationKey ../command}}
+        {{#correlationKey ../event}}
             {{../../command.aggregate.nameCamelCase}}Service.{{../../command.nameCamelCase}}(event.get{{namePascalCase}}(), {{../../command.nameCamelCase}}Command);
         {{else}}
             {{../../command.aggregate.nameCamelCase}}Service.{{../../command.nameCamelCase}}(event.getId(), {{../../command.nameCamelCase}}Command);
@@ -74,14 +74,14 @@ public class {{namePascalCase}}Saga {
             /* Logic */
 {{#correlationGetSet ../event .}}
     {{#if target}}
-           {{../nameCamelCase}}Command.set{{namePascalCase}}(event.get{{source.namePascalCase}}());
+           {{../nameCamelCase}}Command.set{{target.namePascalCase}}(event.get{{source.namePascalCase}}());
     {{else}}
            // A correlation key is required.
            //{{../nameCamelCase}}Command.set{{target.namePascalCase}}( .. );
     {{/if}}
 {{/correlationGetSet}}
 
-{{#correlationKey .}}
+{{#correlationKey ../event}}
            {{../aggregate.nameCamelCase}}Service.{{../nameCamelCase}}(event.get{{namePascalCase}}(),{{../nameCamelCase}}Command);
     {{else}}
            {{../aggregate.nameCamelCase}}Service.{{../nameCamelCase}}(event.getId(),{{../nameCamelCase}}Command);
@@ -114,7 +114,7 @@ public class {{namePascalCase}}Saga {
               {{/if}}
             {{/correlationGetSet}}
         
-        {{#correlationKey ../command}}
+        {{#correlationKey ../evnet}}
              {{../../command.aggregate.nameCamelCase}}Service.{{../../command.nameCamelCase}}(event.get{{namePascalCase}}(), {{../../command.nameCamelCase}}Command);
         {{else}}
             {{../../command.aggregate.nameCamelCase}}Service.{{../../command.nameCamelCase}}(event.getId(), {{../../command.nameCamelCase}}Command);
