@@ -215,7 +215,7 @@ window.$HandleBars.registerHelper('externalService', function (aggregatesForBc, 
    aggregatesForBc.forEach(function(selfAggregate){
        if(aggregates) {
           aggregates.forEach(function(agg){
-            if(agg && agg.command){
+            if(agg && agg.command && !str.includes(options.fn(agg.command.aggregate))){
                 str = str + options.fn(agg.command.aggregate);
             }
           });    
