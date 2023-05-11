@@ -22,8 +22,8 @@ public class {{namePascalCase}} {
 <function>
     let isGetInvocation = ((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && (this.target._type.endsWith("View") || this.target._type.endsWith("Aggregate")))
     let isPostInvocation = ((this.source._type.endsWith("Event") || this.source._type.endsWith("Policy")) && this.target._type.endsWith("Command"))
-    let isExternalInvocation = (this.source.boundedContext.name != this.target.boundedContext.name)
-
+//     let isExternalInvocation = (this.source.boundedContext.name != this.target.boundedContext.name)
+    let isExternalInvocation = this.source._type.endsWith("Policy") && this.source.isSaga ? true : (this.source.boundedContext.name != this.target.boundedContext.name)
     this.contexts.except = !(isExternalInvocation && (isGetInvocation || isPostInvocation))
 
     window.$HandleBars.registerHelper('safeTypeOf', function (className) {
