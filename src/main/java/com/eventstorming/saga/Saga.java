@@ -90,8 +90,10 @@ public class {{namePascalCase}}Saga {
     {{else}}
 {{#if command}}
     {{#command.outgoingRelations}}
+            {{command.name}} {{../command.name}}
         {{#if ../command.isRestRepository}}
             {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new {{../command.aggregate.namePascalCase}}();
+             /* Logic **/ 
             {{#correlationGetSet ../command.aggregate ../event}}
               {{#if target}}
               {{../../command.aggregate.nameCamelCase}}.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
@@ -104,7 +106,7 @@ public class {{namePascalCase}}Saga {
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
         {{else}}
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
-            /* Logic */ 
+            /* Logic ***/ 
             {{#correlationGetSet ../event ../command}}
               {{#if target}}
             {{../../command.nameCamelCase}}Command.set{{target.namePascalCase}}(event.get{{source.namePascalCase}}());
