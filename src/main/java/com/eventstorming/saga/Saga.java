@@ -53,7 +53,7 @@ public class {{namePascalCase}}Saga {
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
     {{else}}
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
-            /* Logic */
+            /* Logic **/
         {{#correlationGetSet ../event ../command}}
             {{#if target}}
             {{../../command.nameCamelCase}}Command.set{{target.namePascalCase}}(event.get{{source.namePascalCase}}());
@@ -71,7 +71,7 @@ public class {{namePascalCase}}Saga {
     {{/if}}
         } catch (Exception e) {
            {{namePascalCase}}Command {{nameCamelCase}}Command = new {{namePascalCase}}Command();
-            /* Logic */
+            /* Logic ***/
 {{#correlationGetSet ../event .}}
     {{#if target}}
            {{../nameCamelCase}}Command.set{{target.namePascalCase}}(event.get{{source.namePascalCase}}());
@@ -93,7 +93,7 @@ public class {{namePascalCase}}Saga {
 //             [{{command.name}}, {{../command.name}}]
         {{#if ../command.isRestRepository}}
             {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new {{../command.aggregate.namePascalCase}}();
-             /* Logic **/ 
+             /* Logic ****/ 
             {{#correlationGetSet ../command.aggregate ../event}}
               {{#if target}}
               {{../../command.aggregate.nameCamelCase}}.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
@@ -106,7 +106,7 @@ public class {{namePascalCase}}Saga {
             {{../command.aggregate.nameCamelCase}}Service.{{../command.nameCamelCase}}({{../command.aggregate.nameCamelCase}});
         {{else}}
             {{../command.namePascalCase}}Command {{../command.nameCamelCase}}Command = new {{../command.namePascalCase}}Command();
-            /* Logic ***/ 
+            /* Logic *****/ 
             {{#correlationGetSet ../event ../command}}
               {{#if target}}
             {{../../command.nameCamelCase}}Command.set{{target.namePascalCase}}(event.get{{source.namePascalCase}}());
@@ -124,7 +124,8 @@ public class {{namePascalCase}}Saga {
         {{/if}}   
     {{/command.outgoingRelations}}
 {{else}}
-        /* Logic */
+        /* Logic *** ***/
+//               [{{command.name}}, {{../command.name}}]
 {{/if}}
 {{/compensateCommand}} 
      
