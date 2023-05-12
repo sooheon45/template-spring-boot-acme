@@ -107,7 +107,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         // implement the business logics here:
 
         {{#triggerByCommand}}
-        {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}();
+        {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}(this);
         {{#correlationGetSet .. eventValue}} 
         {{../eventValue.nameCamelCase}}.set{{target.namePascalCase}}({{../../nameCamelCase}}Command.get{{source.namePascalCase}}());
         {{/correlationGetSet}}
