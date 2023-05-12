@@ -121,11 +121,22 @@ public class {{namePascalCase}}Saga {
         {{else}}
             {{../../command.aggregate.nameCamelCase}}Service.{{../../command.nameCamelCase}}(event.getId(), {{../../command.nameCamelCase}}Command);
         {{/correlationKey}}
-        {{/if}}   
+        {{/if}}
+    {{else}}
+             {{command.aggregate.namePascalCase}} {{command.aggregate.nameCamelCase}} = new {{command.aggregate.namePascalCase}}();
+             /* Logic ****/ 
+            {{#correlationGetSet command.aggregate event}}
+              {{#if target}}
+              {{../command.aggregate.nameCamelCase}}.set{{source.namePascalCase}}(event.get{{target.namePascalCase}}());
+              {{else}}
+             // A correlation key is required.
+             //{{../command.aggregate.nameCamelCase}}.set{{source.namePascalCase}}(...);
+              {{/if}}
+            {{/correlationGetSet}}
+            {{command.aggregate.nameCamelCase}}Service.{{command.nameCamelCase}}({{command.aggregate.nameCamelCase}});
     {{/command.outgoingRelations}}
 {{else}}
         /* Logic *** ***/
-//               [{{command.name}}, {{../command.name}}]
 {{/if}}
 {{/compensateCommand}} 
      
