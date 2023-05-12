@@ -90,7 +90,7 @@ public class {{namePascalCase}}Saga {
     {{else}}
 {{#if command}}
     {{#command.outgoingRelations}}
-            {{command.name}} {{../command.name}}
+//             [{{command.name}}, {{../command.name}}]
         {{#if ../command.isRestRepository}}
             {{../command.aggregate.namePascalCase}} {{../command.aggregate.nameCamelCase}} = new {{../command.aggregate.namePascalCase}}();
              /* Logic **/ 
