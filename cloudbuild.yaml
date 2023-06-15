@@ -1,20 +1,6 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 forEach: BoundedContext
 fileName: cloudbuild.yaml
-
+---
 steps:
   ### Test
   #  - id: 'test'
