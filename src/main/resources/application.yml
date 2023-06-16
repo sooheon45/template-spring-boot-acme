@@ -2,25 +2,6 @@ forEach: BoundedContext
 fileName: application.yml
 path: {{name}}/src/main/resources
 ---
-server:
-  port: 8080
-  error:
-    include-message: always
-{{#circuitBreaker}}
-##--< Resilency / Circuit Breaker
-feign:
-  hystrix:
-    enabled: true
-hystrix:
-  command:
-    default:
-      execution.isolation.thread.timeoutInMilliseconds: 500
-##--> Resilency / Circuit Breaker
-{{/circuitBreaker}}
-spring:
-  application:
-    name: {{toLowerCase name}}
----
 spring:
   profiles: default
   jpa:
