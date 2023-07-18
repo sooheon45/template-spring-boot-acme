@@ -57,8 +57,7 @@ logging:
 {{#checkCommandRelation relationCommandInfo}}
 api:
   url: 
-     {{#setApiUrl relationCommandInfo true}}
-     {{/setApiUrl}}
+     {{#setApiUrl relationCommandInfo true}}{{/setApiUrl}}
 {{/checkCommandRelation}}
 
 server:
@@ -96,8 +95,7 @@ spring:
 {{#checkCommandRelation relationCommandInfo}}
 api:
   url: 
-     {{#setApiUrl relationCommandInfo false}}
-     {{/setApiUrl}}
+     {{#setApiUrl relationCommandInfo false}}{{/setApiUrl}}
 {{/checkCommandRelation}}
 
 
