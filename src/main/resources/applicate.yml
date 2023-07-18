@@ -57,7 +57,7 @@ logging:
 {{#checkCommandRelation relationCommandInfo}}
 api:
   url: 
-     {{#setApiUrl relationCommandInfo true}}{{/setApiUrl}}
+    {{commandValue.boundedContext.name}}: localhost:{{commandValue.boundedContext.portGenerated}}
 {{/checkCommandRelation}}
 
 server:
@@ -95,7 +95,7 @@ spring:
 {{#checkCommandRelation relationCommandInfo}}
 api:
   url: 
-     {{#setApiUrl relationCommandInfo false}}{{/setApiUrl}}
+     {{commandValue.boundedContext.name}}: {{commandValue.boundedContext.portGenerated}}:8080
 {{/checkCommandRelation}}
 
 
