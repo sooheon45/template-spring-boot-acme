@@ -141,9 +141,9 @@ window.$HandleBars.registerHelper('setApiUrl', function (relationCommandInfo, is
   relationCommandInfo.forEach(function(item) {
     if(!text.includes(item.commandValue.boundedContext.name)) {
       if(isPortGen) {
-        text += item.commandValue.boundedContext.name + ": localhost:" + item.commandValue.boundedContext.portGenerated + " \n     ";
+        text += item.commandValue.boundedContext.name + ": localhost:" + item.commandValue.boundedContext.portGenerated + " \n    ";
       } else {
-        text += item.commandValue.boundedContext.name + ": " +item.commandValue.boundedContext.name +":8080 \n     ";
+        text += item.commandValue.boundedContext.name + ": " +item.commandValue.boundedContext.name +":8080 \n    ";
       }
     }
   })
