@@ -148,7 +148,7 @@ window.$HandleBars.registerHelper('setApiUrl', function (relationCommandInfo, is
     }
   })
   
-  return options.fn(text);
+  return text;
 });
 
 window.$HandleBars.registerHelper('toLowerCase', function(str) {
